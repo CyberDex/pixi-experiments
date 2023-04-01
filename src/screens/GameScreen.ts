@@ -23,6 +23,7 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
     private gameType: string = 'sprites'; // game type
     private game!: IGame; // game instance
     private minFPS = 120;
+    private gameActive = false;
 
     constructor(options?: SceneData) { // constructor accepts an object with data that will be passed to the screen when it is shown
         super('GameScreen'); // Creates Layout with id 'GameScreen'
@@ -155,11 +156,8 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
             fpsCounter.text = `FPS: ${Math.round(app.ticker.FPS)}`;
         }
 
-        if (this.game) {
-            // game initiated
-            if (this.minFPS > app.ticker.FPS) {
-                this.minFPS = app.ticker.FPS;
-            }
+        if (this.game.activated && this.minFPS > app.ticker.FPS) {
+            this.minFPS = app.ticker.FPS;
         }
 
         const minFPSCounter = this.getChildByID('minFPS')?.children[0] as Text;

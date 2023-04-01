@@ -11,6 +11,8 @@ export class SpritesGame extends Layout implements IGame {
     private stack1: Container = new Container();
     private stack2: Container = new Container();
     private _activeStack = 2;
+    
+    activated = false;
 
     constructor(scene: AppScreen) {
         super({
@@ -75,6 +77,8 @@ export class SpritesGame extends Layout implements IGame {
             this.reshuffle();
             return;
         }
+        
+        this.activated = true;
         
         this.moveActiveItem();
         this.shake(this.passiveStack, 1);

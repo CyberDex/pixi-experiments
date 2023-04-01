@@ -1,5 +1,5 @@
 export default {
-    spritesCount: 1144,
+    spritesCount: 144,
     width: 600,
     height: 600,
     stackScatter: 100,
