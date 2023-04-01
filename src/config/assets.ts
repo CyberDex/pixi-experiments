@@ -222,6 +222,10 @@ const assetsManifest: ResolverManifest = {
                     srcs: 'images/Icons/DethIcon.png'
                 },
                 {
+                    name:'ExitIcon', 
+                    srcs: 'images/Icons/ExitIcon.png'
+                },
+                {
                     name:'TimeIcon', 
                     srcs: 'images/Icons/TimeIcon.png'
                 },

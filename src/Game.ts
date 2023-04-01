@@ -8,7 +8,7 @@ import { Windows } from './config/windows';
 
 export type SceneData = {
     window?: Windows,
-    level?: number,
+    type?: string,
     restart?: boolean,
 }
 
@@ -40,6 +40,8 @@ class Game { // We DO NOT export this class, as we want to have only one instanc
 
     /** Create game background */
     addBG () {
+        if (this.bg) { return; }
+        
         this.bg = new Background(); // Create a new instance of the background layout
 
         this.bg.resize(this._w, this._h); // Resize background as it is a layout and it needs to know its size in order it's core functionality to work

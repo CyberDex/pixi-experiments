@@ -1,15 +1,15 @@
 import { Sprite } from "@pixi/sprite";
 import i18n from "../../config/i18n";
 import { Button } from "../basic/Button";
-import { Window } from "../basic/Window";
+import { Window as BasicWindow } from "../basic/Window";
 import { game } from '../../Game';
 import { GameScreen } from '../../screens/GameScreen';
-import { ViewController } from "../../controllers/ViewController";
-import { Windows } from "../../config/windows";
+import { LayoutOptions } from "@pixi/layout";
+import { gitHubURL } from "../../config";
 
 /** Game menu component. */
-export class PauseWindow extends Window {
-    constructor(private views: ViewController) { // pass the ViewController to the constructor to be able to control the views
+export class PauseWindow extends BasicWindow {
+    constructor() { // pass the ViewController to the constructor to be able to control the views
         // give config differences to the Window base component
         super({ // Window constructor accepts an object with all the config
             title: i18n.titleScreen.menu.title, // menu title text
@@ -27,58 +27,29 @@ export class PauseWindow extends Window {
 
     /** Create content of the component. Automatically called by extended class (see  Window.ts). */
     override createContent() { 
-        const levelsButton = new Button( // create a levels window navigational button
-            i18n.titleScreen.menu.items.levels, // button text
-            () => this.views.show(Windows.levels) // callback: show the levels window on click
-        );
+        const menuButtons: {
+            [name: string]: LayoutOptions;
+        } = {}; // create an array to store menu buttons
 
-        const replayButton = new Button( // create a replay button
-            i18n.titleScreen.menu.items.replay, // button text
-            () => { // callback: restart the game on click
-                game.showScreen(GameScreen, {  // show the game screen
-                    restart: true, // give the game screen a restart flag
-                });
-            }
-        );
+        const items: { [name: string]: string } = i18n.titleScreen.menu.items;
 
-        const settingsButton = new Button( // create a settings window navigational button
-            i18n.titleScreen.menu.items.settings, // button text
-            () => this.views.show(Windows.settings) // callback: show the settings window on click
-        );
-
-        const exitButton = new Button( // create an exit button
-            i18n.titleScreen.menu.items.exit, // button text
-            () => console.log('exit') // callback: log exit on click (TODO: implement exit)
-        );
+        for (const gameType in items) {
+            const text = items[gameType]; // get the text for the button from the i18n file
+            
+            menuButtons[gameType] = { // levels is the id of the button
+                content: new Button( // create a levels window navigational button
+                        text, // button text
+                        () => this.selectMenuItem(gameType), // button click callback
+                    ), // content is the button component
+                styles: { // styles is an object with all the styles that will be applied to the button
+                    marginTop: 10, // move the button 10px down from the neighbour buttons
+                }
+            };
+        }
 
         this.addContent({ // add the buttons to the window layout system
             menu: { // menu is the id of the layout
-                content: { // content is the layout config object with all the buttons and their styles configs
-                    levels: { // levels is the id of the button
-                        content: levelsButton, // content is the button component
-                        styles: { // styles is an object with all the styles that will be applied to the button
-                            marginTop: 10, // move the button 10px down from the neighbour buttons
-                        }
-                    },
-                    replay: { // replay is the id of the button
-                        content: replayButton, // content is the button component
-                        styles: { // styles is an object with all the styles that will be applied to the button
-                            marginTop: 10, // move the button 10px down from the neighbour buttons
-                        }
-                    },
-                    settings: { // settings is the id of the button
-                        content: settingsButton, // content is the button component
-                        styles: { // styles is an object with all the styles that will be applied to the button
-                            marginTop: 10, // move the button 10px down from the neighbour buttons
-                        }
-                    },
-                    exit: { // exit is the id of the button
-                        content: exitButton, // content is the button component
-                        styles: { // styles is an object with all the styles that will be applied to the button
-                            marginTop: 10, // move the button 10px down from the neighbour buttons
-                        }
-                    },
-                },
+                content: menuButtons, // content is an array of all the components that will be added to the layoutSystem
                 styles: { // styles is an object with all the styles that will be applied to the layout
                     position: 'centerTop', // center the layout in the middle of the parent
                     marginTop: 120, // move the layout 120px down from the top of the parent
@@ -86,5 +57,18 @@ export class PauseWindow extends Window {
                 }
             }
         });
+    }
+
+    /** Select menu item. */
+    private selectMenuItem(gameType: string) {
+        switch (gameType) {
+            case 'repo':
+                (window as any).open(gitHubURL, '_blank').focus();
+                break;
+            default:
+                game.showScreen(GameScreen, {  // show the game screen
+                    type: gameType, // pass the level type to the game screen
+                })
+        }
     }
 }

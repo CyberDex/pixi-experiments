@@ -9,7 +9,7 @@ export class ViewController {
 
     public windows: { [ key: string ]: Window } = {}; // windows registry
 
-    public active!: Windows; // currently active window
+    public active!: Windows | null; // currently active window
     
     // add window to the registry
     add(
@@ -42,22 +42,35 @@ export class ViewController {
         
         if (this.active === id) return; // if window is already active, return
         
+        await this.hideActive(); // hide window
+
         this.history.push(id); // add window to the history
 
         this.active = id; // set active window ID
 
-        for (const key in this.windows) { // iterate through all windows in registry
-            await this.windows[key].hide(); // hide window
-        }
-
         await this.windows[id].show(force); // show window by id
+    }
+
+    // hide active window
+    async hideActive(
+        force = false // force parameter is used to hide the window without animation
+        ) {
+
+        if (this.active) { // if there is an active window
+            await this.hide(this.active, force); // hide active window
+        }
     }
 
     // hide window
     async hide(
-        id: Windows, // id of the window
+        id?: Windows, // id of the window
         force = false // force parameter is used to hide the window without animation
         ) { 
+            
+        if (!id) { return } // if id is not set, return
+
+        this.active = null; // set active window ID to null
+
         await this.windows[id].hide(force); // hide window by id
     }
 
@@ -70,10 +83,16 @@ export class ViewController {
 
     // shw previous window from the history
     async goBack() {
-        if (this.history.length > 1) { // if there is more than 1 window in the history
-            this.history.pop(); // remove last window from the history
-        }
+        if (!this.history.length) return; // if history is empty, return
 
-        await this.show(this.history[this.history.length - 1]); // show previous window from the history
+        this.history.pop(); // remove last window from the history
+        
+        const prevID = this.history.length - 1;
+
+        if (prevID <= 0) {
+            this.hideActive(); // hide active window
+        } else { 
+            await this.show(this.history[prevID]); // show previous window from the history
+        }
     }
 }

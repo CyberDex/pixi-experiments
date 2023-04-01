@@ -6,44 +6,21 @@ export default {
         poweredBy: "POWERED BY",
     },
     titleScreen: {
-        levels: "LEVELS",
-        settings: {
-            title: "SETTINGS",
-            save: "SAVE",
-            GFX: "GFX",
-            low: "LOW",
-            medium: "MEDIUM",
-            high: "HIGH",
-            BGM: "BGM",
-            SFX: "SFX",
-            GPU: "GPU",
-            antiAliasing: "ANTI-ALIASING",
-            subtitles: "SUBTITLES",
-            cutScenes: "CUT SCENES",
-        },
         info: {
             title: "INFO",
-            accept: "ACCEPT",
-            decline: "DECLINE",
+            accept: "OK",
         },
         menu: {
             title: "MENU",
             items: {
-                levels: "LEVELS",
-                replay: "REPLAY",
-                settings: "SETTINGS",
-                exit: "EXIT",
+                sprites: "SPRITES",
+                textAndImages: "TEXT & IMAGES",
+                particlesFire: "PARTICLES FIRE",
+                repo: "Code on GitHub",
             }
         },
-        iconsMenu: {
-            'home': 'HOME',
-            'info': 'INFO',
-            'settings': 'SETTINGS',
-            'play': 'PLAY'
-        }
     },
     gameScreen: {
-        level: "LEVEL",
         tutorial: {
             hello: "Hello",
         }
