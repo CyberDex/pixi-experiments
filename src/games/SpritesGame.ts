@@ -3,13 +3,11 @@ import { IGame } from "./IGame";
 import config from "../config/spritesGameConfig";
 import { Sprite } from "@pixi/sprite";
 import { randomInRange } from "../utils/random";
-import { Layout } from "@pixi/layout";
 import { Container } from "@pixi/display";
 import { Elastic, gsap } from "gsap";
 import { initEmojis } from "../utils/preload";
 
-
-export class SpritesGame extends Layout implements IGame { 
+export class SpritesGame extends Container implements IGame { 
     progress = `0 / ${config.spritesCount}`;
     private stack1: Container = new Container();
     private stack2: Container = new Container();
@@ -18,16 +16,7 @@ export class SpritesGame extends Layout implements IGame {
     activated = false;
 
     constructor(scene: AppScreen) {
-        super({
-            content: new Container(),
-            styles: {
-                position: 'center',
-                maxWidth: '90%',
-                maxHeight: '90%',
-                width: config.width,
-                height: config.height,
-            }
-        });
+        super();
 
         scene.addChild(this);
 
@@ -43,7 +32,7 @@ export class SpritesGame extends Layout implements IGame {
     }
 
     private async createSprites(count: number) {
-        this.innerView.addChild(this.stack2, this.stack1);
+        this.addChild(this.stack2, this.stack1);
 
         const pos = config.width / 2;
 
@@ -73,10 +62,6 @@ export class SpritesGame extends Layout implements IGame {
         const end = performance.now();
 
         console.log(`${count} sprites created in ${end - start} ms`);
-    }
-
-    get innerView(): Container { 
-        return this.children[0] as Container;
     }
 
     private get activeItem(): Container {
@@ -194,5 +179,10 @@ export class SpritesGame extends Layout implements IGame {
                 }
             },
         );
+    }
+
+    resize(width: number, height: number) {
+        this.x = (width - this.width + config.stack1Offset) / 2 ;
+        this.y = (height - this.height + config.stack1Offset) / 2 ;
     }
 }
