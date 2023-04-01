@@ -1,3 +1,3 @@
 export default { 
-    base: '/pixi-game-boilerplate/' // replace with the name of your repo
+    base: '/pixi-experiments/' // replace with the name of your repo
 }
