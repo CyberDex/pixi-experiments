@@ -9,6 +9,10 @@ import { SpritesGame } from '../games/Sprites';
 import { EmojiGame } from '../games/EmojiGame';
 import { FireGame } from '../games/FireGame';
 import { IGame } from '../games/IGame';
+import { app } from '../main';
+import { Text } from '@pixi/text';
+import { Sprite } from '@pixi/sprite';
+import { colors } from '../config/colors';
 
 /** Game screen. 
  * To be used to show all the game play and UI.
@@ -28,8 +32,8 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         }
 
         this.createGame(); // create game
-
         this.addBackButton(); // add pause button component to the screen
+        this.addFPSCounter(); // add FPS counter component to the screen
 
         this.createWindows(options?.window); // create windows
     }
@@ -56,7 +60,7 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
      * Pause button suits to pause the game and show the pause window and the title screen.
      */
     private addBackButton() {
-        const button = new SmallIconButton('ExitIcon', () => { // create a button with a custom icon
+        const button = new SmallIconButton('HomeIcon', () => { // create a button with a custom icon
             game.showScreen( // show TitleScreen with default window (pauseWindow) opened
                 TitleScreen, // screen to show
                 {
@@ -111,8 +115,47 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         }
     }
 
+    private addFPSCounter() { 
+        this.addContent({ // add content to the screen layout
+            id: 'fpsCounter',
+            content: {
+                FPS: {
+                    content: 'FPS: 0',
+                    styles: {
+                        display: 'block',
+                        marginTop: 12,
+                        color: 'white',
+                        fontSize: 34,
+                        fontFamily: 'Days One',
+                        textAlign: 'center',
+                        stroke: colors.disabledStroke,
+                        strokeThickness: 10,
+                    }
+                }
+            },
+            styles: { // set styles for the button block
+                background: Sprite.from('ValueBG'),                
+                position: 'rightBottom', // position the button in the bottom right corner of the parent
+                scale: 0.35, // scale button 0.5 times
+                maxWidth: '60%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
+                maxHeight: '20%', // set max height to 20% of the parent height so the layout witt scale down if the screen height is too small to fit it
+                margin: 10, // move the button 10px down
+                width: 300,
+                height: 100,
+            },
+        });
+    }
+
     /** Method that is called one every game tick (see Game.ts) */
     onUpdate() {
+        // console.log(app.ticker.FPS);
+        
+        const fpsCounter = this.getChildByID('FPS')?.children[0] as Text;
+
+        if (fpsCounter) { 
+            fpsCounter.text = `FPS: ${Math.round(app.ticker.FPS)}`;
+        }
+
         if (this.game?.update) {
             this.game.update();
         }
