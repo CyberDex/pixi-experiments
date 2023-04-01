@@ -57,11 +57,12 @@ export class SpritesGame extends Layout implements IGame {
 
         for (let i = 0; i < count; i++) {
             const type = randomInRange(1, 16);
-            
             const sprite = Sprite.from(`emoji${type}`);
 
+            sprite.cullable = true;
             sprite.anchor.set(0.5);
             sprite.scale.set(0.3);
+            sprite.angle = randomInRange(1, config.stackRotationScatter);
 
             sprite.x = Math.random() * config.stackScatter;
             sprite.y = Math.random() * config.stackScatter;
@@ -104,7 +105,10 @@ export class SpritesGame extends Layout implements IGame {
         const stack2DistanceX = this.activeStack.x - this.passiveStack.x;
         const stack2DistanceY = this.activeStack.y - this.passiveStack.y;
         
-        const angle = (randomInRange(0, 1) ? 360 : -360) * 4
+        const angle = 
+            randomInRange(1, config.stackRotationScatter) 
+            * (randomInRange(0, 1) ? 1 : -1) 
+            * 4
 
         gsap.to(this.activeItem, {
             x: stack2DistanceX + activeItemX, 

@@ -119,6 +119,8 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
     }
 
     private addInfoPanel(id: string, position: Position) { 
+        const bg = Sprite.from('ValueBG');
+
         this.addContent({
             content: {
                 id,
@@ -135,14 +137,15 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
                 }
             },
             styles: { // set styles for the button block
-                background: Sprite.from('ValueBG'),                
+                background: bg,                
                 position, // position the button in the bottom right corner of the parent
                 scale: 0.35, // scale button 0.5 times
                 maxWidth: '30%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
                 maxHeight: '20%', // set max height to 20% of the parent height so the layout witt scale down if the screen height is too small to fit it
                 margin: 10, // move the button 10px down
-                width: 300,
-                height: 100,
+                marginLeft: 0,
+                width: bg.width,
+                height: bg.height,
             },
         });
     }
