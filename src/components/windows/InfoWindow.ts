@@ -10,7 +10,7 @@ import { ScrollBox } from "@pixi/ui";
 
 /** Layout based component for the info window. */
 export class InfoWindow extends Window { // extends Window class to get all the window functionality
-    constructor(private views: ViewController) { // pass the ViewController to the constructor to be able to control the views
+    constructor(private views: ViewController, text: string) { // pass the ViewController to the constructor to be able to control the views
         // give config differences to the Window base component(Layout)
         super({ // Window constructor accepts an object with all the config
             title: i18n.titleScreen.info.title, // text title of the window
@@ -20,13 +20,13 @@ export class InfoWindow extends Window { // extends Window class to get all the 
                 marginBottom: 350, // set margin bottom to 350px, as there it a button on the bottom, this will make it fit the screen height
             }
         });
+
+        this.addText(text); // add text to the window
     }
 
     /** Create content of the component. Automatically called by extended class(see Window.ts). */
     override createContent() { // override the createContent method from the Window class
         this.addCloseButton(); // add close button to the window
-
-        this.addText('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'); // add text to the window
 
         this.addButton( // add accept button to the window
             i18n.titleScreen.info.accept, // button text
@@ -83,12 +83,12 @@ export class InfoWindow extends Window { // extends Window class to get all the 
                     radius: 100, // radius of the scroll box corners (mask will be applied to hide the content outside the box)
                     elementsMargin: 20, // margin between the elements (in this case it is only one element so it will be it's margins from the box)
                     type: 'vertical', // type of the scroll box, can be 'vertical' or 'horizontal'
-                    padding: 50, // padding of the scroll box, will be applied to the content offset from the box
+                    padding: 25, // padding of the scroll box, will be applied to the content offset from the box
                     items: [ // array of the items that will be added to the scroll box, positioned basing on their sizes and margins one after another to be scrolled
                         new Text(text, { // create a `Text` instance with the given text
                             fill: colors.text,  // set text color
-                            fontSize: 45, // set text size
-                            fontFamily: 'debussy', // set text font
+                            fontSize: 24, // set text size
+                            fontFamily: 'Days One', // set text font
                             stroke: colors.hoverStroke, // set text stroke color
                             strokeThickness: 3, // set text stroke thickness
                             wordWrap: true, // set text word wrap

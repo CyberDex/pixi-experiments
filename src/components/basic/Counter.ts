@@ -17,7 +17,7 @@ export class Counter extends Container {
         this.number = new Text(String(text), { // create pixi text
             fill: colors.text, // color of the text
             fontSize: 25, // font size of the text
-            fontFamily: 'debussy', // font family of the text
+            fontFamily: 'Days One', // font family of the text
             stroke: colors.hoverStroke, // text stroke color
             strokeThickness: 5, // text stroke thickness
         });

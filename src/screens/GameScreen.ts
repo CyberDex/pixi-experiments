@@ -4,6 +4,7 @@ import { game, SceneData } from '../Game';
 import { TitleScreen } from './TitleScreen';
 import { Windows } from '../config/windows';
 import { InfoWindow } from '../components/windows/InfoWindow';
+import {challenges} from '../config/challenges';
 
 /** Game screen. 
  * To be used to show all the game play and UI.
@@ -11,13 +12,12 @@ import { InfoWindow } from '../components/windows/InfoWindow';
 export class GameScreen extends AppScreen { // GameScreen extends AppScreen, which is a Layout with a few additional features
     public static assetBundles = ['game']; // asset bundles that will be loaded before the screen is shown
 
-    constructor(options: SceneData) { // constructor accepts an object with data that will be passed to the screen when it is shown
+    constructor(private options: SceneData) { // constructor accepts an object with data that will be passed to the screen when it is shown
         super('GameScreen'); // Creates Layout with id 'GameScreen'
 
         game.addBG(); 
         
         this.addBackButton(); // add pause button component to the screen
-        this.addInfoButton(); // add pause button component to the screen
 
         this.createWindows(options?.window); // create windows
     }
@@ -28,9 +28,16 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
     private createWindows(
         activeWindow?: Windows // active window to show
         ) { 
-        this.addWindow(Windows.info, new InfoWindow(this.views)); // create InfoWindow
 
-        this.showActiveWindow(activeWindow); // show active window
+        const task = this.options?.type ? challenges[this.options.type] as string : null;
+
+        if (task) {
+            this.addWindow(Windows.info, new InfoWindow(this.views, task)); // create InfoWindow
+
+            this.addInfoButton(); // add info button component to the screen
+
+            this.showActiveWindow(activeWindow); // show active window
+        }
     }
 
     /** Add pause button component to the screen.

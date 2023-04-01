@@ -73,7 +73,7 @@ function createCheckBox(checked: boolean) { // creates a sprite(Container) with 
 
 const TEXT_STYLE = { // Styles of the text
     fill: 'white', // color of the text
-    fontFamily: 'debussy', // font family of the text
+    fontFamily: 'Days One', // font family of the text
     fontSize: 27, // font size of the text
     stroke: colors.hoverStroke, // text stroke color
     strokeThickness: 4, // text stroke thickness
@@ -81,7 +81,7 @@ const TEXT_STYLE = { // Styles of the text
 
 const LABEL_STYLE = { // Styles of the text
     fill: 'white', // color of the text
-    fontFamily: 'debussy', // font family of the text
+    fontFamily: 'Days One', // font family of the text
     fontSize: 60, // font size of the text
     stroke: colors.hoverStroke, // text stroke color
     strokeThickness: 10, // text stroke thickness

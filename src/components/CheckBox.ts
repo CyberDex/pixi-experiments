@@ -16,7 +16,7 @@ export class CheckBox extends BasicCheckBox {
                 unchecked: createCheckBox(options.checkboxBG), // sprite(Container), that shows when checkbox is unchecked
                 text: { // text styles
                     fill: 'white', // color of the text
-                    fontFamily: 'debussy', // font family of the text
+                    fontFamily: 'Days One', // font family of the text
                     fontSize: 35, // font size of the text
                     stroke: colors.hoverStroke, // text stroke color
                     strokeThickness: 6, // text stroke thickness

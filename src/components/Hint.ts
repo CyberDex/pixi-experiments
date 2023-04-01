@@ -24,7 +24,7 @@ export class Hint extends Layout {
                         position: type === 'down' ? 'center' : 'centerTop', // center Layout in the middle ot the top of parent basing on the type
                         color: colors.text, // color of the text
                         fontSize: 45, // font size of the text
-                        fontFamily: 'debussy', // font family of the text
+                        fontFamily: 'Days One', // font family of the text
                         stroke: colors.disabledStroke, // stroke color of the text
                         strokeThickness: 8, // stroke thickness of the text
                         marginTop: 18, // set margin top to 18px

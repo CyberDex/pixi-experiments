@@ -30,7 +30,7 @@ export class LoadingSpinner extends Layout {
                         position: 'center', // center Layout in the middle of parent
                         color: colors.text, // color of the text
                         marginTop: 100, // set margin top to 100px
-                        fontFamily: 'debussy', // font family of the text
+                        fontFamily: 'Days One', // font family of the text
                     }
                 }
             },

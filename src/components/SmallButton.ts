@@ -21,7 +21,7 @@ export class SmallButton extends FancyButton {
                 : new Text(text, { // create a text element
                     fill: colors.text, // set text color
                     fontSize: 75, // set text font size
-                    fontFamily: 'debussy', // set text font family
+                    fontFamily: 'Days One', // set text font family
                     stroke: colors.disabledStroke, // set text stroke color
                     strokeThickness: 8, // set text stroke thickness
                 });
