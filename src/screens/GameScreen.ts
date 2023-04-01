@@ -12,11 +12,17 @@ import {challenges} from '../config/challenges';
 export class GameScreen extends AppScreen { // GameScreen extends AppScreen, which is a Layout with a few additional features
     public static assetBundles = ['game']; // asset bundles that will be loaded before the screen is shown
 
-    constructor(private options: SceneData) { // constructor accepts an object with data that will be passed to the screen when it is shown
+    private gameType: string = 'sprites'; // game type
+
+    constructor(options?: SceneData) { // constructor accepts an object with data that will be passed to the screen when it is shown
         super('GameScreen'); // Creates Layout with id 'GameScreen'
 
         game.addBG(); 
         
+        if (options?.type) { 
+            this.gameType = options?.type; // set game type
+        }
+
         this.addBackButton(); // add pause button component to the screen
 
         this.createWindows(options?.window); // create windows
@@ -29,7 +35,7 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         activeWindow?: Windows // active window to show
         ) { 
 
-        const task = this.options?.type ? challenges[this.options.type] as string : null;
+        const task = challenges[this.gameType];
 
         if (task) {
             this.addWindow(Windows.info, new InfoWindow(this.views, task)); // create InfoWindow
@@ -60,11 +66,8 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
                 scale: 0.35, // scale button 0.5 times
                 maxWidth: '20%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
                 maxHeight: '20%', // set max height to 20% of the parent height so the layout witt scale down if the screen height is too small to fit it
-                // as button anchor is 0.5, we want to compensate it's offsets:
-                // -30 is a compensation of the button anchor offset
-                // +10 is actually a margin we want to have between the button and the parent edge
-                marginLeft: 30 + 10, // move the button 10px to the right
-                marginTop: 30 + 10, // move the button 10px down
+                marginLeft: 55, // move the button 10px to the right
+                marginTop: 55, // move the button 10px down
             },
         });
     }
@@ -81,11 +84,8 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
                 scale: 0.35, // scale button 0.5 times
                 maxWidth: '20%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
                 maxHeight: '20%', // set max height to 20% of the parent height so the layout witt scale down if the screen height is too small to fit it
-                // as button anchor is 0.5, we want to compensate it's offsets:
-                // -30 is a compensation of the button anchor offset
-                // +10 is actually a margin we want to have between the button and the parent edge
-                marginRight: -30 + 10, // move the button 10px to the right
-                marginTop: 30 + 10, // move the button 10px down
+                marginRight: 0, // move the button 10px to the right
+                marginTop: 55, // move the button 10px down
             },
         });
     }
