@@ -5,7 +5,7 @@ import { TitleScreen } from './TitleScreen';
 import { Windows } from '../config/windows';
 import { InfoWindow } from '../components/windows/InfoWindow';
 import {challenges} from '../config/challenges';
-import { SpritesGame } from '../games/Sprites';
+import { SpritesGame } from '../games/SpritesGame';
 import { EmojiGame } from '../games/EmojiGame';
 import { FireGame } from '../games/FireGame';
 import { IGame } from '../games/IGame';
