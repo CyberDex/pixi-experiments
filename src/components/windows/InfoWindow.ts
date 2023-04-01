@@ -40,7 +40,9 @@ export class InfoWindow extends Window { // extends Window class to get all the 
         title: string, // button text
         callback: () => void, // button callback
         ) {
-        const button = new Button(title, () => callback()); // create a button with the given text and callback
+        const button = new Button(title, () => callback(), {
+            fontSize: 60
+        }); // create a button with the given text and callback
 
         this.addContent({ // add the button to the layout system of the Window
             content: button, // layout content is a 'Button' instance that extends `Layout`

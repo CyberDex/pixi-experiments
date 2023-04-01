@@ -5,7 +5,7 @@ import { colors } from "../../config/colors";
 
 /** Creates a Layout with button as content and apply styles. */
 export class Button extends Layout {
-    constructor(text: string, onclick: () => void) {
+    constructor(text: string, onclick: () => void, styles?: any) {
         const button = new FancyButton({ // create a button
             defaultView: `Button`, // this is a key to the texture atlas for default button state view
             hoverView: `Button-hover`, // this is a key to the texture atlas for hover button state view
@@ -17,6 +17,7 @@ export class Button extends Layout {
                 fontFamily: 'Days One', // text font
                 stroke: colors.disabledStroke, // text stroke color TODO: change this on button state change
                 strokeThickness: 3, // text stroke thickness
+                ...styles
             }),
             textOffset: {
                 y: -10,
