@@ -74,13 +74,18 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         });
 
         this.addContent({ // add content to the screen layout
-            content: button,
+            content: {
+                content: button,
+                styles: {
+                    paddingLeft: button.width / 2 + 20,
+                    paddingTop: button.height / 2 + 20
+                }
+            },
             styles: { // set styles for the button block
                 position: 'top', // position the button in the bottom right corner of the parent
                 scale: 0.35, // scale button 0.5 times
                 maxWidth: '33%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
                 maxHeight: '20%', // set max height to 20% of the parent height so the layout witt scale down if the screen height is too small to fit it
-                margin: 40
             },
         });
     }
@@ -91,14 +96,18 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         });
 
         this.addContent({ // add content to the screen layout
-            content: button,
+            content: {
+                content: button,
+                styles: {
+                    marginRight: -button.width / 2 + 20,
+                    paddingTop: button.height / 2 + 20
+                }
+            },
             styles: { // set styles for the button block
                 position: 'topRight', // position the button in the bottom right corner of the parent
                 scale: 0.35, // scale button 0.5 times
-                maxWidth: '20%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
+                maxWidth: '14%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
                 maxHeight: '20%', // set max height to 20% of the parent height so the layout witt scale down if the screen height is too small to fit it
-                marginRight: -10, // move the button 10px to the right
-                marginTop: 40, // move the button 10px down
             },
         });
     }

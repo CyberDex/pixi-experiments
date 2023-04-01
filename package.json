@@ -26,7 +26,7 @@
         "@pixi/sprite": "^7.2.3",
         "@pixi/spritesheet": "^7.2.3",
         "@pixi/text": "^7.2.3",
-        "@pixi/ui": "^0.6.2",
+        "@pixi/ui": "^0.7.0",
         "gsap": "^3.11.4"
     },
     "devDependencies": {
