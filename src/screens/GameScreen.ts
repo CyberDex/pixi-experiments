@@ -5,14 +5,18 @@ import { TitleScreen } from './TitleScreen';
 import { Windows } from '../config/windows';
 import { InfoWindow } from '../components/windows/InfoWindow';
 import {challenges} from '../config/challenges';
+import { SpritesGame } from '../games/Sprites';
+import { EmojiGame } from '../games/EmojiGame';
+import { FireGame } from '../games/FireGame';
+import { IGame } from '../games/IGame';
 
 /** Game screen. 
  * To be used to show all the game play and UI.
 */
 export class GameScreen extends AppScreen { // GameScreen extends AppScreen, which is a Layout with a few additional features
     public static assetBundles = ['game']; // asset bundles that will be loaded before the screen is shown
-
     private gameType: string = 'sprites'; // game type
+    private game!: IGame; // game instance
 
     constructor(options?: SceneData) { // constructor accepts an object with data that will be passed to the screen when it is shown
         super('GameScreen'); // Creates Layout with id 'GameScreen'
@@ -22,6 +26,8 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         if (options?.type) { 
             this.gameType = options?.type; // set game type
         }
+
+        this.createGame(); // create game
 
         this.addBackButton(); // add pause button component to the screen
 
@@ -90,8 +96,25 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         });
     }
 
+    /** Create game. */
+    private createGame() {
+        switch (this.gameType) {
+            case 'sprites':
+                this.game = new SpritesGame(this);
+            break;
+            case 'textAndImages':
+                this.game = new EmojiGame(this);                
+            break;
+            case 'particlesFire':
+                this.game = new FireGame(this);
+                break;
+        }
+    }
+
     /** Method that is called one every game tick (see Game.ts) */
     onUpdate() {
-
+        if (this.game) {
+            this.game.update();
+        }
     }
 }
