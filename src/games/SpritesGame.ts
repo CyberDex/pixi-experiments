@@ -19,20 +19,12 @@ export class SpritesGame extends Layout implements IGame {
                 position: 'center',
                 maxWidth: '90%',
                 maxHeight: '90%',
-                width: 600,
-                height: 600,
+                width: config.width,
+                height: config.height,
             }
         });
 
         scene.addChild(this);
-
-        this.innerView.addChild(this.stack2, this.stack1);
-
-        this.stack1.x = 300 + config.stack1Offset;
-        this.stack1.y = 300 + config.stack1Offset;
-
-        this.stack2.x = 300 + config.stack2Offset;
-        this.stack2.y = 300 + config.stack2Offset;
 
         this.createSprites(config.spritesCount);
 
@@ -40,6 +32,16 @@ export class SpritesGame extends Layout implements IGame {
     }
 
     private createSprites(count: number) {
+        this.innerView.addChild(this.stack2, this.stack1);
+
+        const pos = config.width / 2;
+
+        this.stack1.x = pos + config.stack1Offset;
+        this.stack1.y = pos + config.stack1Offset;
+
+        this.stack2.x = pos + config.stack2Offset;
+        this.stack2.y = pos + config.stack2Offset;
+
         const start = performance.now();
 
         for (let i = 0; i < count; i++) {
@@ -74,14 +76,17 @@ export class SpritesGame extends Layout implements IGame {
             return;
         }
         
+        this.moveActiveItem();
+        this.shake(this.passiveStack, 1);
+        this.shake(this.activeStack, -1);
+    }
+
+    private moveActiveItem() { 
         const activeItemX = this.activeItem.x;
         const activeItemY = this.activeItem.y;
 
         const stack2DistanceX = this.activeStack.x - this.passiveStack.x;
         const stack2DistanceY = this.activeStack.y - this.passiveStack.y;
-        
-        this.shake(this.passiveStack, 1);
-        this.shake(this.activeStack, -1);
         
         const angle = (randomInRange(0, 1) ? 360 : -360) * 4
 
@@ -100,6 +105,7 @@ export class SpritesGame extends Layout implements IGame {
             },
             ease: Elastic.easeOut
         });
+
     }
 
     private moveActiveToTheOtherStack() { 

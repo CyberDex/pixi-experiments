@@ -1,5 +1,7 @@
 export default {
-    spritesCount: 144,
+    spritesCount: 1144,
+    width: 600,
+    height: 600,
     stackScatter: 100,
     stack1Offset: -150,
     stack2Offset: 50,
