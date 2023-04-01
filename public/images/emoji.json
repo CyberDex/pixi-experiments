@@ -1,6 +1,6 @@
 {"frames": {
 
-"targ-emoji-001.png":
+"targ-emoji-001":
 {
 	"frame": {"x":0,"y":0,"w":500,"h":500},
 	"rotated": false,
@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-002.png":
+"targ-emoji-002":
 {
 	"frame": {"x":500,"y":0,"w":500,"h":500},
 	"rotated": false,
@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-003.png":
+"targ-emoji-003":
 {
 	"frame": {"x":1000,"y":0,"w":500,"h":500},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-004.png":
+"targ-emoji-004":
 {
 	"frame": {"x":1500,"y":0,"w":500,"h":500},
 	"rotated": false,
@@ -32,7 +32,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-005.png":
+"targ-emoji-005":
 {
 	"frame": {"x":0,"y":500,"w":500,"h":500},
 	"rotated": false,
@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-006.png":
+"targ-emoji-006":
 {
 	"frame": {"x":500,"y":500,"w":500,"h":500},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-007.png":
+"targ-emoji-007":
 {
 	"frame": {"x":1000,"y":500,"w":500,"h":500},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-008.png":
+"targ-emoji-008":
 {
 	"frame": {"x":1500,"y":500,"w":500,"h":500},
 	"rotated": false,
@@ -64,7 +64,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-009.png":
+"targ-emoji-009":
 {
 	"frame": {"x":0,"y":1000,"w":500,"h":500},
 	"rotated": false,
@@ -72,7 +72,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-010.png":
+"targ-emoji-010":
 {
 	"frame": {"x":500,"y":1000,"w":500,"h":500},
 	"rotated": false,
@@ -80,7 +80,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-011.png":
+"targ-emoji-011":
 {
 	"frame": {"x":1000,"y":1000,"w":500,"h":500},
 	"rotated": false,
@@ -88,7 +88,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-012.png":
+"targ-emoji-012":
 {
 	"frame": {"x":1500,"y":1000,"w":500,"h":500},
 	"rotated": false,
@@ -96,7 +96,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-013.png":
+"targ-emoji-013":
 {
 	"frame": {"x":0,"y":1500,"w":500,"h":500},
 	"rotated": false,
@@ -104,7 +104,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-014.png":
+"targ-emoji-014":
 {
 	"frame": {"x":500,"y":1500,"w":500,"h":500},
 	"rotated": false,
@@ -112,7 +112,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-015.png":
+"targ-emoji-015":
 {
 	"frame": {"x":1000,"y":1500,"w":500,"h":500},
 	"rotated": false,
@@ -120,7 +120,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 },
-"targ-emoji-016.png":
+"targ-emoji-016":
 {
 	"frame": {"x":1500,"y":1500,"w":500,"h":500},
 	"rotated": false,
@@ -128,9 +128,6 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":500,"h":500},
 	"sourceSize": {"w":500,"h":500}
 }},
-"animations": {
-	"targ-emoji": ["targ-emoji-001.png","targ-emoji-002.png","targ-emoji-003.png","targ-emoji-004.png","targ-emoji-005.png","targ-emoji-006.png","targ-emoji-007.png","targ-emoji-008.png","targ-emoji-009.png","targ-emoji-010.png","targ-emoji-011.png","targ-emoji-012.png","targ-emoji-013.png","targ-emoji-014.png","targ-emoji-015.png","targ-emoji-016.png"]
-},
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.1",
@@ -138,6 +135,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2000,"h":2000},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:13730d9901e721eadd004e92f39e3655:db858c0465fa67167f6f72ef1ffee085:3b6ee1b3efdb705ed941d972d580542a$"
+	"smartupdate": "$TexturePacker:SmartUpdate:f05a9600bc73a7a13954ab0e891b705a:db858c0465fa67167f6f72ef1ffee085:3b6ee1b3efdb705ed941d972d580542a$"
 }
 }
