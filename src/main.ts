@@ -2,13 +2,13 @@
 import '@pixi/events';
 
 import { Application } from '@pixi/app';
-import { initAssets } from './config/assets';
 import { game } from './Game';
 import { GameScreen } from './screens/GameScreen';
 import { LoadScreen } from './screens/LoadScreen';
 import { TitleScreen } from './screens/TitleScreen';
 import { getUrlParam } from './utils/gtUrlParams';
 import { colors } from './config/colors';
+import { initAssets } from './utils/preload';
 
 /** The PixiJS app Application instance, shared across the project */
 export const app = new Application<HTMLCanvasElement>({

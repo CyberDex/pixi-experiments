@@ -1,10 +1,10 @@
 import { Assets } from '@pixi/assets';
-import { areBundlesLoaded } from './config/assets';
 import { app } from './main';
 import { AppScreen } from './components/basic/AppScreen';
 import { Layout } from '@pixi/layout';
 import { Background } from './components/basic/Background';
 import { Windows } from './config/windows';
+import { areBundlesLoaded } from './utils/preload';
 
 export type SceneData = {
     window?: Windows,
