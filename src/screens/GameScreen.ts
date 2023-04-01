@@ -113,8 +113,16 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
 
     /** Method that is called one every game tick (see Game.ts) */
     onUpdate() {
-        if (this.game) {
+        if (this.game?.update) {
             this.game.update();
         }
     }
+
+    override resize(width: number, height: number) {
+        super.resize(width, height);
+
+        if (this.game?.resize) {
+            this.game.resize(width, height);
+        }
+    };
 }

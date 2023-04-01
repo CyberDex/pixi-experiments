@@ -1,3 +1,4 @@
 export interface IGame { 
-    update(): void;
+    update?(): void;
+    resize?(width: number, height: number): void;
 }

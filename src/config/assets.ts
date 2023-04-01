@@ -22,6 +22,22 @@ const assetsManifest: ResolverManifest = {
             name: 'game',
             assets: [
                 {
+                    name: 'avatar-01',
+                    srcs: 'images/avatar-01.png',
+                },
+                {
+                    name: 'avatar-02',
+                    srcs: 'images/avatar-02.png',
+                },
+                {
+                    name: 'avatar-03',
+                    srcs: 'images/avatar-03.png',
+                },
+                {
+                    name: 'avatar-04',
+                    srcs: 'images/avatar-04.png',
+                },
+                {
                     name: 'avatar-05',
                     srcs: 'images/avatar-05.png',
                 },
