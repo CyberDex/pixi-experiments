@@ -2,10 +2,12 @@ import { AppScreen } from "../components/basic/AppScreen";
 import { IGame } from "./IGame";
 import config from "../config/spritesGameConfig";
 import { Sprite } from "@pixi/sprite";
-import { getRandomItem, randomInRange } from "../utils/random";
+import { randomInRange } from "../utils/random";
 import { Layout } from "@pixi/layout";
 import { Container } from "@pixi/display";
 import { Elastic, gsap } from "gsap";
+import { initEmojis } from "../utils/preload";
+
 
 export class SpritesGame extends Layout implements IGame { 
     progress = `0 / ${config.spritesCount}`;
@@ -29,12 +31,18 @@ export class SpritesGame extends Layout implements IGame {
 
         scene.addChild(this);
 
+        this.init();
+    }
+
+    init() {
+        initEmojis();
+
         this.createSprites(config.spritesCount);
 
         this.charge();
     }
 
-    private createSprites(count: number) {
+    private async createSprites(count: number) {
         this.innerView.addChild(this.stack2, this.stack1);
 
         const pos = config.width / 2;
@@ -48,8 +56,9 @@ export class SpritesGame extends Layout implements IGame {
         const start = performance.now();
 
         for (let i = 0; i < count; i++) {
-            const texture = getRandomItem(config.spritesPull);
-            const sprite = Sprite.from(texture);
+            const type = randomInRange(1, 16);
+            
+            const sprite = Sprite.from(`emoji${type}`);
 
             sprite.anchor.set(0.5);
             sprite.scale.set(0.3);

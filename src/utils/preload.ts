@@ -1,5 +1,8 @@
 import { Assets, ResolverAssetsArray } from "@pixi/assets";
 import { assetsManifest } from "../config/assets";
+import { ISpritesheetData } from '@pixi/spritesheet';
+import { Spritesheet } from '@pixi/spritesheet';
+import { BaseTexture } from "@pixi/core";
 
 
 /** Initialize and start background loading of all assets */
@@ -41,4 +44,279 @@ export function areBundlesLoaded(bundles: string[]) {
     }
 
     return true;
+}
+
+export async function initEmojis() {
+    const emojiData: ISpritesheetData = {
+        frames: {
+            emoji1: {
+                frame: {
+                    x: 0,
+                    y: 0,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji2: {
+                frame: {
+                    x: 200,
+                    y: 0,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji3: {
+                frame: {
+                    x: 0,
+                    y: 200,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji4: {
+                frame: {
+                    x: 200,
+                    y: 200,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji5: {
+                frame: {
+                    x: 0,
+                    y: 400,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji6: {
+                frame: {
+                    x: 200,
+                    y: 400,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji7: {
+                frame: {
+                    x: 0,
+                    y: 600,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji8: {
+                frame: {
+                    x: 200,
+                    y: 600,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji9: {
+                frame: {
+                    x: 0,
+                    y: 800,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji10: {
+                frame: {
+                    x: 200,
+                    y: 800,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji11: {
+                frame: {
+                    x: 0,
+                    y: 1000,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji12: {
+                frame: {
+                    x: 200,
+                    y: 1000,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji13: {
+                frame: {
+                    x: 0,
+                    y: 1200,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji14: {
+                frame: {
+                    x: 200,
+                    y: 1200,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji15: {
+                frame: {
+                    x: 0,
+                    y: 1400,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            },
+            emoji16: {
+                frame: {
+                    x: 200,
+                    y: 1400,
+                    w: 200,
+                    h: 200
+                },
+                spriteSourceSize: {
+                    x: 0,
+                    y: 0,
+                },
+                sourceSize: {
+                    w: 200,
+                    h: 200
+                }
+            }
+        },
+        meta: {
+            scale: "1"
+        }
+    };
+    
+    
+
+        const spritesheet = new Spritesheet(
+            BaseTexture.from('emoji'),
+            emojiData
+        );
+
+        await spritesheet.parse();
 }

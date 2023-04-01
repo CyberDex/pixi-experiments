@@ -19,6 +19,10 @@ export const assetsManifest: ResolverManifest = {
             name: 'game',
             assets: [
                 {
+                    name: 'emoji',
+                    srcs: 'images/emoji.png',
+                },
+                {
                     name: 'avatar-01',
                     srcs: 'images/avatar-01.png',
                 },
