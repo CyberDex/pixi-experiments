@@ -23,7 +23,6 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
     private gameType: string = 'sprites'; // game type
     private game!: IGame; // game instance
     private minFPS = 120;
-    private gameActive = false;
 
     constructor(options?: SceneData) { // constructor accepts an object with data that will be passed to the screen when it is shown
         super('GameScreen'); // Creates Layout with id 'GameScreen'
@@ -36,8 +35,9 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
 
         this.createGame(); // create game
         this.addBackButton(); // add pause button component to the screen
-        this.addFPSCounter('FPS', 'rightBottom'); // add FPS counter component to the screen
-        this.addFPSCounter('minFPS', 'centerBottom'); // add FPS counter component to the screen
+        this.addInfoPanel('FPS', 'rightBottom'); // add FPS counter component to the screen
+        this.addInfoPanel('minFPS', 'centerBottom'); // add FPS counter component to the screen
+        this.addInfoPanel('progress', 'centerTop'); // add FPS counter component to the screen
 
         this.createWindows(options?.window); // create windows
     }
@@ -78,10 +78,9 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
             styles: { // set styles for the button block
                 position: 'top', // position the button in the bottom right corner of the parent
                 scale: 0.35, // scale button 0.5 times
-                maxWidth: '20%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
+                maxWidth: '33%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
                 maxHeight: '20%', // set max height to 20% of the parent height so the layout witt scale down if the screen height is too small to fit it
-                marginLeft: 55, // move the button 10px to the right
-                marginTop: 55, // move the button 10px down
+                margin: 40
             },
         });
     }
@@ -98,8 +97,8 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
                 scale: 0.35, // scale button 0.5 times
                 maxWidth: '20%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
                 maxHeight: '20%', // set max height to 20% of the parent height so the layout witt scale down if the screen height is too small to fit it
-                marginRight: 0, // move the button 10px to the right
-                marginTop: 55, // move the button 10px down
+                marginRight: -10, // move the button 10px to the right
+                marginTop: 40, // move the button 10px down
             },
         });
     }
@@ -119,7 +118,7 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         }
     }
 
-    private addFPSCounter(id: string, position: Position) { 
+    private addInfoPanel(id: string, position: Position) { 
         this.addContent({
             content: {
                 id,
@@ -148,27 +147,27 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         });
     }
 
-    /** Method that is called one every game tick (see Game.ts) */
-    onUpdate() {
-        const fpsCounter = this.getChildByID('FPS')?.children[0] as Text;
+    private updateInfo(panelID: string, value: string) {
+        const fpsCounter = this.getChildByID(panelID)?.children[0] as Text;
 
         if (fpsCounter) { 
-            fpsCounter.text = `FPS: ${Math.round(app.ticker.FPS)}`;
+            fpsCounter.text = value;
         }
+    }
 
+    /** Method that is called one every game tick (see Game.ts) */
+    onUpdate() {
         if (this.game.activated && this.minFPS > app.ticker.FPS) {
             this.minFPS = app.ticker.FPS;
-        }
-
-        const minFPSCounter = this.getChildByID('minFPS')?.children[0] as Text;
-
-        if (minFPSCounter) { 
-            minFPSCounter.text = `Min FPS: ${Math.round(this.minFPS)}`;
         }
 
         if (this.game?.update) {
             this.game.update();
         }
+
+        this.updateInfo('FPS', `FPS: ${Math.round(app.ticker.FPS)}`);
+        this.updateInfo('minFPS', `Min FPS: ${Math.round(this.minFPS)}`);
+        this.updateInfo('progress', this.game.progress);
     }
 
     override resize(width: number, height: number) {
