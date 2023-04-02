@@ -14,8 +14,8 @@ export default {
             title: "MENU",
             items: {
                 sprites: "SPRITES",
-                textAndImages: "TEXT & IMAGES",
-                particlesFire: "PARTICLES FIRE",
+                emoji: "TEXT & IMAGES",
+                fire: "PARTICLES FIRE",
                 repo: "Code on GitHub",
             }
         },

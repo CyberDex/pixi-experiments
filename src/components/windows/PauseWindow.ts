@@ -3,7 +3,7 @@ import i18n from "../../config/i18n";
 import { Button } from "../basic/Button";
 import { Window as BasicWindow } from "../basic/Window";
 import { game } from '../../Game';
-import { GameScreen } from '../../screens/GameScreen';
+import { GameScreen, GameTypes } from '../../screens/GameScreen';
 import { LayoutOptions } from "@pixi/layout";
 import { gitHubURL } from "../../config";
 
@@ -39,7 +39,7 @@ export class PauseWindow extends BasicWindow {
             menuButtons[gameType] = { // levels is the id of the button
                 content: new Button( // create a levels window navigational button
                         text, // button text
-                        () => this.selectMenuItem(gameType), // button click callback
+                        () => this.selectMenuItem(gameType as GameTypes), // button click callback
                     ), // content is the button component
                 styles: { // styles is an object with all the styles that will be applied to the button
                     marginTop: 10, // move the button 10px down from the neighbour buttons
@@ -60,7 +60,7 @@ export class PauseWindow extends BasicWindow {
     }
 
     /** Select menu item. */
-    private selectMenuItem(gameType: string) {
+    private selectMenuItem(gameType: GameTypes | 'repo') {
         switch (gameType) {
             case 'repo':
                 (window as any).open(gitHubURL, '_blank').focus();

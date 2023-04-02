@@ -17,13 +17,13 @@ import { Position } from '@pixi/layout';
 import { Button } from '../components/basic/Button';
 import i18n from '../config/i18n';
 import { gsap } from 'gsap';
+import { getUrlParam } from '../utils/gtUrlParams';
 
-/** Game screen. 
- * To be used to show all the game play and UI.
-*/
+export type GameTypes = 'sprites' | 'emoji' | 'fire';
+
 export class GameScreen extends AppScreen { // GameScreen extends AppScreen, which is a Layout with a few additional features
     public static assetBundles = ['game']; // asset bundles that will be loaded before the screen is shown
-    private gameType: string = 'sprites'; // game type
+    private gameType: GameTypes = 'sprites'; // game type
     private game!: IGame; // game instance
     private minFPS = 120;
     private resumeButton!: Button;
@@ -38,11 +38,15 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
             this.gameType = options?.type; // set game type
         }
 
+        if (getUrlParam('game')) {
+            this.gameType = getUrlParam('game') as GameTypes;
+        }
+
         this.createGame(); // create game
         this.addBackButton(); // add pause button component to the screen
         this.addInfoPanel('FPS', 'rightBottom'); // add FPS counter component to the screen
         this.addInfoPanel('minFPS', 'centerBottom'); // add FPS counter component to the screen
-        this.addInfoPanel('progress', 'centerTop'); // add FPS counter component to the screen
+        
         this.addResumeButton(); // add resume button component to the screen
 
         this.createWindows(options?.window); // create windows
@@ -170,24 +174,25 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
                         const progress = total - val - 1;
                         this.updateInfo('progress', `${progress} / ${total}`);
                     }
-                })
+                });
+                this.addInfoPanel('progress', 'centerTop');
             break;
-            case 'textAndImages':
+            case 'emoji':
                 this.game = new EmojiGame(this);                
             break;
-            case 'particlesFire':
+            case 'fire':
                 this.game = new FireGame(this);
                 break;
         }
     }
 
-    private addInfoPanel(id: string, position: Position) { 
+    private addInfoPanel(id: string, position: Position, value?: string) {
         const bg = Sprite.from('ValueBG');
 
         this.addContent({
             content: {
                 id,
-                content: 'FPS: 0',
+                content: value ?? ' ',
                 styles: {
                     display: 'block',
                     marginTop: 20,
@@ -223,7 +228,7 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
 
     /** Method that is called one every game tick (see Game.ts) */
     onUpdate() {
-        if (this.game.activated && this.minFPS > app.ticker.FPS) {
+        if (this.game?.activated && this.minFPS > app.ticker.FPS) {
             this.minFPS = app.ticker.FPS;
         }
 

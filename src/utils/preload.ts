@@ -1,6 +1,5 @@
 import { Assets, ResolverAssetsArray } from "@pixi/assets";
 import { assetsManifest } from "../config/assets";
-import { ISpritesheetData } from '@pixi/spritesheet';
 import { Spritesheet } from '@pixi/spritesheet';
 import { BaseTexture } from "@pixi/core";
 import emojiData from '../../public/assets/emoji.json';

@@ -5,10 +5,11 @@ import { Layout } from '@pixi/layout';
 import { Background } from './components/basic/Background';
 import { Windows } from './config/windows';
 import { areBundlesLoaded } from './utils/preload';
+import { GameTypes } from './screens/GameScreen';
 
 export type SceneData = {
     window?: Windows,
-    type?: string,
+    type?: GameTypes,
     restart?: boolean,
 }
 
