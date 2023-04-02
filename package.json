@@ -23,6 +23,7 @@
         "@pixi/events": "^7.2.3",
         "@pixi/graphics": "^7.2.3",
         "@pixi/layout": "^0.1.6",
+        "@pixi/loaders": "^6.5.9",
         "@pixi/particle-emitter": "^5.0.8",
         "@pixi/sprite": "^7.2.3",
         "@pixi/spritesheet": "^7.2.3",
