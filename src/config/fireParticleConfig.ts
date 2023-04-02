@@ -1,4 +1,4 @@
-export const fireParticleConfig = {
+export const fireParticleConfig = (x: number, y: number, w: number, h: number) => ({
     "lifetime": {
         "min": 0.5,
         "max": 0.7
@@ -98,7 +98,7 @@ export const fireParticleConfig = {
                             "time": 0.6
                         },
                         {
-                            "value": "111111",
+                            "value": "333232",
                             "time": 0.7
                         },
                         {
@@ -142,12 +142,12 @@ export const fireParticleConfig = {
                 // }
                 type: 'rect',
                 data: {
-                    x: -600,
-                    y: 0,
-                    w: 1200,
-                    h: 100
+                    x,
+                    y,
+                    w,
+                    h,
                 }
             }
         }
     ]
-}
+});

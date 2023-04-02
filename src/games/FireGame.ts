@@ -2,7 +2,7 @@ import { AppScreen } from "../components/basic/AppScreen";
 import { IGame } from "./IGame";
 import { GameBase } from "./GameBase";
 import config from "../config/fireGameConfig";
-import { Emitter, upgradeConfig } from "@pixi/particle-emitter";
+import { Emitter } from "@pixi/particle-emitter";
 import { Assets } from "@pixi/assets";
 import { fireParticleConfig } from "../config/fireParticleConfig";
 
@@ -23,7 +23,7 @@ export class FireGame extends GameBase implements IGame {
 
         this.emitter = new Emitter(
             this,
-            fireParticleConfig
+            fireParticleConfig(0, 0, window.innerWidth, 100)
         );
 
         this.elapsed = Date.now();
@@ -58,7 +58,14 @@ export class FireGame extends GameBase implements IGame {
     }
     
     resize(width: number, height: number): void {
-        this.x = width / 2;
+        this.x = 0;
         this.y = height;
+        
+        this.emitter.destroy();
+
+        this.emitter = new Emitter(
+            this,
+            fireParticleConfig(0, 0, window.innerWidth, 100)
+        );
     }
 }

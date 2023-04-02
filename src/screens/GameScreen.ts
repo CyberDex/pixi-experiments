@@ -9,7 +9,6 @@ import { SpritesGame } from '../games/SpritesGame';
 import { EmojiGame } from '../games/EmojiGame';
 import { FireGame } from '../games/FireGame';
 import { IGame } from '../games/IGame';
-import { app } from '../main';
 import { Text } from '@pixi/text';
 import { Sprite } from '@pixi/sprite';
 import { colors } from '../config/colors';
