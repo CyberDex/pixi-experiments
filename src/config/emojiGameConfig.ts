@@ -3,6 +3,7 @@ export default {
     height: 600,
     stackRotationScatter: 30,
     repeatDelay: 2,
+    duration: 2,
     spritesAmount: 15,
     text: {
         fonts: [

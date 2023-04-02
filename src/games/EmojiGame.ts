@@ -7,7 +7,7 @@ import { Container } from "@pixi/display";
 import { FancyText, FancyTextOptions } from "../components/FancyText";
 import { initEmojis } from "../utils/preload";
 import { BitmapFont } from "@pixi/text-bitmap";
-import { gsap } from "gsap";
+import { Bounce, gsap } from "gsap";
 
 const combinations = [ '000', '001', '010', '011', '100', '101', '110', '111' ];
 
@@ -88,7 +88,7 @@ export class EmojiGame extends GameBase implements IGame {
             }
         });
         
-        text.angle = getRandomInRange(1, config.stackRotationScatter) * (getRandomBoolean() ? 1 : -1);
+        const angle = getRandomInRange(1, config.stackRotationScatter) * (getRandomBoolean() ? 1 : -1);
         
         text.x = getRandomInRange(0, Math.min(this._widthCache, config.width));
         text.y = getRandomInRange(0, Math.min(this._heightCache, config.height));
@@ -100,9 +100,11 @@ export class EmojiGame extends GameBase implements IGame {
         text.y -= 10000;
 
         this.innerView.addChild(text);
-
+            
         gsap.to(text, {
             y: '+=10000',
+            angle,
+            duration: config.duration,
         });
 
         setTimeout(() => this.addText(), config.repeatDelay * 1000);
