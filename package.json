@@ -30,6 +30,9 @@
         "@pixi/text-bitmap": "^7.2.3",
         "@pixi/ui": "^0.7.0",
         "gsap": "^3.11.4",
+        "i": "^0.3.7",
+        "npm": "^9.6.3",
+        "pixi-stats": "^1.1.2",
         "typed-signals": "^2.5.0"
     },
     "devDependencies": {

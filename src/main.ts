@@ -9,6 +9,8 @@ import { TitleScreen } from './screens/TitleScreen';
 import { getUrlParam } from './utils/gtUrlParams';
 import { colors } from './config/colors';
 import { initAssets } from './utils/preload';
+import { Stats } from 'pixi-stats';
+import { UPDATE_PRIORITY } from '@pixi/core';
 
 /** The PixiJS app Application instance, shared across the project */
 export const app = new Application<HTMLCanvasElement>({
@@ -19,6 +21,13 @@ export const app = new Application<HTMLCanvasElement>({
 // Expose that app to the PixiJS Devtools (https://chrome.google.com/webstore/detail/pixijs-devtools/aamddddknhcagpehecnhphigffljadon)
 // so we can debug the pixi app layers
 (globalThis as any).__PIXI_APP__ = app;
+
+// FPS stats
+const stats = new Stats(document, app);
+document.body.appendChild(stats.domElement);
+stats.domElement.dragable = true;
+app.ticker.add(stats.update, stats, UPDATE_PRIORITY.UTILITY);
+
 
 /** Set up a resize function for the app */
 function resize() {

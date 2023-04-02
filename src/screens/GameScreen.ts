@@ -4,7 +4,7 @@ import { game, SceneData } from '../Game';
 import { TitleScreen } from './TitleScreen';
 import { Windows } from '../config/windows';
 import { InfoWindow } from '../components/windows/InfoWindow';
-import {challenges} from '../config/challenges';
+import { challenges } from '../config/challenges';
 import { SpritesGame } from '../games/SpritesGame';
 import { EmojiGame } from '../games/EmojiGame';
 import { FireGame } from '../games/FireGame';
@@ -25,7 +25,6 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
     public static assetBundles = ['game']; // asset bundles that will be loaded before the screen is shown
     private gameType: GameTypes = 'sprites'; // game type
     private game!: IGame; // game instance
-    private minFPS = 120;
     private resumeButton!: Button;
     private paused = false;
 
@@ -45,8 +44,6 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         this.createGame(); // create game
         
         this.addBackButton(); // add pause button component to the screen
-        this.addInfoPanel('FPS', 'rightBottom'); // add FPS counter component to the screen
-        this.addInfoPanel('minFPS', 'centerBottom'); // add FPS counter component to the screen
         
         this.addResumeButton(); // add resume button component to the screen
 
@@ -222,26 +219,17 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
     }
 
     private updateInfo(panelID: string, value: string) {
-        const fpsCounter = this.getChildByID(panelID)?.children[0] as Text;
+        const panel = this.getChildByID(panelID)?.children[0] as Text;
 
-        if (fpsCounter) { 
-            fpsCounter.text = value;
+        if (panel) { 
+            panel.text = value;
         }
     }
 
     /** Method that is called one every game tick (see Game.ts) */
     onUpdate() {
-        if (this.game?.activated && this.minFPS > app.ticker.FPS) {
-            this.minFPS = app.ticker.FPS;
-        }
-
         if (this.game?.update) {
             this.game.update();
-        }
-
-        this.updateInfo('FPS', `FPS: ${Math.round(app.ticker.FPS)}`);
-        if (this.minFPS > 0) { 
-            this.updateInfo('minFPS', `Min FPS: ${Math.round(this.minFPS)}`);
         }
     }
 
