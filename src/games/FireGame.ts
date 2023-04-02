@@ -1,7 +1,7 @@
 import { AppScreen } from "../components/basic/AppScreen";
 import { IGame } from "./IGame";
 import { GameBase } from "./GameBase";
-import { Quality, fireConfig, getQualityData, getSmokeQualityData, smokeConfig, smokeTextures } from "../config/fireGameConfig";
+import { Quality, fireConfig, getQualityData } from "../config/fireGameConfig";
 import { Assets } from "@pixi/assets";
 import { TilingSprite } from "@pixi/sprite-tiling";
 import { Texture } from "@pixi/core";

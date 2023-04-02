@@ -163,26 +163,6 @@ export function getQualityData(quality: Quality): { frequency: number, maxPartic
     }
 }
 
-export function getSmokeQualityData(quality: Quality): { frequency: number, maxParticles: number } {
-    switch (quality) {
-        case 'low':
-            return {
-                frequency: 0.01,
-                maxParticles: 1000,
-            };
-        case 'medium':
-            return {
-                frequency: 0.001,
-                maxParticles: 1500,
-            };
-        case 'high':
-            return {
-                frequency: 0.009,
-                maxParticles: 2000,
-            };
-    }
-}
-
 export const fireConfig = (
     width: number,
     quality: Quality
@@ -296,68 +276,6 @@ export const fireBehaviors = (width: number) => {
     ];
 }
 
-export const smokeConfig = (rect: {
-    x: number,
-    y: number,
-    w: number,
-    h: number,
-}, quality: Quality) => {
-    return {
-        "alpha": {
-            "start": 0.4,
-            "end": 0
-        },
-        "scale": {
-            "start": 2,
-            "end": 0.4,
-            "minimumScaleMultiplier": 1
-        },
-        "color": {
-            "start": "#fff191",
-            "end": "#ff622c"
-        },
-        "speed": {
-            "start": 10,
-            "end": 10,
-            "minimumSpeedMultiplier": 1
-        },
-        "acceleration": {
-            "x": 0,
-            "y": 0
-        },
-        "maxSpeed": 0,
-        "startRotation": {
-            "min": 0,
-            "max": 360
-        },
-        "noRotation": false,
-        "rotationSpeed": {
-            "min": 0,
-            "max": 0
-        },
-        "lifetime": {
-            "min": 2,
-            "max": 1.8
-        },
-        "blendMode": "screen",
-        "frequency": 0.01,
-        "emitterLifetime": -1,
-        "maxParticles": 1000,
-        "pos": {
-            "x": 0.5,
-            "y": 0.5
-        },
-        "addAtBack": true,
-        "spawnType": "rect",
-        "spawnRect": {
-            "x": rect.x,
-            "y": rect.y,
-            "w": rect.w,
-            "h": rect.h
-        }
-    };
-}
-
 export const explode = () => {
     return {
         "alpha": {
@@ -416,10 +334,6 @@ export const explode = () => {
 
 export const fireTextures = [
     "assets/particle.png",
-    "assets/fire.png"
-]
-
-export const smokeTextures = [
-    "assets/particle.png",
-    "assets/smoke.png"
-]
+    "assets/fire.png",
+    "assets/smoke.png",
+];
