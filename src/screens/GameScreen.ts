@@ -34,12 +34,12 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
 
         game.addBG(); 
         
-        if (options?.type) { 
-            this.gameType = options?.type; // set game type
-        }
-
         if (getUrlParam('game')) {
             this.gameType = getUrlParam('game') as GameTypes;
+        }
+
+        if (options?.type) { 
+            this.gameType = options?.type; // set game type
         }
 
         this.createGame(); // create game
