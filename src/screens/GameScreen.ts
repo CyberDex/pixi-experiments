@@ -184,6 +184,7 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
             break;
             case 'fire':
                 this.game = new FireGame(this);
+                this.game.init();
                 break;
         }
     }

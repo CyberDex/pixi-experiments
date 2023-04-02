@@ -7,7 +7,7 @@ import { Container } from "@pixi/display";
 import { FancyText, FancyTextOptions } from "../components/FancyText";
 import { initEmojis } from "../utils/preload";
 import { BitmapFont } from "@pixi/text-bitmap";
-import { Bounce, gsap } from "gsap";
+import { gsap } from "gsap";
 
 const combinations = [ '000', '001', '010', '011', '100', '101', '110', '111' ];
 
@@ -23,7 +23,6 @@ export class EmojiGame extends GameBase implements IGame {
     constructor(scene: AppScreen) {
         super({});
         scene.addChild(this);
-
     }
 
     async init() {

@@ -46,6 +46,8 @@ export function areBundlesLoaded(bundles: string[]) {
 }
 
 export async function initEmojis() {
+    await Assets.loadBundle('emoji');
+
     const spritesheet = new Spritesheet(
         BaseTexture.from('emoji'),
         emojiData
