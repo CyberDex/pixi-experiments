@@ -43,6 +43,7 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         }
 
         this.createGame(); // create game
+        
         this.addBackButton(); // add pause button component to the screen
         this.addInfoPanel('FPS', 'rightBottom'); // add FPS counter component to the screen
         this.addInfoPanel('minFPS', 'centerBottom'); // add FPS counter component to the screen
@@ -178,7 +179,8 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
                 this.addInfoPanel('progress', 'centerTop');
             break;
             case 'emoji':
-                this.game = new EmojiGame(this);                
+                this.game = new EmojiGame(this);
+                this.game.init();
             break;
             case 'fire':
                 this.game = new FireGame(this);
@@ -237,7 +239,9 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         }
 
         this.updateInfo('FPS', `FPS: ${Math.round(app.ticker.FPS)}`);
-        this.updateInfo('minFPS', `Min FPS: ${Math.round(this.minFPS)}`);
+        if (this.minFPS > 0) { 
+            this.updateInfo('minFPS', `Min FPS: ${Math.round(this.minFPS)}`);
+        }
     }
 
     override resize(width: number, height: number) {

@@ -2,7 +2,7 @@ import { AppScreen } from "../components/basic/AppScreen";
 import { IGame } from "./IGame";
 import config from "../config/spritesGameConfig";
 import { Sprite } from "@pixi/sprite";
-import { randomInRange } from "../utils/random";
+import { getRandomItem, getRandomInRange } from "../utils/random";
 import { Container } from "@pixi/display";
 import { Elastic, gsap } from "gsap";
 import { initEmojis } from "../utils/preload";
@@ -54,12 +54,12 @@ export class SpritesGame extends GameBase implements IGame {
         const start = performance.now();
 
         for (let i = 0; i < count; i++) {
-            const type = randomInRange(1, config.spritesAmount);
+            const type = getRandomInRange(1, config.spritesAmount);
             const sprite = Sprite.from(`emoji${type}`);
 
             sprite.cullable = true;
             sprite.anchor.set(0.5);
-            sprite.angle = randomInRange(1, config.stackRotationScatter);
+            sprite.angle = getRandomInRange(1, config.stackRotationScatter);
 
             sprite.x = Math.random() * config.stackScatter;
             sprite.y = Math.random() * config.stackScatter;
@@ -139,8 +139,8 @@ export class SpritesGame extends GameBase implements IGame {
             const posY = item.y;
 
             const angle = 
-                randomInRange(1, config.stackRotationScatter) 
-                * (randomInRange(0, 1) ? 1 : -1) 
+                getRandomInRange(1, config.stackRotationScatter) 
+                * getRandomItem([1, -1])
                 * 4;
 
             item.zIndex = -this.state.get('activeItemID');
@@ -166,7 +166,7 @@ export class SpritesGame extends GameBase implements IGame {
     }
 
     private shake(stack: Container, direction: number) {
-        let shake = randomInRange(4, 20) * direction;
+        let shake = getRandomInRange(4, 20) * direction;
 
         gsap.fromTo(
             stack,
