@@ -14,6 +14,9 @@ export class SpritesGame extends Layout implements IGame {
     private stack1: Container = new Container();
     private stack2: Container = new Container();
     private _activeStack = 2;
+    private _activeItemID = 1;
+    private interval!: number;
+    private items: Container[] = [];
     
     activated = false;
 
@@ -34,16 +37,20 @@ export class SpritesGame extends Layout implements IGame {
         this.init();
     }
 
-    init() {
-        initEmojis();
+    async init() {
+        await initEmojis();
 
         this.createSprites(config.spritesCount);
 
-        this.charge();
+        this.start();
     }
 
     private async createSprites(count: number) {
         this.innerView.addChild(this.stack2, this.stack1);
+
+        this.innerView.sortableChildren = true;
+        this.stack1.sortableChildren = true;
+        this.stack2.sortableChildren = true;
 
         const pos = config.width / 2;
 
@@ -68,6 +75,7 @@ export class SpritesGame extends Layout implements IGame {
             sprite.y = Math.random() * config.stackScatter;
 
             this.passiveStack.addChild(sprite);
+            this.items.push(sprite);
         }
 
         const end = performance.now();
@@ -79,57 +87,9 @@ export class SpritesGame extends Layout implements IGame {
         return this.children[0] as Container;
     }
 
-    private get activeItem(): Container {
-        return this.passiveStack.children[this.passiveStack.children.length - 1] as Container;
-    }
-
-    private shoot() { 
-        if (this.passiveStack.children.length === 0) { 
-            this.reshuffle();
-            return;
-        }
-
-        this.progress = `${this.activeStack.children.length + 1} / ${config.spritesCount}`;
-        
-        this.activated = true;
-        
-        this.moveActiveItem();
-        this.shake(this.passiveStack, 1);
-        this.shake(this.activeStack, -1);
-    }
-
-    private moveActiveItem() { 
-        const activeItemX = this.activeItem.x;
-        const activeItemY = this.activeItem.y;
-
-        const stack2DistanceX = this.activeStack.x - this.passiveStack.x;
-        const stack2DistanceY = this.activeStack.y - this.passiveStack.y;
-        
-        const angle = 
-            randomInRange(1, config.stackRotationScatter) 
-            * (randomInRange(0, 1) ? 1 : -1) 
-            * 4
-
-        gsap.to(this.activeItem, {
-            x: stack2DistanceX + activeItemX, 
-            y: stack2DistanceY + activeItemY,
-            angle,
-            duration: config.duration,
-            onComplete: () => {
-                this.activeItem.x = activeItemX;
-                this.activeItem.y = activeItemY;
-
-                this.moveActiveToTheOtherStack();
-
-                this.charge();
-            },
-            ease: Elastic.easeOut
-        });
-
-    }
-
-    private moveActiveToTheOtherStack() { 
-        this.activeStack.addChild(this.activeItem);
+    private start() {     
+        this._activeItemID = this.items.length - 1;   
+        this.interval = setInterval(() => this.shoot(), config.repeatDelay * 1000);
     }
 
     private get activeStack(): Container {
@@ -138,6 +98,91 @@ export class SpritesGame extends Layout implements IGame {
 
     private get passiveStack(): Container {
         return this._activeStack === 1 ? this.stack2 : this.stack1;
+    }
+
+
+    private async shoot() { 
+        const itemID = this._activeItemID;
+        const activeItem = this.items[itemID];
+
+        this.progress = `${this.activeStack.children.length + 1} / ${config.spritesCount}`;
+        
+        this.activated = true;
+        
+        this.moveItem(activeItem).then(() => {
+            if (itemID === 0) { 
+                this.reshuffle();
+            }
+        });
+        this.shake(this.passiveStack, 1);
+        this.shake(this.activeStack, -1);
+
+        if (itemID === 0) { 
+            clearInterval(this.interval);
+        }
+    }
+
+    private reshuffle() {       
+        this.progress = `0 / ${config.spritesCount}`;
+
+        this.items.reverse();
+
+        this.swapStacks();
+    }
+
+    private swapStacks() {
+        gsap.to(
+            this.activeStack,
+            {
+                x: this.passiveStack.x,
+                y: this.passiveStack.y,
+                onComplete: () => this.restart()
+            },
+        );
+
+        this.passiveStack.x = this.activeStack.x;
+        this.passiveStack.y = this.activeStack.y;
+    }
+
+    private restart() {
+        this._activeStack = this._activeStack === 1 ? 2 : 1;
+                    
+        this.activeStack.zIndex = 0;
+        this.passiveStack.zIndex = 1;
+
+        this.start();
+    }
+
+    private moveItem(item: Container): Promise<void> { 
+        return new Promise((resolve) => {
+            const posX = item.x;
+            const posY = item.y;
+
+            const angle = 
+                randomInRange(1, config.stackRotationScatter) 
+                * (randomInRange(0, 1) ? 1 : -1) 
+                * 4;
+
+            item.zIndex = -this._activeItemID;
+
+            gsap.to(item, {
+                x: this.stackDistance.x + posX, 
+                y: this.stackDistance.y + posY,
+                angle,
+                duration: config.duration,
+                onComplete: () => {
+                    this.activeStack.addChild(item);
+
+                    item.x = posX;
+                    item.y = posY;
+
+                    resolve();
+                },
+                ease: Elastic.easeOut
+            });
+
+            this._activeItemID--;
+        })
     }
 
     private shake(stack: Container, direction: number) {
@@ -160,39 +205,12 @@ export class SpritesGame extends Layout implements IGame {
         );
     }
 
-    private charge() {        
-        setTimeout(() => this.shoot(), config.repeatDelay * 1000);
-    }
+    private get stackDistance(): {x: number, y: number} {
+        if (!this.activeStack || !this.passiveStack) return { x: 0, y: 0 };
 
-    private reshuffle() {
-
-        this.progress = `0 / ${config.spritesCount}`;
-
-        gsap.to(
-            this.activeStack,
-            {
-                x: this.passiveStack.x,
-                y: this.passiveStack.y,
-                ease: Elastic.easeOut,
-                duration: config.duration,
-            },
-        );
-        gsap.to(
-            this.passiveStack,
-            {
-                x: this.activeStack.x,
-                y: this.activeStack.y,
-                ease: Elastic.easeOut,
-                duration: config.duration,
-                onComplete: () => { 
-                    this._activeStack = this._activeStack === 1 ? 2 : 1;
-                    
-                    this.addChildAt(this.activeStack, 0);
-                    this.addChildAt(this.passiveStack, 1);
-
-                    this.charge();
-                }
-            },
-        );
+        return ({
+            x: this.activeStack.x - this.passiveStack.x,
+            y: this.activeStack.y - this.passiveStack.y,
+        });
     }
 }
