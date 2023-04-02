@@ -8,6 +8,8 @@ import { Texture } from "@pixi/core";
 import { app } from "../main"
 import { gsap } from "gsap";
 import { Emitter } from '@pixi/particle-emitter';
+import { Graphics } from "@pixi/graphics";
+import { game } from "../Game";
 
 export class FireGame extends GameBase implements IGame {
     private fireEmitter!: Emitter;
@@ -49,12 +51,17 @@ export class FireGame extends GameBase implements IGame {
         this.tint.y = -window.innerHeight;
         this.tint.visible = false;
         this.addChildAt(this.tint, 0);
+
+        const gr = new Graphics().beginFill(0x000000).drawRect(0, 0, window.innerWidth, window.innerHeight);
+        this.addChild(gr);
     }
 
     private bern() { 
         if (this.fireEmitter) {
             this.fireEmitter.destroy();
             this.tint.visible = false;
+
+            game.bg.blur(0,0);
         }
 
         this.widthCache = window.innerWidth;
@@ -66,6 +73,23 @@ export class FireGame extends GameBase implements IGame {
 
         this.tint.visible = true;
         this.tint.alpha = 0;
+
+        let velocity = 0;
+        let kernelSize = 0;
+
+        const interval = setInterval(() => {
+            if (velocity < 40) {
+                velocity++;
+            } else {
+                clearInterval(interval);
+            }
+
+            if (kernelSize < 15) {
+                kernelSize++;
+            }
+            
+            game.bg.blur(velocity, kernelSize);
+        }, 100);
 
         gsap.to(this.tint, {
             alpha: 1,

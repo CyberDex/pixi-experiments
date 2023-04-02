@@ -32,7 +32,7 @@ class Game { // We DO NOT export this class, as we want to have only one instanc
     private _w!: number; // last known width
     private _h!: number; // last known height
 
-    public bg!: Layout; // background layout
+    public bg!: Background; // background layout
 
     /** Set the  default load screen */
     public setLoadScreen(screen: AppScreenConstructor) {

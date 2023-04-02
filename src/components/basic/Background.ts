@@ -1,12 +1,16 @@
 import { Sprite } from '@pixi/sprite';
 import { Layout } from '@pixi/layout';
 import { PixiLogo } from '../PixiLogo';
+import { MotionBlurFilter } from "@pixi/filter-motion-blur";
+import { Point } from '@pixi/core';
 
 /* Layout based component for the background.
  * This is where all the layers of the background should be added and controlled. 
  * For example to add a parallax effect, you would add a new layers here and control their positions.
  */
 export class Background extends Layout {
+    public filter: MotionBlurFilter;
+
     constructor() {
         super({
             id: 'gameBackground', // id is used to identify the Layout in the system
@@ -26,5 +30,17 @@ export class Background extends Layout {
                 height: '100%' // set height to 100% of parent, so children will be able to use 100% of the screen height
             }
         });
+
+        this.filter = new MotionBlurFilter();
+        this.filters = [this.filter];
+    }
+
+    blur(velocity: number, kernelSize: number) {
+        this.filter.velocity.set(velocity);
+        this.filter.kernelSize = kernelSize;
+    }
+
+    unBlur() { 
+        this.filters = [];
     }
 }
