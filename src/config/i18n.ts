@@ -21,8 +21,6 @@ export default {
         },
     },
     gameScreen: {
-        tutorial: {
-            hello: "Hello",
-        }
+        resume: "Resume",
     }
 }

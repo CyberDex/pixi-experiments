@@ -14,6 +14,9 @@ import { Text } from '@pixi/text';
 import { Sprite } from '@pixi/sprite';
 import { colors } from '../config/colors';
 import { Position } from '@pixi/layout';
+import { Button } from '../components/basic/Button';
+import i18n from '../config/i18n';
+import { gsap } from 'gsap';
 
 /** Game screen. 
  * To be used to show all the game play and UI.
@@ -23,6 +26,8 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
     private gameType: string = 'sprites'; // game type
     private game!: IGame; // game instance
     private minFPS = 120;
+    private resumeButton!: Button;
+    private paused = false;
 
     constructor(options?: SceneData) { // constructor accepts an object with data that will be passed to the screen when it is shown
         super('GameScreen'); // Creates Layout with id 'GameScreen'
@@ -38,8 +43,11 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         this.addInfoPanel('FPS', 'rightBottom'); // add FPS counter component to the screen
         this.addInfoPanel('minFPS', 'centerBottom'); // add FPS counter component to the screen
         this.addInfoPanel('progress', 'centerTop'); // add FPS counter component to the screen
+        this.addResumeButton(); // add resume button component to the screen
 
         this.createWindows(options?.window); // create windows
+
+        this.addEvents();
     }
 
     /** Create windows. 
@@ -90,6 +98,44 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         });
     }
 
+    private addResumeButton() {
+        this.resumeButton = new Button(
+            i18n.gameScreen.resume,
+            () => {
+                gsap.to(this.resumeButton, {
+                    alpha: 0,
+                    duration: 0.5,
+                    onComplete: () => { 
+                        this.resumeButton.visible = false;
+                        this.resumeButton.scale.set(1);
+                        this.resumeButton.alpha = 1;
+                    }
+                });
+
+                this.game.resume();
+            },
+            {
+                fontSize: 60,
+                scale: 2
+            }
+        );
+        this.resumeButton.visible = false;
+
+        this.addContent({ // add content to the screen layout
+            content: {
+                content: this.resumeButton,
+                styles: {
+                    paddingLeft: 85,
+                }
+            },
+            styles: { // set styles for the button block
+                position: 'center', // position the button in the bottom right corner of the parent
+                maxWidth: '40%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
+                maxHeight: '40%', // set max height to 20% of the parent height so the layout witt scale down if the screen height is too small to fit it
+            },
+        });
+    }
+
     private addInfoButton() {
         const button = new SmallIconButton('InfoIcon', () => { // create a button with a custom icon
             this.views.show(Windows.info);
@@ -117,6 +163,7 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         switch (this.gameType) {
             case 'sprites':
                 this.game = new SpritesGame(this);
+                this.game.init();
             break;
             case 'textAndImages':
                 this.game = new EmojiGame(this);                
@@ -189,4 +236,16 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
             this.game.resize(width, height);
         }
     };
+
+    private addEvents() { 
+        window.onfocus = () => this.pause();
+        window.onblur = () => this.paused = true;
+    }
+
+    private pause() {
+        if (!this.paused) return;
+
+        this.game.pause();
+        this.resumeButton.visible = true;
+    }
 }

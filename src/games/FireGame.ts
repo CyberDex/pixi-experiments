@@ -11,7 +11,9 @@ export class FireGame extends Container implements IGame {
         scene.addChild(this);
     }
 
-    public update() { 
-        // update game
-    }
+    async init() { }
+    update() { }
+    start() { }
+    pause() { }
+    resume() { }
 }

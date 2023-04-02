@@ -15,9 +15,9 @@ export class SpritesGame extends Layout implements IGame {
     private stack2: Container = new Container();
     private _activeStack = 2;
     private _activeItemID = 1;
-    private interval!: number;
     private items: Container[] = [];
-    
+
+    paused = false;
     activated = false;
 
     constructor(scene: AppScreen) {
@@ -33,19 +33,17 @@ export class SpritesGame extends Layout implements IGame {
         });
 
         scene.addChild(this);
-
-        this.init();
     }
 
     async init() {
         await initEmojis();
 
-        this.createSprites(config.spritesCount);
+        this.createContent(config.spritesCount);
 
         this.start();
     }
 
-    private async createSprites(count: number) {
+    private async createContent(count: number) {
         this.innerView.addChild(this.stack2, this.stack1);
 
         this.innerView.sortableChildren = true;
@@ -86,11 +84,6 @@ export class SpritesGame extends Layout implements IGame {
         return this.children[0] as Container;
     }
 
-    private start() {     
-        this._activeItemID = this.items.length - 1;   
-        this.interval = setInterval(() => this.shoot(), config.repeatDelay * 1000);
-    }
-
     private get activeStack(): Container {
         return this._activeStack === 1 ? this.stack1 : this.stack2;
     }
@@ -101,6 +94,8 @@ export class SpritesGame extends Layout implements IGame {
 
 
     private async shoot() { 
+        if (this.paused) return;
+        
         const itemID = this._activeItemID;
         const activeItem = this.items[itemID];
 
@@ -113,11 +108,12 @@ export class SpritesGame extends Layout implements IGame {
                 this.reshuffle();
             }
         });
+
         this.shake(this.passiveStack, 1);
         this.shake(this.activeStack, -1);
 
-        if (itemID === 0) { 
-            clearInterval(this.interval);
+        if (itemID > 0) { 
+            setTimeout(() => this.shoot(), config.repeatDelay * 1000);
         }
     }
 
@@ -211,5 +207,19 @@ export class SpritesGame extends Layout implements IGame {
             x: this.activeStack.x - this.passiveStack.x,
             y: this.activeStack.y - this.passiveStack.y,
         });
+    }
+
+    start() {     
+        this._activeItemID = this.items.length - 1;   
+        this.shoot();
+    }
+    
+    pause() {
+        this.paused = true;
+    }
+
+    resume() { 
+        this.paused = false;
+        this.shoot();
     }
 }
