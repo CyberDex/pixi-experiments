@@ -2,12 +2,9 @@ import { AppScreen } from "../components/basic/AppScreen";
 import { IGame } from "./IGame";
 import { GameBase } from "./GameBase";
 import config from "../config/fireGameConfig";
-import { FX } from 'revolt-fx';
 import { Assets } from "@pixi/assets";
 
 export class FireGame extends GameBase implements IGame {
-    private fx!: FX;
-    
     paused = false;
     activated = false;
     
@@ -42,9 +39,6 @@ export class FireGame extends GameBase implements IGame {
     update() { 
         if (this.paused) return;
         
-        if (this.fx) {
-            this.fx.update();
-        }
     }
     
     resize(width: number, height: number): void {
