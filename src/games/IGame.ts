@@ -1,6 +1,15 @@
+import { Signal } from "typed-signals";
+
 export interface IGame { 
-    progress: string;
+    x: number;
+    y: number;
+    items?: any[];
+    onStateChange: Signal<(key: string, value: number) => void>;
     activated: boolean;
+    state: {
+        get: (key: string) => number;
+        set: (key: string, value: number) => void;
+    };
     init(): Promise<void>;
     start(): void;
     pause(): void;

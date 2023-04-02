@@ -1,13 +1,13 @@
-import { Container } from "@pixi/display";
 import { AppScreen } from "../components/basic/AppScreen";
 import { IGame } from "./IGame";
+import { GameBase } from "./GameBase";
 
-export class EmojiGame extends Container implements IGame {
+export class EmojiGame extends GameBase implements IGame {
     progress = '0%';
     activated = false;
     
     constructor(scene: AppScreen) {
-        super();
+        super({});
         scene.addChild(this);
     }
 

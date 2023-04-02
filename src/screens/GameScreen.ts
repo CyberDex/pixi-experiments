@@ -164,6 +164,13 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
             case 'sprites':
                 this.game = new SpritesGame(this);
                 this.game.init();
+                this.game.onStateChange.connect((prop: string, val: number) => {
+                    if (prop === 'activeItemID') {
+                        const total = this.game.items?.length ?? 0;
+                        const progress = total - val - 1;
+                        this.updateInfo('progress', `${progress} / ${total}`);
+                    }
+                })
             break;
             case 'textAndImages':
                 this.game = new EmojiGame(this);                
@@ -226,7 +233,6 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
 
         this.updateInfo('FPS', `FPS: ${Math.round(app.ticker.FPS)}`);
         this.updateInfo('minFPS', `Min FPS: ${Math.round(this.minFPS)}`);
-        this.updateInfo('progress', this.game.progress);
     }
 
     override resize(width: number, height: number) {

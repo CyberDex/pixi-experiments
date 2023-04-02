@@ -3,35 +3,25 @@ import { IGame } from "./IGame";
 import config from "../config/spritesGameConfig";
 import { Sprite } from "@pixi/sprite";
 import { randomInRange } from "../utils/random";
-import { Layout } from "@pixi/layout";
 import { Container } from "@pixi/display";
 import { Elastic, gsap } from "gsap";
 import { initEmojis } from "../utils/preload";
+import { GameBase } from "./GameBase";
 
-
-export class SpritesGame extends Layout implements IGame { 
-    progress = `0 / ${config.spritesCount}`;
+export class SpritesGame extends GameBase implements IGame { 
     private stack1: Container = new Container();
     private stack2: Container = new Container();
-    private _activeStack = 2;
-    private _activeItemID = 1;
-    private items: Container[] = [];
-
+    
+    items: Container[] = [];
+    innerView!: Container;
     paused = false;
     activated = false;
 
     constructor(scene: AppScreen) {
         super({
-            content: new Container(),
-            styles: {
-                position: 'center',
-                maxWidth: '90%',
-                maxHeight: '90%',
-                width: config.width,
-                height: config.height,
-            }
+            activeItemID: 1,
+            activeStack: 2,
         });
-
         scene.addChild(this);
     }
 
@@ -44,6 +34,9 @@ export class SpritesGame extends Layout implements IGame {
     }
 
     private async createContent(count: number) {
+        this.innerView = new Container();
+        this.addChild(this.innerView);
+
         this.innerView.addChild(this.stack2, this.stack1);
 
         this.innerView.sortableChildren = true;
@@ -80,27 +73,21 @@ export class SpritesGame extends Layout implements IGame {
         console.log(`${count} sprites created in ${end - start} ms`);
     }
 
-    get innerView(): Container { 
-        return this.children[0] as Container;
-    }
-
     private get activeStack(): Container {
-        return this._activeStack === 1 ? this.stack1 : this.stack2;
+        return this.state.get('activeStack') === 1 ? this.stack1 : this.stack2;
     }
 
     private get passiveStack(): Container {
-        return this._activeStack === 1 ? this.stack2 : this.stack1;
+        return this.state.get('activeStack') === 1 ? this.stack2 : this.stack1;
     }
 
 
     private async shoot() { 
         if (this.paused) return;
-        
-        const itemID = this._activeItemID;
+
+        const itemID = this.state.get('activeItemID');
         const activeItem = this.items[itemID];
 
-        this.progress = `${this.activeStack.children.length + 1} / ${config.spritesCount}`;
-        
         this.activated = true;
         
         this.moveItem(activeItem).then(() => {
@@ -118,8 +105,6 @@ export class SpritesGame extends Layout implements IGame {
     }
 
     private reshuffle() {       
-        this.progress = `0 / ${config.spritesCount}`;
-
         this.items.reverse();
 
         this.swapStacks();
@@ -140,7 +125,7 @@ export class SpritesGame extends Layout implements IGame {
     }
 
     private restart() {
-        this._activeStack = this._activeStack === 1 ? 2 : 1;
+        this.state.set('activeStack', this.state.get('activeStack') === 1 ? 2 : 1);
                     
         this.activeStack.zIndex = 0;
         this.passiveStack.zIndex = 1;
@@ -158,7 +143,7 @@ export class SpritesGame extends Layout implements IGame {
                 * (randomInRange(0, 1) ? 1 : -1) 
                 * 4;
 
-            item.zIndex = -this._activeItemID;
+            item.zIndex = -this.state.get('activeItemID');
 
             gsap.to(item, {
                 x: this.stackDistance.x + posX, 
@@ -176,7 +161,7 @@ export class SpritesGame extends Layout implements IGame {
                 ease: Elastic.easeOut
             });
 
-            this._activeItemID--;
+            this.state.set('activeItemID', this.state.get('activeItemID') - 1);
         })
     }
 
@@ -210,7 +195,7 @@ export class SpritesGame extends Layout implements IGame {
     }
 
     start() {     
-        this._activeItemID = this.items.length - 1;   
+        this.state.set('activeItemID', this.items.length - 1);   
         this.shoot();
     }
     
@@ -221,5 +206,10 @@ export class SpritesGame extends Layout implements IGame {
     resume() { 
         this.paused = false;
         this.shoot();
+    }
+
+    resize(width: number, height: number): void {
+        this.x = (width - config.width) / 2;
+        this.y = (height - config.height) / 2;
     }
 }
