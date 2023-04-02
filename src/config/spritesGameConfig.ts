@@ -8,4 +8,5 @@ export default {
     stack2Offset: 50,
     repeatDelay: 1,
     duration: 2,
+    spritesAmount: 15,
 }

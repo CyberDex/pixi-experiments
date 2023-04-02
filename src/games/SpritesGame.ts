@@ -63,12 +63,11 @@ export class SpritesGame extends Layout implements IGame {
         const start = performance.now();
 
         for (let i = 0; i < count; i++) {
-            const type = randomInRange(1, 16);
+            const type = randomInRange(1, config.spritesAmount);
             const sprite = Sprite.from(`emoji${type}`);
 
             sprite.cullable = true;
             sprite.anchor.set(0.5);
-            sprite.scale.set(0.3);
             sprite.angle = randomInRange(1, config.stackRotationScatter);
 
             sprite.x = Math.random() * config.stackScatter;

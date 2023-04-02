@@ -7,11 +7,11 @@ export const assetsManifest: ResolverManifest = {
             assets: [
                 {
                     name: 'spinner',
-                    srcs: 'images/spinner.png',
+                    srcs: 'assets/spinner.png',
                 },
                 {
                     name: 'pixi-logo',
-                    srcs: 'images/pixi-logo.png',
+                    srcs: 'assets/pixi-logo.png',
                 },
             ],
         },
@@ -20,107 +20,107 @@ export const assetsManifest: ResolverManifest = {
             assets: [
                 {
                     name: 'emoji',
-                    srcs: 'images/emoji.png',
+                    srcs: 'assets/emoji.png',
                 },
                 {
                     name: 'avatar-01',
-                    srcs: 'images/avatar-01.png',
+                    srcs: 'assets/avatar-01.png',
                 },
                 {
                     name: 'avatar-02',
-                    srcs: 'images/avatar-02.png',
+                    srcs: 'assets/avatar-02.png',
                 },
                 {
                     name: 'avatar-03',
-                    srcs: 'images/avatar-03.png',
+                    srcs: 'assets/avatar-03.png',
                 },
                 {
                     name: 'avatar-04',
-                    srcs: 'images/avatar-04.png',
+                    srcs: 'assets/avatar-04.png',
                 },
                 {
                     name: 'avatar-05',
-                    srcs: 'images/avatar-05.png',
+                    srcs: 'assets/avatar-05.png',
                 },
                 {
                     name: 'bg',
-                    srcs: 'images/Examples/BG.png',
+                    srcs: 'assets/Examples/BG.png',
                 },
                 {
                     name:'SmallButton-disabled', 
-                    srcs: 'images/Buttons/SmallButton-disabled.png'
+                    srcs: 'assets/Buttons/SmallButton-disabled.png'
                 },
                 {
                     name:'SmallButton-hover', 
-                    srcs: 'images/Buttons/SmallButton-hover.png'
+                    srcs: 'assets/Buttons/SmallButton-hover.png'
                 },
                 {
                     name:'SmallButton', 
-                    srcs: 'images/Buttons/SmallButton.png'
+                    srcs: 'assets/Buttons/SmallButton.png'
                 },
                 {
                     name:'Button-pressed', 
-                    srcs: 'images/Buttons/Button-pressed.png'
+                    srcs: 'assets/Buttons/Button-pressed.png'
                 },
                 {
                     name:'SmallButton-pressed', 
-                    srcs: 'images/Buttons/SmallButton-pressed.png'
+                    srcs: 'assets/Buttons/SmallButton-pressed.png'
                 },
                 {
                     name:'SmallButton-substrate', 
-                    srcs: 'images/Window/SmallButton-substrate.png'
+                    srcs: 'assets/Window/SmallButton-substrate.png'
                 },
                 {
                     name:'Button-hover', 
-                    srcs: 'images/Buttons/Button-hover.png'
+                    srcs: 'assets/Buttons/Button-hover.png'
                 },
                 {
                     name:'Button-disabled', 
-                    srcs: 'images/Buttons/Button-disabled.png'
+                    srcs: 'assets/Buttons/Button-disabled.png'
                 },
                 {
                     name:'Button', 
-                    srcs: 'images/Buttons/Button.png'
+                    srcs: 'assets/Buttons/Button.png'
                 },
                 {
                     name:'ValueBG', 
-                    srcs: 'images/Progress/ValueBG.png'
+                    srcs: 'assets/Progress/ValueBG.png'
                 },
                 {
                     name:'MediumSubstrate', 
-                    srcs: 'images/Window/MediumSubstrate.png'
+                    srcs: 'assets/Window/MediumSubstrate.png'
                 },
                 {
                     name:'Substrate', 
-                    srcs: 'images/Window/Substrate.png'
+                    srcs: 'assets/Window/Substrate.png'
                 },
                 {
                     name:'MenuWindow', 
-                    srcs: 'images/Window/MenuWindow.png'
+                    srcs: 'assets/Window/MenuWindow.png'
                 },
                 {
                     name:'Ribbon', 
-                    srcs: 'images/Window/Ribbon.png'
+                    srcs: 'assets/Window/Ribbon.png'
                 },
                 {
                     name:'Window', 
-                    srcs: 'images/Window/Window.png'
+                    srcs: 'assets/Window/Window.png'
                 },
                 {
                     name:'HomeIcon', 
-                    srcs: 'images/Icons/HomeIcon.png'
+                    srcs: 'assets/Icons/HomeIcon.png'
                 },
                 {
                     name:'CloseIcon', 
-                    srcs: 'images/Icons/CloseIcon.png'
+                    srcs: 'assets/Icons/CloseIcon.png'
                 },
                 {
                     name:'InfoIcon', 
-                    srcs: 'images/Icons/InfoIcon.png'
+                    srcs: 'assets/Icons/InfoIcon.png'
                 },
                 {
                     name:'SmallSubstrate', 
-                    srcs: 'images/Window/SmallSubstrate.png'
+                    srcs: 'assets/Window/SmallSubstrate.png'
                 },
             ],
         },

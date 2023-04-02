@@ -1,301 +1,132 @@
+{"frames": {
+
+"emoji1":
 {
-	"frames": {
-		"emoji001": {
-			"frame": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji002": {
-			"frame": {
-				"x": 200,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji003": {
-			"frame": {
-				"x": 0,
-				"y": 200,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji004": {
-			"frame": {
-				"x": 200,
-				"y": 200,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji005": {
-			"frame": {
-				"x": 0,
-				"y": 400,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji006": {
-			"frame": {
-				"x": 200,
-				"y": 400,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji007": {
-			"frame": {
-				"x": 0,
-				"y": 600,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji008": {
-			"frame": {
-				"x": 200,
-				"y": 600,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji009": {
-			"frame": {
-				"x": 0,
-				"y": 800,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji010": {
-			"frame": {
-				"x": 200,
-				"y": 800,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji011": {
-			"frame": {
-				"x": 0,
-				"y": 1000,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji012": {
-			"frame": {
-				"x": 200,
-				"y": 1000,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji013": {
-			"frame": {
-				"x": 0,
-				"y": 1200,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji014": {
-			"frame": {
-				"x": 200,
-				"y": 1200,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji015": {
-			"frame": {
-				"x": 0,
-				"y": 1400,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		},
-		"emoji016": {
-			"frame": {
-				"x": 200,
-				"y": 1400,
-				"w": 200,
-				"h": 200
-			},
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 200,
-				"h": 200
-			},
-			"sourceSize": {
-				"w": 200,
-				"h": 200
-			}
-		}
-	},
-	"meta": {
-		"image": "images/emoji.png",
-		"format": "RGBA8888",
-		"size": {
-			"w": 400,
-			"h": 1600
-		},
-		"scale": "1"
-	}
+	"frame": {"x":293,"y":145,"w":132,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":132,"h":135},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji2":
+{
+	"frame": {"x":289,"y":290,"w":134,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":134,"h":135},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji3":
+{
+	"frame": {"x":293,"y":5,"w":134,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":134,"h":135},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji4":
+{
+	"frame": {"x":565,"y":285,"w":132,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":132,"h":135},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji5":
+{
+	"frame": {"x":432,"y":5,"w":132,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":132,"h":135},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji6":
+{
+	"frame": {"x":156,"y":145,"w":132,"h":140},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":132,"h":140},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji7":
+{
+	"frame": {"x":567,"y":145,"w":132,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":132,"h":135},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji8":
+{
+	"frame": {"x":569,"y":5,"w":132,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":132,"h":135},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji9":
+{
+	"frame": {"x":5,"y":5,"w":140,"h":145},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":140,"h":145},
+	"sourceSize": {"w":144,"h":144}
+},
+"emoji10":
+{
+	"frame": {"x":150,"y":5,"w":138,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":138,"h":135},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji11":
+{
+	"frame": {"x":428,"y":285,"w":132,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":132,"h":135},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji12":
+{
+	"frame": {"x":5,"y":295,"w":138,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":138,"h":135},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji13":
+{
+	"frame": {"x":148,"y":295,"w":136,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":136,"h":135},
+	"sourceSize": {"w":137,"h":137}
+},
+"emoji14":
+{
+	"frame": {"x":5,"y":155,"w":146,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":146,"h":135},
+	"sourceSize": {"w":146,"h":146}
+},
+"emoji15":
+{
+	"frame": {"x":430,"y":145,"w":132,"h":135},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":132,"h":135},
+	"sourceSize": {"w":137,"h":137}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "emoji.png",
+	"format": "RGBA8888",
+	"size": {"w":706,"h":435},
+	"scale": "0.3",
+	"smartupdate": "$TexturePacker:SmartUpdate:c67ee2ae43ccd97c4c66482cd129e3e1:674576ed5e67769fcef5e6de4a02802e:3b6ee1b3efdb705ed941d972d580542a$"
+}
 }
