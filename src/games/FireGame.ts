@@ -4,8 +4,6 @@ import { GameBase } from "./GameBase";
 import config from "../config/fireGameConfig";
 import { FX } from 'revolt-fx';
 import { Assets } from "@pixi/assets";
-import fx from '../../public/assets/fx.json';
-import fxSettings from '../../public/assets/fx-settings.json';
 
 export class FireGame extends GameBase implements IGame {
     private fx!: FX;

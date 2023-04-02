@@ -302,15 +302,6 @@
 		}
 	},
 	"meta": {
-		"app": "https://www.codeandweb.com/texturepacker",
-		"version": "1.0",
-		"image": "emoji.png",
-		"format": "RGBA8888",
-		"size": {
-			"w": 432,
-			"h": 715
-		},
-		"scale": "1",
-		"smartupdate": "$TexturePacker:SmartUpdate:6622d0b5609507a27691259090b36ed3:9273a68cb5891ca1b37b5d9383703178:3b6ee1b3efdb705ed941d972d580542a$"
+		"scale": "1"
 	}
 }

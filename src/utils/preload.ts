@@ -2,7 +2,7 @@ import { Assets, ResolverAssetsArray } from "@pixi/assets";
 import { assetsManifest } from "../config/assets";
 import { Spritesheet } from '@pixi/spritesheet';
 import { BaseTexture } from "@pixi/core";
-import emojiData from '../../public/assets/emoji.json';
+import emojiData from '../config/emoji.json';
 
 /** Initialize and start background loading of all assets */
 export async function initAssets() {
