@@ -19,6 +19,10 @@ export const assetsManifest: ResolverManifest = {
             name: 'game',
             assets: [
                 {
+                    name: 'fireGradient',
+                    srcs: 'assets/fireGradient.png',
+                },
+                {
                     name: 'avatar-01',
                     srcs: 'assets/avatar-01.png',
                 },
@@ -134,11 +138,15 @@ export const assetsManifest: ResolverManifest = {
             assets: [
                 {
                     name: 'fire',
-                    srcs: 'assets/Fire.png',
+                    srcs: 'assets/fire.png',
                 },
                 {
                     name: 'particle',
                     srcs: 'assets/particle.png',
+                },
+                {
+                    name: 'smoke',
+                    srcs: 'assets/smoke.png',
                 },
             ],
         },

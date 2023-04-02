@@ -25,6 +25,7 @@
         "@pixi/layout": "^0.1.6",
         "@pixi/particle-emitter": "^5.0.8",
         "@pixi/sprite": "^7.2.3",
+        "@pixi/sprite-tiling": "^7.2.3",
         "@pixi/spritesheet": "^7.2.3",
         "@pixi/text": "^7.2.3",
         "@pixi/text-bitmap": "^7.2.3",

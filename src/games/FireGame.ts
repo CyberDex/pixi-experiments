@@ -1,19 +1,21 @@
 import { AppScreen } from "../components/basic/AppScreen";
 import { IGame } from "./IGame";
 import { GameBase } from "./GameBase";
-import { Quality, fireConfig } from "../config/fireGameConfig";
-import { Emitter } from "@pixi/particle-emitter";
+import { Quality, fireConfig, getQualityData, getSmokeQualityData, smokeConfig, smokeTextures } from "../config/fireGameConfig";
 import { Assets } from "@pixi/assets";
 import { TilingSprite } from "@pixi/sprite-tiling";
 import { Texture } from "@pixi/core";
 import { app } from "../main"
+import { gsap } from "gsap";
+import { Emitter } from '@pixi/particle-emitter';
 
 export class FireGame extends GameBase implements IGame {
-    private emitter!: Emitter;
+    private fireEmitter!: Emitter;
     private elapsed: number = 0;
     private tint!: TilingSprite;
     private quality: Quality = 'low';
     private safeQuality!: Quality;
+    private widthCache!: number;
     private fps: {
         low: number;
         high: number;
@@ -31,7 +33,7 @@ export class FireGame extends GameBase implements IGame {
     }
 
     async init() {
-        Assets.loadBundle('fire');
+        await Assets.loadBundle('fire');
 
         this.addViews();
 
@@ -39,34 +41,39 @@ export class FireGame extends GameBase implements IGame {
     }
 
     private addViews() { 
-        this.tint = new TilingSprite(
-            Texture.from('pixi-logo'),
-            200,
-            200);
-        
-        this.addChild(this.tint);
+        const texture = Texture.from('fireGradient');
+
+        this.tint = new TilingSprite(texture, 1, window.innerHeight);
+        this.tint.width = window.innerWidth;
+        this.tint.height = window.innerHeight;
+        this.tint.y = -window.innerHeight;
+        this.tint.visible = false;
+        this.addChildAt(this.tint, 0);
     }
 
     private bern() { 
-        this.createEmitter(this.quality);
-        
-        this.elapsed = Date.now();
-        
-        this.emitter.emit = true;
-    }
-
-    private createEmitter(quality: Quality) {
-        this.quality = quality;
-
-        // TODO: update emitter settings without destroy
-        if (this.emitter) {
-            this.emitter.destroy();
+        if (this.fireEmitter) {
+            this.fireEmitter.destroy();
+            this.tint.visible = false;
         }
 
-        this.emitter = new Emitter(
+        this.widthCache = window.innerWidth;
+
+        this.fireEmitter = new Emitter(
             this,
-            fireConfig(window.innerWidth, quality)
+            fireConfig(this.widthCache, this.quality)
         );
+
+        this.tint.visible = true;
+        this.tint.alpha = 0;
+
+        gsap.to(this.tint, {
+            alpha: 1,
+            duration: 2,
+        });
+
+        this.elapsed = Date.now();
+        this.fireEmitter.emit = true;
     }
 
     private qualityDown() {
@@ -84,7 +91,7 @@ export class FireGame extends GameBase implements IGame {
 
         this.fps.low = 0;
 
-        this.createEmitter(this.quality);
+        this.updateQuality();
     }
 
     private qualityUp() {
@@ -96,11 +103,16 @@ export class FireGame extends GameBase implements IGame {
             this.quality = 'high';
         }
 
+        this.fps.high = 0;
+
+        this.updateQuality();
+    }
+
+    private updateQuality() {
         console.log('quality', this.quality);
 
-        this.fps.high = 0;
-        
-        this.createEmitter(this.quality);
+        this.fireEmitter.frequency = getQualityData(this.quality).frequency;
+        this.fireEmitter.maxParticles = getQualityData(this.quality).maxParticles;
     }
 
     // TODO: improve quality adjust, use more frequency & maxParticles states
@@ -145,17 +157,26 @@ export class FireGame extends GameBase implements IGame {
     
     update() { 
         const now = Date.now();
-        this.emitter.update((now - this.elapsed) * 0.001);
+        
+        if (this.fireEmitter) {
+            this.fireEmitter?.update((now - this.elapsed) * 0.001);
 
-        this.adjustQuality();
+            this.adjustQuality();
 
-        this.elapsed = now;
+            this.elapsed = now;
+        }
     }
     
     resize(width: number, height: number): void {
         this.x = 0;
         this.y = height;
 
-        this.createEmitter(this.quality);
+        if (this.tint) {
+            this.tint.width = window.innerWidth;
+        }
+
+        if (this.fireEmitter && this.widthCache < window.innerWidth) {
+            this.bern();
+        }
     }
 }

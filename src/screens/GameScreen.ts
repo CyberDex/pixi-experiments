@@ -248,6 +248,8 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
     private pause() {
         if (!this.paused) return;
 
+        if (this.gameType === 'fire') return;
+
         this.game.pause();
         this.resumeButton.visible = true;
     }
