@@ -129,5 +129,18 @@ export const assetsManifest: ResolverManifest = {
                 },
             ],
         },
+        {
+            name: 'fire',
+            assets: [
+                {
+                    name: 'fire',
+                    srcs: 'assets/Fire.png',
+                },
+                {
+                    name: 'particle',
+                    srcs: 'assets/particle.png',
+                },
+            ],
+        },
     ],
 };

@@ -2,9 +2,14 @@ import { AppScreen } from "../components/basic/AppScreen";
 import { IGame } from "./IGame";
 import { GameBase } from "./GameBase";
 import config from "../config/fireGameConfig";
+import { Emitter, upgradeConfig } from "@pixi/particle-emitter";
 import { Assets } from "@pixi/assets";
+import { fireParticleConfig } from "../config/fireParticleConfig";
 
 export class FireGame extends GameBase implements IGame {
+    private emitter!: Emitter;
+    private elapsed: number = 0;
+
     paused = false;
     activated = false;
     
@@ -14,7 +19,16 @@ export class FireGame extends GameBase implements IGame {
     }
 
     async init() {
-        await Assets.loadBundle('fire');
+        Assets.loadBundle('fire');
+
+        this.emitter = new Emitter(
+            this,
+            fireParticleConfig
+        );
+
+        this.elapsed = Date.now();
+        
+        this.emitter.emit = true;
 
         this.start();
     }
@@ -37,12 +51,14 @@ export class FireGame extends GameBase implements IGame {
     }
     
     update() { 
-        if (this.paused) return;
+        const now = Date.now();
+        this.emitter.update((now - this.elapsed) * 0.001);
         
+        this.elapsed = now;
     }
     
     resize(width: number, height: number): void {
-        this.x = (width - config.width) / 2;
-        this.y = (height - config.height) / 2;
+        this.x = width / 2;
+        this.y = height;
     }
 }
