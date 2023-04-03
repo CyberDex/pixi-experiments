@@ -32,12 +32,12 @@
         "@pixi/text-bitmap": "^7.2.3",
         "@pixi/ui": "^0.7.0",
         "gsap": "^3.11.4",
-        "i": "^0.3.7",
-        "npm": "^9.6.3",
+        "matter-js": "^0.19.0",
         "pixi-stats": "^1.1.2",
         "typed-signals": "^2.5.0"
     },
     "devDependencies": {
+        "@types/matter-js": "^0.18.2",
         "eslint": "^8.32.0",
         "eslint-plugin-simple-import-sort": "^10.0.0",
         "prettier": "^2.8.3",
