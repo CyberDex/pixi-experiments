@@ -80,7 +80,9 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
                     window: Windows.pause // show screen with PauseWindow opened
                 }
             ); 
-            game.bg.blur(0,0);
+
+            game.bg.resetFilter();
+            game.bg.pause();
         });
 
         this.addContent({ // add content to the screen layout

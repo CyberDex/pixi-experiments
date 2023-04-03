@@ -61,7 +61,7 @@ export class FireGame extends GameBase implements IGame {
             this.fireEmitter.destroy();
             this.tint.visible = false;
 
-            game.bg.blur(0,0);
+            game.bg.resetFilter();
         }
 
         this.widthCache = window.innerWidth;
@@ -77,6 +77,8 @@ export class FireGame extends GameBase implements IGame {
         let velocity = 0;
         let kernelSize = 0;
 
+        game.bg.swing(2, 2, 2);
+
         const interval = setInterval(() => {
             if (velocity < 40) {
                 velocity++;
@@ -88,7 +90,8 @@ export class FireGame extends GameBase implements IGame {
                 kernelSize++;
             }
             
-            game.bg.blur(velocity, kernelSize);
+            game.bg.filter.velocity.set(velocity);
+            game.bg.filter.kernelSize = kernelSize;
         }, 100);
 
         gsap.to(this.tint, {
