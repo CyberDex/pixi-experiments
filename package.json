@@ -31,7 +31,6 @@
         "@pixi/text": "^7.2.3",
         "@pixi/text-bitmap": "^7.2.3",
         "@pixi/ui": "^0.7.0",
-        "gamestats.js": "^1.0.4",
         "gsap": "^3.11.4",
         "i": "^0.3.7",
         "npm": "^9.6.3",
