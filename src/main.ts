@@ -9,8 +9,8 @@ import { TitleScreen } from './screens/TitleScreen';
 import { getUrlParam } from './utils/gtUrlParams';
 import { colors } from './config/colors';
 import { initAssets } from './utils/preload';
-import { Stats } from 'pixi-stats';
-import { UPDATE_PRIORITY } from '@pixi/core';
+import GameStats from 'gamestats.js';
+import * as PIXI from '@pixi/app';
 
 /** The PixiJS app Application instance, shared across the project */
 export const app = new Application<HTMLCanvasElement>({
@@ -23,10 +23,30 @@ export const app = new Application<HTMLCanvasElement>({
 (globalThis as any).__PIXI_APP__ = app;
 
 // FPS stats
-const stats = new Stats(document, app);
-document.body.appendChild(stats.domElement);
-stats.domElement.dragable = true;
-app.ticker.add(stats.update, stats, UPDATE_PRIORITY.UTILITY);
+const stats = new GameStats();
+document.body.appendChild(stats.dom);
+stats.dom.id = 'gamestats';
+(stats as any).enableExtension('pixi', [PIXI, app]);
+
+app.ticker.add(() => {
+
+	stats.begin();
+	// game update goes here
+
+	stats.begin('physics');
+	// the graph will deterministically assign a color based on the label
+	// physics();
+	stats.end('physics')
+
+	stats.begin('render', '#6cc644')
+	// optional second color parameter
+	// render();
+	stats.end('render')
+
+	stats.end();
+
+	// requestAnimationFrame( animate );
+});
 
 
 /** Set up a resize function for the app */

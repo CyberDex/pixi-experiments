@@ -194,7 +194,7 @@ export class FireGame extends GameBase implements IGame {
         }
     }
     
-    resize(width: number, height: number): void {
+    resize(_width: number, height: number): void {
         this.x = 0;
         this.y = height;
 
