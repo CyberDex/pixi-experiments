@@ -8,7 +8,6 @@ import { Texture } from "@pixi/core";
 import { app } from "../main"
 import { gsap } from "gsap";
 import { Emitter } from '@pixi/particle-emitter';
-import { Graphics } from "@pixi/graphics";
 import { game } from "../Game";
 
 export class FireGame extends GameBase implements IGame {
