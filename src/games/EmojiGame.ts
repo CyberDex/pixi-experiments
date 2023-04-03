@@ -2,13 +2,13 @@ import { AppScreen } from "../components/basic/AppScreen";
 import { IGame } from "./IGame";
 import { GameBase } from "./GameBase";
 import { getRandomInRange, getRandomItem } from "../utils/random";
-import config from "../config/emojiGameConfig";
-import { Container } from "@pixi/display";
 import { FancyText, FancyTextOptions } from "../components/FancyText";
 import { initEmojis } from "../utils/preload";
 import { BitmapFont } from "@pixi/text-bitmap";
+import { Bottom } from "../components/Bottom";
+import { IMatter } from "../components/IMatter";
+import config from "../config/emojiGameConfig";
 import Matter from 'matter-js';
-import { app } from "../main";
 
 const combinations = [ '000', '001', '010', '011', '100', '101', '110', '111' ];
 
@@ -16,9 +16,9 @@ export class EmojiGame extends GameBase implements IGame {
     private _widthCache = 0;
     private _heightCache = 0;
     
+    bottom!: Bottom;
     engine!: Matter.Engine;
-    items: FancyText[] = [];
-    innerView!: Container;
+    items: IMatter[] = [];
     paused = false;
     activated = false;
     
@@ -31,7 +31,6 @@ export class EmojiGame extends GameBase implements IGame {
         await initEmojis();
         
         this.engine = Matter.Engine.create();
-        Matter.Events.on(this.engine, 'collisionStart', (event) => this.onCollision(event));
         
         BitmapFont.from('DO', {
             fill: 'white',
@@ -42,10 +41,13 @@ export class EmojiGame extends GameBase implements IGame {
             wordWrap: true,
         });
 
-        this.activated = true;
+        this.bottom = new Bottom('pixi-logo', this);
+        this.items.push(this.bottom);
+        this.addChild(this.bottom);
 
-        this.innerView = new Container();
-        this.addChild(this.innerView);
+        this.resize(this._widthCache, this._heightCache);
+
+        this.activated = true;
 
         this.start();
     }
@@ -82,10 +84,6 @@ export class EmojiGame extends GameBase implements IGame {
         }
     }
 
-    private findSpriteWithRigidbody(rb: Matter.Body) {
-        return this.items.find((items) => items.rigidBody === rb)
-    }
-
     update() {
         if (this.engine) {
             Matter.Engine.update(this.engine, 1000 / 60);
@@ -114,7 +112,7 @@ export class EmojiGame extends GameBase implements IGame {
         
         text.y -= 10000;
 
-        this.innerView.addChild(text);
+        this.addChild(text);
 
         setTimeout(() => this.addText(), config.repeatDelay * 1000);
     }
@@ -140,28 +138,6 @@ export class EmojiGame extends GameBase implements IGame {
         }
     }
 
-    private onCollision(event: Matter.IEventCollision<Matter.Engine>) {
-        let collision = event.pairs[0]
-        let [bodyA, bodyB] = [collision.bodyA, collision.bodyB]
-        // console.log(`${bodyA.label} ${bodyA.id} hits ${bodyB.label} ${bodyA.id}`)
-        if (bodyA.label === "Coin" && bodyB.label === "Player") {
-            let element = this.findSpriteWithRigidbody(bodyA)
-            if (element) this.removeElement(element)
-        }
-        if (bodyA.label === "Player" && bodyB.label === "Coin") {
-            let element = this.findSpriteWithRigidbody(bodyB)
-            if (element) this.removeElement(element)
-        }
-    } 
-
-    private removeElement(element: FancyText) {
-        element.beforeUnload()
-        Matter.Composite.remove(this.engine.world, element.rigidBody)                           // stop physics simulation
-        app.stage.removeChild(element)                                                    // stop drawing on the canvas
-        this.items = this.items.filter((el: FancyText) => el != element)      // stop updating
-        // console.log(`Removed id ${element.id}. Elements left: ${this.elements.length}`)
-    }
-
     start() {
         this.addText();
     }
@@ -179,7 +155,16 @@ export class EmojiGame extends GameBase implements IGame {
         this._widthCache = width;
         this._heightCache = height;
 
-        this.x = (width - config.width) / 2;
-        this.y = (height - config.height) / 2;
+        this.x = width / 2;
+        this.y = height / 2;
+
+        if (this.bottom) {
+            const y = (height - this.bottom.height) / 2;
+
+            this.bottom.position.set(0, y);
+            this.bottom.rigidBody = Matter.Bodies.rectangle(0, y, window.innerWidth, this.bottom.height, { isStatic: true, label: "Ground" })
+            
+            this.bottom.width = window.innerWidth;
+        }
     }
 }

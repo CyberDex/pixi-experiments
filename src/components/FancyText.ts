@@ -4,6 +4,8 @@ import { List } from "@pixi/ui";
 import { Sprite } from "@pixi/sprite";
 import Matter from 'matter-js';
 import { IGame } from "../games/IGame";
+import { IMatter } from "./IMatter";
+import { getRandomInRange } from "../utils/random";
 
 export type FancyTextOptions = {
     game: IGame,
@@ -12,7 +14,7 @@ export type FancyTextOptions = {
     style?: Partial<IBitmapTextStyle>
 }
 
-export class FancyText extends Container {
+export class FancyText extends Container implements IMatter {
     private list: List;
 
     rigidBody!: Matter.Body;
@@ -71,7 +73,17 @@ export class FancyText extends Container {
             }
         });
 
-        this.rigidBody = Matter.Bodies.rectangle(Math.random() * 900, -30, 60, 60, { label: "Crate" }) //x,y,w,h
+        this.rigidBody = Matter.Bodies.rectangle(
+            getRandomInRange(-600, 600),
+            -1000,
+            this.height,
+            this.width,
+        {
+            friction: 0.00001,
+            restitution: 0.5,
+            density: 0.001,
+            label: "text"
+        });
         if (this.game.engine) {
             Matter.Composite.add(this.game.engine.world, this.rigidBody)
         }
