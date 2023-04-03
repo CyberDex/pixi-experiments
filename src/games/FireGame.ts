@@ -48,12 +48,10 @@ export class FireGame extends GameBase implements IGame {
         this.tint = new TilingSprite(texture, 1, window.innerHeight);
         this.tint.width = window.innerWidth;
         this.tint.height = window.innerHeight;
+        this.tint.x = 0;
         this.tint.y = -window.innerHeight;
         this.tint.visible = false;
         this.addChildAt(this.tint, 0);
-
-        const gr = new Graphics().beginFill(0x000000).drawRect(0, 0, window.innerWidth, window.innerHeight);
-        this.addChild(gr);
     }
 
     private bern() { 
@@ -200,6 +198,9 @@ export class FireGame extends GameBase implements IGame {
 
         if (this.tint) {
             this.tint.width = window.innerWidth;
+            this.tint.height = window.innerHeight;
+            this.tint.x = 0;
+            this.tint.y = -window.innerHeight;
         }
 
         if (this.fireEmitter && this.widthCache < window.innerWidth) {
