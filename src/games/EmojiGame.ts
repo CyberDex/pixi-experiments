@@ -1,20 +1,22 @@
 import { AppScreen } from "../components/basic/AppScreen";
 import { IGame } from "./IGame";
 import { GameBase } from "./GameBase";
-import { getRandomBoolean, getRandomInRange, getRandomItem } from "../utils/random";
+import { getRandomInRange, getRandomItem } from "../utils/random";
 import config from "../config/emojiGameConfig";
 import { Container } from "@pixi/display";
 import { FancyText, FancyTextOptions } from "../components/FancyText";
 import { initEmojis } from "../utils/preload";
 import { BitmapFont } from "@pixi/text-bitmap";
-import { gsap } from "gsap";
+import Matter from 'matter-js';
+import { app } from "../main";
 
 const combinations = [ '000', '001', '010', '011', '100', '101', '110', '111' ];
 
 export class EmojiGame extends GameBase implements IGame {
     private _widthCache = 0;
     private _heightCache = 0;
-
+    
+    engine!: Matter.Engine;
     items: FancyText[] = [];
     innerView!: Container;
     paused = false;
@@ -27,7 +29,10 @@ export class EmojiGame extends GameBase implements IGame {
 
     async init() {
         await initEmojis();
-
+        
+        this.engine = Matter.Engine.create();
+        Matter.Events.on(this.engine, 'collisionStart', (event) => this.onCollision(event));
+        
         BitmapFont.from('DO', {
             fill: 'white',
             fontSize: 24,
@@ -72,7 +77,20 @@ export class EmojiGame extends GameBase implements IGame {
         
         return {
             text,
-            images
+            images,
+            game: this,
+        }
+    }
+
+    private findSpriteWithRigidbody(rb: Matter.Body) {
+        return this.items.find((items) => items.rigidBody === rb)
+    }
+
+    update() {
+        if (this.engine) {
+            Matter.Engine.update(this.engine, 1000 / 60);
+
+            this.items.forEach((item) => item.update());
         }
     }
 
@@ -87,8 +105,6 @@ export class EmojiGame extends GameBase implements IGame {
             }
         });
         
-        const angle = getRandomInRange(1, config.stackRotationScatter) * (getRandomBoolean() ? 1 : -1);
-        
         text.x = getRandomInRange(0, Math.min(this._widthCache, config.width));
         text.y = getRandomInRange(0, Math.min(this._heightCache, config.height));
 
@@ -99,12 +115,6 @@ export class EmojiGame extends GameBase implements IGame {
         text.y -= 10000;
 
         this.innerView.addChild(text);
-            
-        gsap.to(text, {
-            y: '+=10000',
-            angle,
-            duration: config.duration,
-        });
 
         setTimeout(() => this.addText(), config.repeatDelay * 1000);
     }
@@ -128,6 +138,28 @@ export class EmojiGame extends GameBase implements IGame {
         if (text.y - text.height / 2 < 0) {
             text.y = text.height / 2;
         }
+    }
+
+    private onCollision(event: Matter.IEventCollision<Matter.Engine>) {
+        let collision = event.pairs[0]
+        let [bodyA, bodyB] = [collision.bodyA, collision.bodyB]
+        // console.log(`${bodyA.label} ${bodyA.id} hits ${bodyB.label} ${bodyA.id}`)
+        if (bodyA.label === "Coin" && bodyB.label === "Player") {
+            let element = this.findSpriteWithRigidbody(bodyA)
+            if (element) this.removeElement(element)
+        }
+        if (bodyA.label === "Player" && bodyB.label === "Coin") {
+            let element = this.findSpriteWithRigidbody(bodyB)
+            if (element) this.removeElement(element)
+        }
+    } 
+
+    private removeElement(element: FancyText) {
+        element.beforeUnload()
+        Matter.Composite.remove(this.engine.world, element.rigidBody)                           // stop physics simulation
+        app.stage.removeChild(element)                                                    // stop drawing on the canvas
+        this.items = this.items.filter((el: FancyText) => el != element)      // stop updating
+        // console.log(`Removed id ${element.id}. Elements left: ${this.elements.length}`)
     }
 
     start() {

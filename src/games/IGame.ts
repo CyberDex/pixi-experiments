@@ -1,6 +1,8 @@
 import { Signal } from "typed-signals";
+import Matter from 'matter-js';
 
 export interface IGame { 
+    engine?: Matter.Engine;
     x: number;
     y: number;
     items?: any[];
