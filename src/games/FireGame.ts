@@ -11,6 +11,7 @@ import { Emitter } from '@pixi/particle-emitter';
 import { game } from "../Game";
 
 export class FireGame extends GameBase implements IGame {
+    private tintTexture!: Texture;
     private fireEmitter!: Emitter;
     private elapsed: number = 0;
     private tint!: TilingSprite;
@@ -42,14 +43,17 @@ export class FireGame extends GameBase implements IGame {
     }
 
     private addViews() { 
-        const texture = Texture.from('fireGradient');
+        this.tintTexture = Texture.from('fireGradient');
 
-        this.tint = new TilingSprite(texture, 1, window.innerHeight);
+        this.tint = new TilingSprite(this.tintTexture, 1, window.innerHeight);
         this.tint.width = window.innerWidth;
         this.tint.height = window.innerHeight;
         this.tint.x = 0;
         this.tint.y = -window.innerHeight;
         this.tint.visible = false;
+
+        this.tint.tileScale.set(window.innerHeight / this.tintTexture.height);
+        
         this.addChildAt(this.tint, 0);
     }
 
@@ -141,7 +145,11 @@ export class FireGame extends GameBase implements IGame {
 
     // TODO: improve quality adjust, use more frequency & maxParticles states
     private adjustQuality() {
-        // console.log(this.fps, this.quality);
+        // console.log({
+        //     fps: app.ticker.FPS,
+        //     data: this.fps,
+        //     quality: this.quality
+        // });
         
         if (this.quality !== 'low' && app.ticker.FPS < 60) { 
             this.fps.low++;
@@ -156,7 +164,7 @@ export class FireGame extends GameBase implements IGame {
         }
 
         if (this.quality !== 'high') {
-            if (app.ticker.FPS && app.ticker.FPS > 100) {
+            if (app.ticker.FPS && app.ticker.FPS >= 60) {
                 this.fps.high++;
 
                 if (this.fps.high > 300) {
@@ -200,6 +208,8 @@ export class FireGame extends GameBase implements IGame {
             this.tint.height = window.innerHeight;
             this.tint.x = 0;
             this.tint.y = -window.innerHeight;
+
+            this.tint.tileScale.set(window.innerHeight / this.tintTexture.height);
         }
 
         if (this.fireEmitter && this.widthCache < window.innerWidth) {
