@@ -54,4 +54,8 @@ export class SquareMatterBody extends Graphics implements IMatter {
         Body.setVelocity(this.body, { x: 0, y: 0 });
         Body.setAngularVelocity(this.body, 0);
     }
+
+    setPos(x: number, y: number) {
+        Body.setPosition(this.body, { x, y });
+    }
 }

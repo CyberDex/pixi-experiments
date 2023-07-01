@@ -1,5 +1,5 @@
 {
-    "extends": ["@pixi/eslint-config", "prettier"],
+    "extends": ["@pixi/eslint-config"],
     "plugins": ["jsdoc", "no-mixed-operators"],
     "settings": {
         "jsdoc": {

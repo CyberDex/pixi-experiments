@@ -16,6 +16,8 @@ export class EmojiGame extends GameBase implements IMatterGame {
     private _widthCache = 0;
     private _heightCache = 0;
 
+    private bottomLine!: SquareMatterBody;
+
     engine: Engine;
     paused = false;
     activated = false;
@@ -40,20 +42,20 @@ export class EmojiGame extends GameBase implements IMatterGame {
             wordWrap: true,
         });
 
-        const bottomLine = new SquareMatterBody(
+        this.bottomLine = new SquareMatterBody(
             this.engine.world,
             {
-                x: window.innerWidth / 2,
+                x: window.innerWidth / 2 - 1000,
                 y: window.innerHeight,
-                width: window.innerWidth,
-                height: 10,
+                width: window.innerWidth + 2000,
+                height: 100,
                 color: 0x000000,
             },
             {
                 isStatic: true,
             },
         );
-        this.addChild(bottomLine);
+        this.addChild(this.bottomLine);
 
         this.resize(this._widthCache, this._heightCache);
 
@@ -105,7 +107,7 @@ export class EmojiGame extends GameBase implements IMatterGame {
         }).texture;
 
         const text = new SpriteMatterBody(this.engine.world, {
-            x: getRandomInRange(0, Math.min(this._widthCache, config.width)),
+            x: getRandomInRange(texture.width / 2, this._widthCache - texture.width / 2),
             y: 0,
             texture,
         });
@@ -131,5 +133,9 @@ export class EmojiGame extends GameBase implements IMatterGame {
     resize(width: number, height: number): void {
         this._widthCache = width;
         this._heightCache = height;
+
+        if (this.bottomLine) {
+            this.bottomLine.setPos(width / 2, height);
+        }
     }
 }

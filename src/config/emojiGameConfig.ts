@@ -1,6 +1,4 @@
 export default {
-    width: 600,
-    height: 600,
     stackRotationScatter: 30,
     repeatDelay: 2,
     duration: 2,

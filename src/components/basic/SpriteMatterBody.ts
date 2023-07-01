@@ -1,5 +1,5 @@
 import { IMatter } from '../IMatter';
-import { Bodies, Body, Composite, IChamferableBodyDefinition, Render } from 'matter-js';
+import { Bodies, Body, Composite, IChamferableBodyDefinition } from 'matter-js';
 import { RenderTexture, Ticker } from '@pixi/core';
 import { IDestroyOptions } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
