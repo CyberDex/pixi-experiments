@@ -1,8 +1,8 @@
-import { Container } from "@pixi/display";
+import { Container } from '@pixi/display';
 import { Signal } from 'typed-signals';
 
 export type State = {
-    [key: string]: number
+    [key: string]: number;
 };
 
 export class GameBase extends Container {
@@ -12,20 +12,20 @@ export class GameBase extends Container {
 
     constructor(state: State) {
         super();
-        
+
         this._state = state;
 
         this.onStateChange = new Signal();
     }
 
-    get state() { 
+    get state() {
         return {
             get: (key: any) => this._state[key],
             set: (key: any, value: any) => {
                 this._state[key] = value;
 
                 this.onStateChange.emit(key, value);
-            }
-        }
+            },
+        };
     }
 }

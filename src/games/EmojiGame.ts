@@ -1,28 +1,33 @@
-import { AppScreen } from "../components/basic/AppScreen";
-import { IGame } from "./IGame";
-import { GameBase } from "./GameBase";
-import { getRandomBoolean, getRandomInRange, getRandomItem } from "../utils/random";
-import config from "../config/emojiGameConfig";
-import { Container } from "@pixi/display";
-import { FancyText, FancyTextOptions } from "../components/FancyText";
-import { initEmojis } from "../utils/preload";
-import { BitmapFont } from "@pixi/text-bitmap";
-import { gsap } from "gsap";
+import { AppScreen } from '../components/basic/AppScreen';
+import { IMatterGame } from './IGame';
+import { GameBase } from './GameBase';
+import { getRandomInRange, getRandomItem } from '../utils/random';
+import { FancyTextTexture, FancyTextOptions } from '../components/FancyText';
+import { initEmojis } from '../utils/preload';
+import { BitmapFont } from '@pixi/text-bitmap';
+import config from '../config/emojiGameConfig';
+import { Engine, Runner } from 'matter-js';
+import { SpriteMatterBody } from '../components/basic/SpriteMatterBody';
+import { SquareMatterBody } from '../components/basic/SquareMatterBody';
 
-const combinations = [ '000', '001', '010', '011', '100', '101', '110', '111' ];
+const combinations = ['000', '001', '010', '011', '100', '101', '110', '111'];
 
-export class EmojiGame extends GameBase implements IGame {
+export class EmojiGame extends GameBase implements IMatterGame {
     private _widthCache = 0;
     private _heightCache = 0;
 
-    items: FancyText[] = [];
-    innerView!: Container;
+    private bottomLine!: SquareMatterBody;
+
+    engine: Engine;
     paused = false;
     activated = false;
-    
+
     constructor(scene: AppScreen) {
         super({});
+
         scene.addChild(this);
+        this.engine = Engine.create();
+        Runner.run(this.engine);
     }
 
     async init() {
@@ -37,97 +42,79 @@ export class EmojiGame extends GameBase implements IGame {
             wordWrap: true,
         });
 
-        this.activated = true;
+        this.bottomLine = new SquareMatterBody(
+            this.engine.world,
+            {
+                x: window.innerWidth / 2 - 1000,
+                y: window.innerHeight,
+                width: window.innerWidth + 2000,
+                height: 100,
+                color: 0x000000,
+            },
+            {
+                isStatic: true,
+            },
+        );
+        this.addChild(this.bottomLine);
 
-        this.innerView = new Container();
-        this.addChild(this.innerView);
+        this.resize(this._widthCache, this._heightCache);
+
+        this.activated = true;
 
         this.start();
     }
 
-    private getWord(): string { 
+    private getWord(): string {
         return getRandomItem(config.words);
     }
 
-    private getEmoji(): string { 
+    private getEmoji(): string {
         const type = getRandomInRange(1, config.spritesAmount);
         return `emoji${type}`;
     }
 
-    private generateText(): FancyTextOptions { 
+    private generateText(): FancyTextOptions {
         const parts = getRandomItem(combinations).split('');
         let text = '';
         let images: string[] = [];
 
-        parts.forEach((part: '0' | '1') => { 
+        parts.forEach((part: '0' | '1') => {
             if (part === '0') {
                 text += ` ${this.getWord()}`;
             } else {
                 const emoji = this.getEmoji();
-                
+
                 text += ` ${emoji}`;
                 images.push(emoji);
             }
         });
-        
+
         return {
             text,
-            images
-        }
+            images,
+        };
     }
 
     private addText() {
         if (this.paused) return;
 
-        const text = new FancyText({
+        const texture = new FancyTextTexture({
             ...this.generateText(),
             style: {
                 fontName: 'DO',
-                fontSize: getRandomInRange(10, 25)
-            }
+                fontSize: getRandomInRange(10, 25),
+            },
+        }).texture;
+
+        const text = new SpriteMatterBody(this.engine.world, {
+            x: getRandomInRange(texture.width / 2, this._widthCache - texture.width / 2),
+            y: 0,
+            texture,
         });
-        
-        const angle = getRandomInRange(1, config.stackRotationScatter) * (getRandomBoolean() ? 1 : -1);
-        
-        text.x = getRandomInRange(0, Math.min(this._widthCache, config.width));
-        text.y = getRandomInRange(0, Math.min(this._heightCache, config.height));
 
-        this.fitText(text);
-
-        this.items.push(text);
-        
-        text.y -= 10000;
-
-        this.innerView.addChild(text);
-            
-        gsap.to(text, {
-            y: '+=10000',
-            angle,
-            duration: config.duration,
-        });
+        this.addChild(text);
 
         setTimeout(() => this.addText(), config.repeatDelay * 1000);
-    }
-
-    private fitText(text: FancyText) { 
-        const width = Math.min(this._widthCache, config.width);
-        const height = Math.min(this._heightCache, config.height);
-
-        if (text.x + text.width / 2 > width) { 
-            text.x = width - text.width / 2;
-        }
-
-        if (text.x - text.width / 2 < 0) {
-            text.x = text.width / 2;
-        }
-
-        if (text.y + text.height / 2 > height) {
-            text.y = height - text.height / 2;
-        }
-
-        if (text.y - text.height / 2 < 0) {
-            text.y = text.height / 2;
-        }
     }
 
     start() {
@@ -139,15 +126,16 @@ export class EmojiGame extends GameBase implements IGame {
     }
 
     resume() {
-        this.paused = false;        
+        this.paused = false;
         this.addText();
     }
-    
+
     resize(width: number, height: number): void {
         this._widthCache = width;
         this._heightCache = height;
 
-        this.x = (width - config.width) / 2;
-        this.y = (height - config.height) / 2;
+        if (this.bottomLine) {
+            this.bottomLine.setPos(width / 2, height);
+        }
     }
 }

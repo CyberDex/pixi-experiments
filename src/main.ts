@@ -29,25 +29,23 @@ stats.dom.id = 'gamestats';
 (stats as any).enableExtension('pixi', [PIXI, app]);
 
 app.ticker.add(() => {
+    stats.begin();
+    // game update goes here
 
-	stats.begin();
-	// game update goes here
+    stats.begin('physics');
+    // the graph will deterministically assign a color based on the label
+    // physics();
+    stats.end('physics');
 
-	stats.begin('physics');
-	// the graph will deterministically assign a color based on the label
-	// physics();
-	stats.end('physics')
+    stats.begin('render', '#6cc644');
+    // optional second color parameter
+    // render();
+    stats.end('render');
 
-	stats.begin('render', '#6cc644')
-	// optional second color parameter
-	// render();
-	stats.end('render')
+    stats.end();
 
-	stats.end();
-
-	// requestAnimationFrame( animate );
+    // requestAnimationFrame( animate );
 });
-
 
 /** Set up a resize function for the app */
 function resize() {
@@ -61,7 +59,7 @@ function resize() {
 
     app.renderer.resize(windowWidth, windowHeight); // Resize the renderer
     // THIS IS IMPORTANT, IT WILL RESIZE THE LAYOUTS
-    game.resize(windowWidth, windowHeight); // Resize the game and all scenes and their contents 
+    game.resize(windowWidth, windowHeight); // Resize the game and all scenes and their contents
 }
 
 /** Setup app and initialize assets */

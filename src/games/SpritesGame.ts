@@ -1,18 +1,17 @@
-import { AppScreen } from "../components/basic/AppScreen";
-import { IGame } from "./IGame";
-import config from "../config/spritesGameConfig";
-import { Sprite } from "@pixi/sprite";
-import { getRandomItem, getRandomInRange } from "../utils/random";
-import { Container } from "@pixi/display";
-import { Elastic, gsap } from "gsap";
-import { initEmojis } from "../utils/preload";
-import { GameBase } from "./GameBase";
+import { AppScreen } from '../components/basic/AppScreen';
+import { IGame } from './IGame';
+import config from '../config/spritesGameConfig';
+import { Sprite } from '@pixi/sprite';
+import { getRandomItem, getRandomInRange } from '../utils/random';
+import { Container } from '@pixi/display';
+import { Elastic, gsap } from 'gsap';
+import { initEmojis } from '../utils/preload';
+import { GameBase } from './GameBase';
 
-// TODO: add matter.js
-export class SpritesGame extends GameBase implements IGame { 
+export class SpritesGame extends GameBase implements IGame {
     private stack1: Container = new Container();
     private stack2: Container = new Container();
-    
+
     items: Container[] = [];
     innerView!: Container;
     paused = false;
@@ -82,17 +81,16 @@ export class SpritesGame extends GameBase implements IGame {
         return this.state.get('activeStack') === 1 ? this.stack2 : this.stack1;
     }
 
-
-    private async shoot() { 
+    private async shoot() {
         if (this.paused) return;
 
         const itemID = this.state.get('activeItemID');
         const activeItem = this.items[itemID];
 
         this.activated = true;
-        
+
         this.moveItem(activeItem).then(() => {
-            if (itemID === 0) { 
+            if (itemID === 0) {
                 this.reshuffle();
             }
         });
@@ -100,26 +98,23 @@ export class SpritesGame extends GameBase implements IGame {
         this.shake(this.passiveStack, 1);
         this.shake(this.activeStack, -1);
 
-        if (itemID > 0) { 
+        if (itemID > 0) {
             setTimeout(() => this.shoot(), config.repeatDelay * 1000);
         }
     }
 
-    private reshuffle() {       
+    private reshuffle() {
         this.items.reverse();
 
         this.swapStacks();
     }
 
     private swapStacks() {
-        gsap.to(
-            this.activeStack,
-            {
-                x: this.passiveStack.x,
-                y: this.passiveStack.y,
-                onComplete: () => this.restart()
-            },
-        );
+        gsap.to(this.activeStack, {
+            x: this.passiveStack.x,
+            y: this.passiveStack.y,
+            onComplete: () => this.restart(),
+        });
 
         this.passiveStack.x = this.activeStack.x;
         this.passiveStack.y = this.activeStack.y;
@@ -127,27 +122,25 @@ export class SpritesGame extends GameBase implements IGame {
 
     private restart() {
         this.state.set('activeStack', this.state.get('activeStack') === 1 ? 2 : 1);
-                    
+
         this.activeStack.zIndex = 0;
         this.passiveStack.zIndex = 1;
 
         this.start();
     }
 
-    private moveItem(item: Container): Promise<void> { 
+    private moveItem(item: Container): Promise<void> {
         return new Promise((resolve) => {
             const posX = item.x;
             const posY = item.y;
 
-            const angle = 
-                getRandomInRange(1, config.stackRotationScatter) 
-                * getRandomItem([1, -1])
-                * 4;
+            const angle =
+                getRandomInRange(1, config.stackRotationScatter) * getRandomItem([1, -1]) * 4;
 
             item.zIndex = -this.state.get('activeItemID');
 
             gsap.to(item, {
-                x: this.stackDistance.x + posX, 
+                x: this.stackDistance.x + posX,
                 y: this.stackDistance.y + posY,
                 angle,
                 duration: config.duration,
@@ -159,11 +152,11 @@ export class SpritesGame extends GameBase implements IGame {
 
                     resolve();
                 },
-                ease: Elastic.easeOut
+                ease: Elastic.easeOut,
             });
 
             this.state.set('activeItemID', this.state.get('activeItemID') - 1);
-        })
+        });
     }
 
     private shake(stack: Container, direction: number) {
@@ -181,30 +174,30 @@ export class SpritesGame extends GameBase implements IGame {
                 duration: config.duration / 4,
                 x: stack.x,
                 y: stack.y,
-                ease: Elastic.easeOut
+                ease: Elastic.easeOut,
             },
         );
     }
 
-    private get stackDistance(): {x: number, y: number} {
+    private get stackDistance(): { x: number; y: number } {
         if (!this.activeStack || !this.passiveStack) return { x: 0, y: 0 };
 
-        return ({
+        return {
             x: this.activeStack.x - this.passiveStack.x,
             y: this.activeStack.y - this.passiveStack.y,
-        });
+        };
     }
 
-    start() {     
-        this.state.set('activeItemID', this.items.length - 1);   
+    start() {
+        this.state.set('activeItemID', this.items.length - 1);
         this.shoot();
     }
-    
+
     pause() {
         this.paused = true;
     }
 
-    resume() { 
+    resume() {
         this.paused = false;
         this.shoot();
     }
