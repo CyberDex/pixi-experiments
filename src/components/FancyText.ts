@@ -2,14 +2,14 @@ import { Container } from '@pixi/display';
 import { BitmapText, IBitmapTextStyle } from '@pixi/text-bitmap';
 import { List } from '@pixi/ui';
 import { Sprite } from '@pixi/sprite';
-import Matter from 'matter-js';
-import { IGame } from '../games/IGame';
+import { Bodies, Body, Composite, World } from 'matter-js';
+import { IMatterGame } from '../games/IGame';
 import { IMatter } from './IMatter';
 import { getRandomInRange } from '../utils/random';
 import { Texture } from '@pixi/core';
 
 export type FancyTextOptions = {
-    game: IGame;
+    game: IMatterGame;
     text: string;
     images?: string[];
     style?: Partial<IBitmapTextStyle>;
@@ -18,8 +18,8 @@ export type FancyTextOptions = {
 export class FancyText extends Container implements IMatter {
     private list: List;
 
-    body!: Matter.Body;
-    game: IGame;
+    body!: Body;
+    game: IMatterGame;
 
     constructor(options: FancyTextOptions) {
         super();
@@ -80,7 +80,7 @@ export class FancyText extends Container implements IMatter {
 
         this.addChild(bg);
 
-        this.body = Matter.Bodies.rectangle(
+        this.body = Bodies.rectangle(
             getRandomInRange(-600, 600) - this.width / 2,
             -1000 - this.height / 2,
             this.height,
@@ -93,7 +93,7 @@ export class FancyText extends Container implements IMatter {
             },
         );
         if (this.game.engine) {
-            Matter.Composite.add(this.game.engine.world, this.body);
+            Composite.add(this.game.engine.world, this.body);
         }
     }
 
@@ -104,14 +104,14 @@ export class FancyText extends Container implements IMatter {
         this.rotation = this.body.angle;
 
         if (this.game.engine && this.body.position.y > window.innerHeight + 1000) {
-            Matter.World.remove(this.game.engine.world, this.body);
+            World.remove(this.game.engine.world, this.body);
             this.destroy({ children: true });
         }
     }
 
     resetPosition() {
-        Matter.Body.setPosition(this.body, { x: 120, y: 30 });
-        Matter.Body.setVelocity(this.body, { x: 0, y: 0 });
-        Matter.Body.setAngularVelocity(this.body, 0);
+        Body.setPosition(this.body, { x: 120, y: 30 });
+        Body.setVelocity(this.body, { x: 0, y: 0 });
+        Body.setAngularVelocity(this.body, 0);
     }
 }

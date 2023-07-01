@@ -1,9 +1,7 @@
 import { Signal } from 'typed-signals';
-import Matter from 'matter-js';
-import { Graphics } from '@pixi/graphics';
+import { Engine } from 'matter-js';
 
 export interface IGame {
-    engine: Matter.Engine;
     x: number;
     y: number;
     items?: any[];
@@ -14,11 +12,14 @@ export interface IGame {
         set: (key: string, value: number) => void;
     };
 
-    box: Graphics;
     init(): Promise<void>;
     start(): void;
     pause(): void;
     resume(): void;
     update?(): void;
     resize?(width: number, height: number): void;
+}
+
+export interface IMatterGame extends IGame {
+    engine: Engine;
 }

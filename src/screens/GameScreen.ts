@@ -8,7 +8,7 @@ import { challenges } from '../config/challenges';
 import { SpritesGame } from '../games/SpritesGame';
 import { EmojiGame } from '../games/EmojiGame';
 import { FireGame } from '../games/FireGame';
-import { IGame } from '../games/IGame';
+import { IGame, IMatterGame } from '../games/IGame';
 import { Text } from '@pixi/text';
 import { Sprite } from '@pixi/sprite';
 import { colors } from '../config/colors';
@@ -20,30 +20,32 @@ import { getUrlParam } from '../utils/gtUrlParams';
 
 export type GameTypes = 'sprites' | 'emoji' | 'fire';
 
-export class GameScreen extends AppScreen { // GameScreen extends AppScreen, which is a Layout with a few additional features
+export class GameScreen extends AppScreen {
+    // GameScreen extends AppScreen, which is a Layout with a few additional features
     public static assetBundles = ['game']; // asset bundles that will be loaded before the screen is shown
     private gameType: GameTypes = 'sprites'; // game type
-    private game!: IGame; // game instance
+    private game!: IGame | IMatterGame; // game instance
     private resumeButton!: Button;
     private paused = false;
 
-    constructor(options?: SceneData) { // constructor accepts an object with data that will be passed to the screen when it is shown
+    constructor(options?: SceneData) {
+        // constructor accepts an object with data that will be passed to the screen when it is shown
         super('GameScreen'); // Creates Layout with id 'GameScreen'
 
-        game.addBG(); 
-        
+        game.addBG();
+
         if (getUrlParam('game')) {
             this.gameType = getUrlParam('game') as GameTypes;
         }
 
-        if (options?.type) { 
+        if (options?.type) {
             this.gameType = options?.type; // set game type
         }
 
         this.createGame(); // create game
-        
+
         this.addBackButton(); // add pause button component to the screen
-        
+
         this.addResumeButton(); // add resume button component to the screen
 
         this.createWindows(options?.window); // create windows
@@ -51,13 +53,12 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         this.addEvents();
     }
 
-    /** Create windows. 
+    /** Create windows.
      * Windows are Layout based components that are shown on top of the screen.
-    */
+     */
     private createWindows(
-        activeWindow?: Windows // active window to show
-        ) { 
-
+        activeWindow?: Windows, // active window to show
+    ) {
         const task = challenges[this.gameType];
 
         if (task) {
@@ -73,27 +74,31 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
      * Pause button suits to pause the game and show the pause window and the title screen.
      */
     private addBackButton() {
-        const button = new SmallIconButton('HomeIcon', () => { // create a button with a custom icon
-            game.showScreen( // show TitleScreen with default window (pauseWindow) opened
+        const button = new SmallIconButton('HomeIcon', () => {
+            // create a button with a custom icon
+            game.showScreen(
+                // show TitleScreen with default window (pauseWindow) opened
                 TitleScreen, // screen to show
                 {
-                    window: Windows.pause // show screen with PauseWindow opened
-                }
-            ); 
+                    window: Windows.pause, // show screen with PauseWindow opened
+                },
+            );
 
             game.bg.resetFilter();
             game.bg.pause();
         });
 
-        this.addContent({ // add content to the screen layout
+        this.addContent({
+            // add content to the screen layout
             content: {
                 content: button,
                 styles: {
                     paddingLeft: button.width / 2 + 20,
-                    paddingTop: button.height / 2 + 20
-                }
+                    paddingTop: button.height / 2 + 20,
+                },
             },
-            styles: { // set styles for the button block
+            styles: {
+                // set styles for the button block
                 position: 'top', // position the button in the bottom right corner of the parent
                 scale: 0.35, // scale button 0.5 times
                 maxWidth: '33%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
@@ -109,30 +114,32 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
                 gsap.to(this.resumeButton, {
                     alpha: 0,
                     duration: 0.5,
-                    onComplete: () => { 
+                    onComplete: () => {
                         this.resumeButton.visible = false;
                         this.resumeButton.scale.set(1);
                         this.resumeButton.alpha = 1;
-                    }
+                    },
                 });
 
                 this.game.resume();
             },
             {
                 fontSize: 60,
-                scale: 2
-            }
+                scale: 2,
+            },
         );
         this.resumeButton.visible = false;
 
-        this.addContent({ // add content to the screen layout
+        this.addContent({
+            // add content to the screen layout
             content: {
                 content: this.resumeButton,
                 styles: {
                     paddingLeft: 85,
-                }
+                },
             },
-            styles: { // set styles for the button block
+            styles: {
+                // set styles for the button block
                 position: 'center', // position the button in the bottom right corner of the parent
                 maxWidth: '40%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
                 maxHeight: '40%', // set max height to 20% of the parent height so the layout witt scale down if the screen height is too small to fit it
@@ -141,19 +148,22 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
     }
 
     private addInfoButton() {
-        const button = new SmallIconButton('InfoIcon', () => { // create a button with a custom icon
+        const button = new SmallIconButton('InfoIcon', () => {
+            // create a button with a custom icon
             this.views.show(Windows.info);
         });
 
-        this.addContent({ // add content to the screen layout
+        this.addContent({
+            // add content to the screen layout
             content: {
                 content: button,
                 styles: {
                     marginRight: -button.width / 2 + 20,
-                    paddingTop: button.height / 2 + 20
-                }
+                    paddingTop: button.height / 2 + 20,
+                },
             },
-            styles: { // set styles for the button block
+            styles: {
+                // set styles for the button block
                 position: 'topRight', // position the button in the bottom right corner of the parent
                 scale: 0.35, // scale button 0.5 times
                 maxWidth: '14%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
@@ -176,11 +186,11 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
                     }
                 });
                 this.addInfoPanel('progress', 'centerTop');
-            break;
+                break;
             case 'emoji':
                 this.game = new EmojiGame(this);
                 this.game.init();
-            break;
+                break;
             case 'fire':
                 this.game = new FireGame(this);
                 this.game.init();
@@ -204,10 +214,11 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
                     textAlign: 'center',
                     stroke: colors.disabledStroke,
                     strokeThickness: 4,
-                }
+                },
             },
-            styles: { // set styles for the button block
-                background: bg,                
+            styles: {
+                // set styles for the button block
+                background: bg,
                 position, // position the button in the bottom right corner of the parent
                 scale: 0.35, // scale button 0.5 times
                 maxWidth: '30%', // set max width to 20% of the parent width so the layout witt scale down if the screen width is too small to fit it
@@ -223,7 +234,7 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
     private updateInfo(panelID: string, value: string) {
         const panel = this.getChildByID(panelID)?.children[0] as Text;
 
-        if (panel) { 
+        if (panel) {
             panel.text = value;
         }
     }
@@ -241,11 +252,11 @@ export class GameScreen extends AppScreen { // GameScreen extends AppScreen, whi
         if (this.game?.resize) {
             this.game.resize(width, height);
         }
-    };
+    }
 
-    private addEvents() { 
+    private addEvents() {
         window.onfocus = () => this.pause();
-        window.onblur = () => this.paused = true;
+        window.onblur = () => (this.paused = true);
     }
 
     private pause() {
