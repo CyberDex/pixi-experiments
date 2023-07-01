@@ -6,9 +6,9 @@ import { FancyText, FancyTextOptions } from '../components/FancyText';
 import { initEmojis } from '../utils/preload';
 import { BitmapFont } from '@pixi/text-bitmap';
 import config from '../config/emojiGameConfig';
-import { Engine } from 'matter-js';
-import { SquareMatterBody } from '../components/SquareMatterBody';
+import { Engine, Runner } from 'matter-js';
 import { RoundMatterBody } from '../components/RoundMatterBody';
+import { SquareMatterBody } from '../components/SquareMatterBody';
 
 const combinations = ['000', '001', '010', '011', '100', '101', '110', '111'];
 
@@ -17,7 +17,6 @@ export class EmojiGame extends GameBase implements IMatterGame {
     private _heightCache = 0;
 
     engine: Engine;
-    items: SquareMatterBody[] = [];
     paused = false;
     activated = false;
 
@@ -26,6 +25,7 @@ export class EmojiGame extends GameBase implements IMatterGame {
 
         scene.addChild(this);
         this.engine = Engine.create();
+        Runner.run(this.engine);
     }
 
     async init() {
@@ -52,24 +52,33 @@ export class EmojiGame extends GameBase implements IMatterGame {
     private addStaticBodies() {
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
-        const dist = 50;
+        const distX = 70;
+        const distY = 50;
         const size = 10;
 
         const rowsCount = 11;
 
-        const startY = centerY - (dist * rowsCount) / 2;
+        const startY = centerY - (distX * rowsCount) / 2;
 
         for (let y = 1; y < rowsCount + 1; y++) {
-            const startX = centerX - (dist * y) / 2;
+            const startX = centerX - (distX * y) / 2;
 
             for (let x = 0; x < y + 1; x++) {
-                this.addStaticBody(startX + x * dist, startY + y * dist, size);
+                this.addStaticDots(startX + x * distX, startY + y * distY, size);
             }
         }
+
+        const startX = centerX - (distX * rowsCount) / 2;
+
+        for (let x = 0; x < rowsCount + 1; x++) {
+            this.addBucket(startX + x * distX, window.innerHeight - 100);
+        }
+
+        this.addBottomLine(centerX, window.innerHeight + 24, distX * rowsCount + 1, 50);
     }
 
-    private addStaticBody(x: number, y: number, radius: number) {
-        const rectangle = new RoundMatterBody(
+    private addStaticDots(x: number, y: number, radius: number) {
+        const body = new RoundMatterBody(
             this.engine.world,
             {
                 x,
@@ -81,16 +90,54 @@ export class EmojiGame extends GameBase implements IMatterGame {
                 isStatic: true,
             },
         );
-        this.addItem(rectangle);
+        this.addChild(body);
+    }
+
+    private addBall() {
+        if (this.paused) return;
+
+        const body = new RoundMatterBody(
+            this.engine.world,
+            {
+                x: window.innerWidth / 2 + getRandomInRange(-10, 10),
+                y: 0,
+                radius: 10,
+                color: this.getRandomColor(),
+            },
+            {
+                density: 1,
+                restitution: 0.5,
+            },
+        );
+        this.addChild(body);
+
+        setTimeout(() => this.addBall(), config.repeatDelay * 1000);
+    }
+
+    private addBucket(x: number, y: number) {
+        const left = new SquareMatterBody(
+            this.engine.world,
+            { x, y, width: 10, height: 200, color: 'black' },
+            {
+                isStatic: true,
+            },
+        );
+        this.addChild(left);
+    }
+
+    private addBottomLine(x: number, y: number, width: number, height: number) {
+        const left = new SquareMatterBody(
+            this.engine.world,
+            { x, y, width, height, color: 'black' },
+            {
+                isStatic: true,
+            },
+        );
+        this.addChild(left);
     }
 
     private getRandomColor(): string {
         return getRandomItem(COLORS);
-    }
-
-    private addItem(item: SquareMatterBody) {
-        this.items.push(item);
-        this.addChild(item);
     }
 
     private getWord(): string {
@@ -125,25 +172,6 @@ export class EmojiGame extends GameBase implements IMatterGame {
         };
     }
 
-    update() {
-        Engine.update(this.engine, 1000 / 60);
-        this.items.forEach((item) => item.update());
-    }
-
-    private addBody() {
-        if (this.paused) return;
-
-        const rectangle = new RoundMatterBody(this.engine.world, {
-            x: window.innerWidth / 2,
-            y: 0,
-            radius: 10,
-            color: this.getRandomColor(),
-        });
-        this.addItem(rectangle);
-
-        setTimeout(() => this.addBody(), config.repeatDelay * 1000);
-    }
-
     private addText() {
         if (this.paused) return;
 
@@ -161,7 +189,7 @@ export class EmojiGame extends GameBase implements IMatterGame {
         this.fitText(text);
         text.y -= 10000;
 
-        this.addItem(text);
+        this.addChild(text);
 
         setTimeout(() => this.addText(), config.repeatDelay * 1000);
     }
@@ -189,7 +217,7 @@ export class EmojiGame extends GameBase implements IMatterGame {
 
     start() {
         // this.addText();
-        this.addBody();
+        this.addBall();
     }
 
     pause() {
