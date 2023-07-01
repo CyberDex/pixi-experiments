@@ -8,6 +8,7 @@ import { BitmapFont } from '@pixi/text-bitmap';
 import config from '../config/emojiGameConfig';
 import { Engine } from 'matter-js';
 import { SquareMatterBody } from '../components/SquareMatterBody';
+import { RoundMatterBody } from '../components/RoundMatterBody';
 
 const combinations = ['000', '001', '010', '011', '100', '101', '110', '111'];
 
@@ -19,8 +20,6 @@ export class EmojiGame extends GameBase implements IMatterGame {
     items: SquareMatterBody[] = [];
     paused = false;
     activated = false;
-
-    private bottom!: SquareMatterBody;
 
     constructor(scene: AppScreen) {
         super({});
@@ -41,25 +40,52 @@ export class EmojiGame extends GameBase implements IMatterGame {
             wordWrap: true,
         });
 
-        this.bottom = new SquareMatterBody(
+        this.resize(this._widthCache, this._heightCache);
+
+        this.activated = true;
+
+        this.addStaticBodies();
+
+        this.start();
+    }
+
+    private addStaticBodies() {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const dist = 50;
+        const size = 10;
+
+        const rowsCount = 11;
+
+        const startY = centerY - (dist * rowsCount) / 2;
+
+        for (let y = 1; y < rowsCount + 1; y++) {
+            const startX = centerX - (dist * y) / 2;
+
+            for (let x = 0; x < y + 1; x++) {
+                this.addStaticBody(startX + x * dist, startY + y * dist, size);
+            }
+        }
+    }
+
+    private addStaticBody(x: number, y: number, radius: number) {
+        const rectangle = new RoundMatterBody(
             this.engine.world,
             {
-                x: 0,
-                y: window.innerHeight,
-                width: window.innerWidth,
-                height: 100,
+                x,
+                y,
+                radius,
+                color: 'black',
             },
             {
                 isStatic: true,
             },
         );
-        this.addItem(this.bottom);
+        this.addItem(rectangle);
+    }
 
-        this.resize(this._widthCache, this._heightCache);
-
-        this.activated = true;
-
-        this.start();
+    private getRandomColor(): string {
+        return getRandomItem(COLORS);
     }
 
     private addItem(item: SquareMatterBody) {
@@ -107,21 +133,12 @@ export class EmojiGame extends GameBase implements IMatterGame {
     private addBody() {
         if (this.paused) return;
 
-        const width = getRandomInRange(30, 100);
-        const height = getRandomInRange(30, 100);
-
-        const rectangle = new SquareMatterBody(
-            this.engine.world,
-            {
-                x: getRandomInRange(0, 200),
-                y: 0,
-                width,
-                height,
-            },
-            {
-                // isStatic: true,
-            },
-        );
+        const rectangle = new RoundMatterBody(this.engine.world, {
+            x: window.innerWidth / 2,
+            y: 0,
+            radius: 10,
+            color: this.getRandomColor(),
+        });
         this.addItem(rectangle);
 
         setTimeout(() => this.addBody(), config.repeatDelay * 1000);
@@ -187,10 +204,7 @@ export class EmojiGame extends GameBase implements IMatterGame {
     resize(width: number, height: number): void {
         this._widthCache = width;
         this._heightCache = height;
-
-        // if (this.bottom) {
-        //     this.bottom.y = window.innerHeight - this.bottom.height;
-        //     this.bottom.width = window.innerWidth;
-        // }
     }
 }
+
+const COLORS = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'brown', 'gray'];

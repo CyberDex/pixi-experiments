@@ -1,5 +1,7 @@
+import { Body } from 'matter-js';
+
 export interface IMatter {
-    body: Matter.Body;
+    body: Body;
     beforeUnload(): void;
     update(): void;
     resetPosition(): void;

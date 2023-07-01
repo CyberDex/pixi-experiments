@@ -3,7 +3,7 @@ import { Bodies, Body, Composite, IChamferableBodyDefinition } from 'matter-js';
 import { Graphics } from '@pixi/graphics';
 import { ColorSource } from '@pixi/core';
 
-export class SquareMatterBody extends Graphics implements IMatter {
+export class RoundMatterBody extends Graphics implements IMatter {
     body!: Body;
 
     constructor(
@@ -11,20 +11,24 @@ export class SquareMatterBody extends Graphics implements IMatter {
         params: {
             x: number;
             y: number;
-            width: number;
-            height: number;
-            color: ColorSource;
+            radius: number;
+            color?: ColorSource;
         },
         options?: IChamferableBodyDefinition,
     ) {
         super();
 
-        const { x, y, width, height, color } = params;
+        const { x, y, radius, color } = params;
 
-        this.body = Bodies.rectangle(x, y, width, height, options);
+        this.body = Bodies.circle(x, y, radius, {
+            isStatic: false,
+            density: 1,
+            friction: 1,
+            ...options,
+        });
         Composite.add(world, this.body);
 
-        this.beginFill(color).drawRect(-width / 2, -height / 2, width, height);
+        this.beginFill(color ?? 0xffffff).drawCircle(0, 0, radius);
     }
 
     update() {
