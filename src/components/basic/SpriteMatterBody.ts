@@ -4,11 +4,13 @@ import { RenderTexture, Ticker } from '@pixi/core';
 import { IDestroyOptions } from '@pixi/display';
 import { Sprite } from '@pixi/sprite';
 
-export class SpriteMatterBody extends Sprite implements IMatter {
+export class SpriteMatterBody extends Sprite implements IMatter
+{
     body!: Body;
+    world: Composite;
 
     constructor(
-        private world: Composite,
+        world: Composite,
         params: {
             texture: RenderTexture;
             x: number;
@@ -16,8 +18,11 @@ export class SpriteMatterBody extends Sprite implements IMatter {
             angle?: number;
         },
         options?: IChamferableBodyDefinition,
-    ) {
+    )
+    {
         super();
+
+        this.world = world;
 
         this.anchor.set(0.5);
 
@@ -33,17 +38,20 @@ export class SpriteMatterBody extends Sprite implements IMatter {
         Ticker.shared.add(this.update, this);
     }
 
-    update() {
+    update()
+    {
         this.x = this.body.position.x;
         this.y = this.body.position.y;
         this.rotation = this.body.angle;
 
-        if (this.y - this.height > window.innerHeight) {
+        if (this.y - this.height > window.innerHeight)
+        {
             this.destroy();
         }
     }
 
-    destroy(options?: boolean | IDestroyOptions | undefined): void {
+    destroy(options?: boolean | IDestroyOptions | undefined): void
+    {
         Ticker.shared.remove(this.update, this);
         this.parent?.removeChild(this);
         Composite.remove(this.world, this.body);
@@ -52,7 +60,8 @@ export class SpriteMatterBody extends Sprite implements IMatter {
 
     beforeUnload() {}
 
-    resetPosition() {
+    resetPosition()
+    {
         Body.setPosition(this.body, { x: 0, y: 0 });
         Body.setVelocity(this.body, { x: 0, y: 0 });
         Body.setAngularVelocity(this.body, 0);
