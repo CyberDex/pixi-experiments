@@ -334,6 +334,6 @@ export const explode = () => {
 
 export const fireTextures = [
     "assets/particle.png",
-    "assets/fire.png",
+    "assets/fireParticle.png",
     "assets/smoke.png",
 ];

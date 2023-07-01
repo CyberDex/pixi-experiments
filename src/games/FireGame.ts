@@ -8,10 +8,10 @@ import { Texture } from "@pixi/core";
 import { app } from "../main"
 import { gsap } from "gsap";
 import { Emitter } from '@pixi/particle-emitter';
-import { Graphics } from "@pixi/graphics";
 import { game } from "../Game";
 
 export class FireGame extends GameBase implements IGame {
+    private tintTexture!: Texture;
     private fireEmitter!: Emitter;
     private elapsed: number = 0;
     private tint!: TilingSprite;
@@ -43,17 +43,18 @@ export class FireGame extends GameBase implements IGame {
     }
 
     private addViews() { 
-        const texture = Texture.from('fireGradient');
+        this.tintTexture = Texture.from('fireGradient');
 
-        this.tint = new TilingSprite(texture, 1, window.innerHeight);
+        this.tint = new TilingSprite(this.tintTexture, 1, window.innerHeight);
         this.tint.width = window.innerWidth;
         this.tint.height = window.innerHeight;
+        this.tint.x = 0;
         this.tint.y = -window.innerHeight;
         this.tint.visible = false;
-        this.addChildAt(this.tint, 0);
 
-        const gr = new Graphics().beginFill(0x000000).drawRect(0, 0, window.innerWidth, window.innerHeight);
-        this.addChild(gr);
+        this.tint.tileScale.set(window.innerHeight / this.tintTexture.height);
+        
+        this.addChildAt(this.tint, 0);
     }
 
     private bern() { 
@@ -144,7 +145,11 @@ export class FireGame extends GameBase implements IGame {
 
     // TODO: improve quality adjust, use more frequency & maxParticles states
     private adjustQuality() {
-        // console.log(this.fps, this.quality);
+        // console.log({
+        //     fps: app.ticker.FPS,
+        //     data: this.fps,
+        //     quality: this.quality
+        // });
         
         if (this.quality !== 'low' && app.ticker.FPS < 60) { 
             this.fps.low++;
@@ -159,7 +164,7 @@ export class FireGame extends GameBase implements IGame {
         }
 
         if (this.quality !== 'high') {
-            if (app.ticker.FPS && app.ticker.FPS > 100) {
+            if (app.ticker.FPS && app.ticker.FPS >= 60) {
                 this.fps.high++;
 
                 if (this.fps.high > 300) {
@@ -200,6 +205,11 @@ export class FireGame extends GameBase implements IGame {
 
         if (this.tint) {
             this.tint.width = window.innerWidth;
+            this.tint.height = window.innerHeight;
+            this.tint.x = 0;
+            this.tint.y = -window.innerHeight;
+
+            this.tint.tileScale.set(window.innerHeight / this.tintTexture.height);
         }
 
         if (this.fireEmitter && this.widthCache < window.innerWidth) {
