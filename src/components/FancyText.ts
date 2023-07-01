@@ -1,40 +1,21 @@
-import { Container } from '@pixi/display';
 import { BitmapText, IBitmapTextStyle } from '@pixi/text-bitmap';
 import { List } from '@pixi/ui';
 import { Sprite } from '@pixi/sprite';
-import { Bodies, Body, Composite, World } from 'matter-js';
-import { IMatterGame } from '../games/IGame';
-import { IMatter } from './IMatter';
-import { getRandomInRange } from '../utils/random';
-import { Texture } from '@pixi/core';
+import { app } from '../main';
+import { RenderTexture, SCALE_MODES } from '@pixi/core';
 
 export type FancyTextOptions = {
-    game: IMatterGame;
     text: string;
     images?: string[];
     style?: Partial<IBitmapTextStyle>;
 };
 
-export class FancyText extends Container implements IMatter {
+export class FancyTextTexture {
     private list: List;
 
-    body!: Body;
-    game: IMatterGame;
+    texture: RenderTexture;
 
-    constructor(options: FancyTextOptions) {
-        super();
-
-        this.game = options.game;
-
-        this.list = new List({
-            type: 'horizontal',
-        });
-        this.addChild(this.list);
-
-        this.init(options);
-    }
-
-    init({ images, text, style }: FancyTextOptions) {
+    constructor({ images, text, style }: FancyTextOptions) {
         const textData: {
             image?: string;
             text: string;
@@ -63,6 +44,10 @@ export class FancyText extends Container implements IMatter {
             }
         }
 
+        this.list = new List({
+            type: 'horizontal',
+        });
+
         textData.forEach((data) => {
             const text = new BitmapText(data.text, style);
             this.list.addChild(text);
@@ -74,44 +59,9 @@ export class FancyText extends Container implements IMatter {
             }
         });
 
-        const bg = Sprite.from(Texture.WHITE);
-        bg.width = this.width;
-        bg.height = this.height;
-
-        this.addChild(bg);
-
-        this.body = Bodies.rectangle(
-            getRandomInRange(-600, 600) - this.width / 2,
-            -1000 - this.height / 2,
-            this.height,
-            this.width,
-            {
-                friction: 0.00001,
-                restitution: 0.5,
-                density: 0.001,
-                label: 'text',
-            },
-        );
-        if (this.game.engine) {
-            Composite.add(this.game.engine.world, this.body);
-        }
-    }
-
-    beforeUnload() {}
-
-    update() {
-        this.position.set(this.body.position.x, this.body.position.y);
-        this.rotation = this.body.angle;
-
-        if (this.game.engine && this.body.position.y > window.innerHeight + 1000) {
-            World.remove(this.game.engine.world, this.body);
-            this.destroy({ children: true });
-        }
-    }
-
-    resetPosition() {
-        Body.setPosition(this.body, { x: 120, y: 30 });
-        Body.setVelocity(this.body, { x: 0, y: 0 });
-        Body.setAngularVelocity(this.body, 0);
+        this.texture = app.renderer.generateTexture(this.list, {
+            scaleMode: SCALE_MODES.LINEAR,
+            resolution: app.renderer.resolution,
+        });
     }
 }

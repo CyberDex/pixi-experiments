@@ -2,7 +2,7 @@ export default {
     width: 600,
     height: 600,
     stackRotationScatter: 30,
-    repeatDelay: 0.5,
+    repeatDelay: 2,
     duration: 2,
     spritesAmount: 15,
     text: {

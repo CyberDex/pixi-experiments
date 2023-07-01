@@ -1,4 +1,4 @@
-import { IMatter } from './IMatter';
+import { IMatter } from '../IMatter';
 import { Bodies, Body, Composite, IChamferableBodyDefinition } from 'matter-js';
 import { Graphics } from '@pixi/graphics';
 import { ColorSource, Ticker } from '@pixi/core';
