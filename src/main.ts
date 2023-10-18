@@ -1,3 +1,4 @@
+import eruda from 'eruda';
 // Do not remove this import, it is needed for the interactions to work
 import '@pixi/events';
 
@@ -9,8 +10,13 @@ import { TitleScreen } from './screens/TitleScreen';
 import { getUrlParam } from './utils/gtUrlParams';
 import { colors } from './config/colors';
 import { initAssets } from './utils/preload';
-import GameStats from 'gamestats.js';
-import * as PIXI from '@pixi/app';
+import * as Stats from 'stats.js';
+import { utils } from '@pixi/core';
+
+if (utils.isMobile.any)
+{
+    eruda.init();
+}
 
 /** The PixiJS app Application instance, shared across the project */
 export const app = new Application<HTMLCanvasElement>({
@@ -22,13 +28,20 @@ export const app = new Application<HTMLCanvasElement>({
 // so we can debug the pixi app layers
 (globalThis as any).__PIXI_APP__ = app;
 
+const stats = new (Stats as any)();
+
+stats.showPanel(0, 1, 2, 3); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom);
+
 // FPS stats
-const stats = new GameStats();
+// const stats = new GameStats();
+
 document.body.appendChild(stats.dom);
 stats.dom.id = 'gamestats';
-(stats as any).enableExtension('pixi', [PIXI, app]);
+// (stats as any).enableExtension('pixi', [PIXI, app]);
 
-app.ticker.add(() => {
+app.ticker.add(() =>
+{
     stats.begin();
     // game update goes here
 
@@ -48,7 +61,8 @@ app.ticker.add(() => {
 });
 
 /** Set up a resize function for the app */
-function resize() {
+function resize()
+{
     const windowWidth = window.innerWidth; // Get the width of the window
     const windowHeight = window.innerHeight; // Get the height of the window
 
@@ -63,7 +77,8 @@ function resize() {
 }
 
 /** Setup app and initialize assets */
-async function init() {
+async function init()
+{
     document.body.appendChild(app.view); // Add pixi canvas element (app.view) to the document's body
 
     window.addEventListener('resize', resize); // Whenever the window resizes, call the 'resize' function
@@ -75,7 +90,8 @@ async function init() {
     game.setLoadScreen(LoadScreen); // Set the load screen, it is a scene that will be shown while assets are loading
 
     // Show first screen (default option) - go straight to the scene if param is present in url
-    switch (getUrlParam('scene')) {
+    switch (getUrlParam('scene'))
+    {
         case 'game':
             await game.showScreen(GameScreen); // Show the game screen
             break;
