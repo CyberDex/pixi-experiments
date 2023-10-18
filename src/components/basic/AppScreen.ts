@@ -1,4 +1,3 @@
-
 import gsap from 'gsap';
 import { Layout, Styles } from '@pixi/layout';
 import { Windows } from '../../config/windows';
@@ -6,15 +5,18 @@ import { ViewController } from '../../controllers/ViewController';
 import { Window } from './Window';
 import { getUrlParam } from '../../utils/gtUrlParams';
 
-/** Layout based component to place screens content. 
+/**
+ * Layout based component to place screens content.
  * Should be used as a base class for all screens in the app.
  * Should be added to the app.stage.
  */
-export class AppScreen extends Layout {
+export class AppScreen extends Layout
+{
     protected views: ViewController; // view controller, used to manage windows
     protected defaultWindow!: Windows; // default window to show
 
-    constructor(id: string, styles?: Styles) {
+    constructor(id: string, styles?: Styles)
+    {
         // created blank layout with id and styles, content will be added in the child classes
         super({
             id,
@@ -29,63 +31,89 @@ export class AppScreen extends Layout {
         this.views = new ViewController(); // create view controller
     }
 
-    /** Method is automatically called on every update. See Game.ts */
-    public onUpdate(_delta: number) {
+    /**
+     * Method is automatically called on every update. See Game.ts
+     * @param _delta
+     */
+    public onUpdate(_delta: number)
+    {
         /* Override this method to update the screen */
-    };
+    }
 
-    /** Method is automatically called on every resize. See Game.ts 
+    /**
+     * Method is automatically called on every resize. See Game.ts
      * IMPORTANT: This method is propagating resize to all the layout system,
      * that is doing all the "magic" behind it.
      * DO NOT FORGET TO CALL super.resize() IN THE CHILD CLASS IN CASE OF OVERRIDING THIS METHOD
-    */
-    public resize(_w: number, _h: number) {
+     * @param _w
+     * @param _h
+     */
+    public resize(_w: number, _h: number)
+    {
         super.resize(_w, _h); // propagate resize to the layout system
-    };
+    }
 
     /** Method is automatically called when Layout is shown. See Game.ts */
-    public async show() {
+    public async show()
+    {
         gsap.killTweensOf(this); // kill all tweens of this object
         this.alpha = 0; // set alpha to 0
         await gsap.to(this, { alpha: 1, duration: 0.2, ease: 'linear' }); // fade in
     }
 
     /** Method is automatically called when Layout is hidden. See Game.ts */
-    public async hide() {
+    public async hide()
+    {
         gsap.killTweensOf(this); // kill all tweens of this object
         await gsap.to(this, { alpha: 0, duration: 0.2, ease: 'linear' }); // fade out
     }
 
-    /** Add window to the view controller and screen. */
+    /**
+     * Add window to the view controller and screen.
+     * @param window
+     * @param content
+     */
     public addWindow(
-        window: Windows, // window id 
+        window: Windows, // window id
         content: Window // window content component
-        ) {
+    )
+    {
         this.views.add(window, content); // add window to the view controller
-        
+
         this.addContent({ // add window to layout system
             [window]: this.views.get(window) // get window from the view controller and add it to layout system
         });
     }
 
-    /** Show active window. */
+    /**
+     * Show active window.
+     * @param activeWindow
+     */
     public async showActiveWindow(
         activeWindow?: Windows // window id to show
-        ) { 
+    )
+    {
         const window = getUrlParam('window'); // get window param from url, used for debugging (TODO: remove this on production)
-        
+
         // If window param is set, try to show it. If it fails, show default window.
-        if (window) {
-            try {
+        if (window)
+        {
+            try
+            {
                 await this.views.show(Windows[window as keyof typeof Windows]); // try to show window
+
                 return;
-            } catch (e) { // if window is not found, show message in console
+            }
+            catch (e)
+            { // if window is not found, show message in console
                 const error: Error = e as Error; // cast error to Error type
+
                 console.error(error.message.replace('"undefined"', window)); // show error message
             }
         }
 
-        if (activeWindow || this.defaultWindow) {
+        if (activeWindow || this.defaultWindow)
+        {
             await this.views.show(activeWindow ?? this.defaultWindow); // show active window or default window
         }
     }

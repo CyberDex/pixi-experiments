@@ -1,11 +1,12 @@
-import { Assets, ResolverAssetsArray } from "@pixi/assets";
-import { assetsManifest } from "../config/assets";
+import { Assets, ResolverAssetsArray } from '@pixi/assets';
+import { assetsManifest } from '../config/assets';
 import { Spritesheet } from '@pixi/spritesheet';
-import { BaseTexture } from "@pixi/core";
+import { BaseTexture } from '@pixi/core';
 import emojiData from '../config/emoji.json';
 
 /** Initialize and start background loading of all assets */
-export async function initAssets() {
+export async function initAssets()
+{
     // Init PixiJS assets with this asset manifest
     await Assets.init({ manifest: assetsManifest });
 
@@ -19,15 +20,19 @@ export async function initAssets() {
     Assets.backgroundLoadBundle(allBundles);
 }
 
-export function isBundleLoaded(bundle: string) {
+export function isBundleLoaded(bundle: string)
+{
     const bundleManifest = assetsManifest.bundles.find((b) => b.name === bundle);
 
-    if (!bundleManifest) {
+    if (!bundleManifest)
+    {
         return false;
     }
 
-    for (const asset of bundleManifest.assets as ResolverAssetsArray) {
-        if (!Assets.cache.has(asset.name as string)) {
+    for (const asset of bundleManifest.assets as ResolverAssetsArray)
+    {
+        if (!Assets.cache.has(asset.name as string))
+        {
             return false;
         }
     }
@@ -35,9 +40,12 @@ export function isBundleLoaded(bundle: string) {
     return true;
 }
 
-export function areBundlesLoaded(bundles: string[]) {
-    for (const name of bundles) {
-        if (!isBundleLoaded(name)) {
+export function areBundlesLoaded(bundles: string[])
+{
+    for (const name of bundles)
+    {
+        if (!isBundleLoaded(name))
+        {
             return false;
         }
     }
@@ -45,7 +53,8 @@ export function areBundlesLoaded(bundles: string[]) {
     return true;
 }
 
-export async function initEmojis() {
+export async function initEmojis()
+{
     await Assets.loadBundle('emoji');
 
     const spritesheet = new Spritesheet(

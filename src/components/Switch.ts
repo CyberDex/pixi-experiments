@@ -3,16 +3,15 @@ import { Sprite } from '@pixi/sprite';
 import { Text } from '@pixi/text';
 import { colors } from '../config/colors';
 
-/** Extends a BasicCheckBox class and apply config to it, 
- * so that instance can be used without need to config it. 
-*/
-export class Switch extends BasicCheckBox {
+/** Extends a BasicCheckBox class and apply config to it, so that instance can be used without need to config it. */
+export class Switch extends BasicCheckBox
+{
     constructor(
         text: string, // text that will be displayed on the checkbox
         checked:boolean, // initial checkbox state
         callback?: (checked: boolean) => void // callback function that will be called when checkbox state changes
-    ) {
-        
+    )
+    {
         super({
             style: { // style is an object with checkbox assets and text styles
                 checked: createCheckBox(true), // sprite(Container), that shows when checkbox is checked
@@ -27,20 +26,22 @@ export class Switch extends BasicCheckBox {
             text, // text that will be displayed on the checkbox
         });
 
-        if (callback) { // if callback function is provided
+        if (callback)
+        { // if callback function is provided
             this.onCheck.connect(callback); // connect checkbox change event to the provided callback
         }
     }
 }
 
 // this is extracted to a function as we are using it inside a `super` call so it can't be called as `this.createCheckBox`
-function createCheckBox(checked: boolean) { // creates a sprite(Container) with checkbox assets
+function createCheckBox(checked: boolean)
+{ // creates a sprite(Container) with checkbox assets
     const bg = Sprite.from('SwitchBG'); // create a background sprite from the provided texture key
     const icon1 = Sprite.from('PauseIcon'); // create a sprite from the provided texture key
     const icon2 = Sprite.from('PauseIcon'); // create a sprite from the provided texture key
     const handle = Sprite.from(checked ? 'SmallButton' : 'SmallButton-pressed'); // create a sprite from the provided texture key
     const stateText = new Text(checked ? 'ON' : 'OFF', TEXT_STYLE); // create a text component
-    
+
     stateText.anchor.set(0.5); // set text component anchor to the center
 
     bg.addChild(stateText); // add text component to the background sprite
@@ -62,7 +63,6 @@ function createCheckBox(checked: boolean) { // creates a sprite(Container) with 
 
     handle.y = bg.height / 2; // set sprite position
     handle.x = (bg.width / 2) + (checked ? handle.width / 2 : -handle.width / 2); // set sprite position
-
 
     bg.addChild(handle); // add handle to the background sprite
     handle.addChild(icon1); // add icon1 to the handle sprite

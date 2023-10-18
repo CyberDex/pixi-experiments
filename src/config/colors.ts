@@ -7,4 +7,4 @@ export const colors = {
     disabledStroke: 0x474747,
     levelBG: 0xf5e3a9,
     border: 0xFFFFFF,
-}
+};

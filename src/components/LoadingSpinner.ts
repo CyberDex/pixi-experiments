@@ -1,13 +1,15 @@
-import { Sprite } from "@pixi/sprite"
-import { colors } from "../config/colors";
-import i18n from "../config/i18n"
+import { Sprite } from '@pixi/sprite';
+import { colors } from '../config/colors';
+import i18n from '../config/i18n';
 import { Layout } from '@pixi/layout';
 
 /** Layout based component for the loading spinner. */
-export class LoadingSpinner extends Layout {
-    constructor() {
-
+export class LoadingSpinner extends Layout
+{
+    constructor()
+    {
         const spinnerSprite = Sprite.from('spinner'); // create a sprite
+
         spinnerSprite.anchor.set(0.5); // set anchor to the center of the sprite
 
         super({ // Layout constructor accepts an object with all the config

@@ -8,7 +8,8 @@ import { Elastic, gsap } from 'gsap';
 import { initEmojis } from '../utils/preload';
 import { GameBase } from './GameBase';
 
-export class SpritesGame extends GameBase implements IGame {
+export class SpritesGame extends GameBase implements IGame
+{
     private stack1: Container = new Container();
     private stack2: Container = new Container();
 
@@ -17,7 +18,8 @@ export class SpritesGame extends GameBase implements IGame {
     paused = false;
     activated = false;
 
-    constructor(scene: AppScreen) {
+    constructor(scene: AppScreen)
+    {
         super({
             activeItemID: 1,
             activeStack: 2,
@@ -25,7 +27,8 @@ export class SpritesGame extends GameBase implements IGame {
         scene.addChild(this);
     }
 
-    async init() {
+    async init()
+    {
         await initEmojis();
 
         this.createContent(config.spritesCount);
@@ -33,7 +36,8 @@ export class SpritesGame extends GameBase implements IGame {
         this.start();
     }
 
-    private async createContent(count: number) {
+    private async createContent(count: number)
+    {
         this.innerView = new Container();
         this.addChild(this.innerView);
 
@@ -53,7 +57,8 @@ export class SpritesGame extends GameBase implements IGame {
 
         const start = performance.now();
 
-        for (let i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++)
+        {
             const type = getRandomInRange(1, config.spritesAmount);
             const sprite = Sprite.from(`emoji${type}`);
 
@@ -73,15 +78,18 @@ export class SpritesGame extends GameBase implements IGame {
         console.log(`${count} sprites created in ${end - start} ms`);
     }
 
-    private get activeStack(): Container {
+    private get activeStack(): Container
+    {
         return this.state.get('activeStack') === 1 ? this.stack1 : this.stack2;
     }
 
-    private get passiveStack(): Container {
+    private get passiveStack(): Container
+    {
         return this.state.get('activeStack') === 1 ? this.stack2 : this.stack1;
     }
 
-    private async shoot() {
+    private async shoot()
+    {
         if (this.paused) return;
 
         const itemID = this.state.get('activeItemID');
@@ -89,8 +97,10 @@ export class SpritesGame extends GameBase implements IGame {
 
         this.activated = true;
 
-        this.moveItem(activeItem).then(() => {
-            if (itemID === 0) {
+        this.moveItem(activeItem).then(() =>
+        {
+            if (itemID === 0)
+            {
                 this.reshuffle();
             }
         });
@@ -98,18 +108,21 @@ export class SpritesGame extends GameBase implements IGame {
         this.shake(this.passiveStack, 1);
         this.shake(this.activeStack, -1);
 
-        if (itemID > 0) {
+        if (itemID > 0)
+        {
             setTimeout(() => this.shoot(), config.repeatDelay * 1000);
         }
     }
 
-    private reshuffle() {
+    private reshuffle()
+    {
         this.items.reverse();
 
         this.swapStacks();
     }
 
-    private swapStacks() {
+    private swapStacks()
+    {
         gsap.to(this.activeStack, {
             x: this.passiveStack.x,
             y: this.passiveStack.y,
@@ -120,7 +133,8 @@ export class SpritesGame extends GameBase implements IGame {
         this.passiveStack.y = this.activeStack.y;
     }
 
-    private restart() {
+    private restart()
+    {
         this.state.set('activeStack', this.state.get('activeStack') === 1 ? 2 : 1);
 
         this.activeStack.zIndex = 0;
@@ -129,13 +143,15 @@ export class SpritesGame extends GameBase implements IGame {
         this.start();
     }
 
-    private moveItem(item: Container): Promise<void> {
-        return new Promise((resolve) => {
+    private moveItem(item: Container): Promise<void>
+    {
+        return new Promise((resolve) =>
+        {
             const posX = item.x;
             const posY = item.y;
 
-            const angle =
-                getRandomInRange(1, config.stackRotationScatter) * getRandomItem([1, -1]) * 4;
+            const angle
+                = getRandomInRange(1, config.stackRotationScatter) * getRandomItem([1, -1]) * 4;
 
             item.zIndex = -this.state.get('activeItemID');
 
@@ -144,7 +160,8 @@ export class SpritesGame extends GameBase implements IGame {
                 y: this.stackDistance.y + posY,
                 angle,
                 duration: config.duration,
-                onComplete: () => {
+                onComplete: () =>
+                {
                     this.activeStack.addChild(item);
 
                     item.x = posX;
@@ -159,8 +176,9 @@ export class SpritesGame extends GameBase implements IGame {
         });
     }
 
-    private shake(stack: Container, direction: number) {
-        let shake = getRandomInRange(4, 20) * direction;
+    private shake(stack: Container, direction: number)
+    {
+        const shake = getRandomInRange(4, 20) * direction;
 
         gsap.fromTo(
             stack,
@@ -179,7 +197,8 @@ export class SpritesGame extends GameBase implements IGame {
         );
     }
 
-    private get stackDistance(): { x: number; y: number } {
+    private get stackDistance(): { x: number; y: number }
+    {
         if (!this.activeStack || !this.passiveStack) return { x: 0, y: 0 };
 
         return {
@@ -188,21 +207,25 @@ export class SpritesGame extends GameBase implements IGame {
         };
     }
 
-    start() {
+    start()
+    {
         this.state.set('activeItemID', this.items.length - 1);
         this.shoot();
     }
 
-    pause() {
+    pause()
+    {
         this.paused = true;
     }
 
-    resume() {
+    resume()
+    {
         this.paused = false;
         this.shoot();
     }
 
-    resize(width: number, height: number): void {
+    resize(width: number, height: number): void
+    {
         this.x = (width - config.width) / 2;
         this.y = (height - config.height) / 2;
     }

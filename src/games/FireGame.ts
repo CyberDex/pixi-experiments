@@ -1,19 +1,20 @@
-import { AppScreen } from "../components/basic/AppScreen";
-import { IGame } from "./IGame";
-import { GameBase } from "./GameBase";
-import { Quality, fireConfig, getQualityData } from "../config/fireGameConfig";
-import { Assets } from "@pixi/assets";
-import { TilingSprite } from "@pixi/sprite-tiling";
-import { Texture } from "@pixi/core";
-import { app } from "../main"
-import { gsap } from "gsap";
+import { AppScreen } from '../components/basic/AppScreen';
+import { IGame } from './IGame';
+import { GameBase } from './GameBase';
+import { Quality, fireConfig, getQualityData } from '../config/fireGameConfig';
+import { Assets } from '@pixi/assets';
+import { TilingSprite } from '@pixi/sprite-tiling';
+import { Texture } from '@pixi/core';
+import { app } from '../main';
+import { gsap } from 'gsap';
 import { Emitter } from '@pixi/particle-emitter';
-import { game } from "../Game";
+import { game } from '../Game';
 
-export class FireGame extends GameBase implements IGame {
+export class FireGame extends GameBase implements IGame
+{
     private tintTexture!: Texture;
     private fireEmitter!: Emitter;
-    private elapsed: number = 0;
+    private elapsed = 0;
     private tint!: TilingSprite;
     private quality: Quality = 'low';
     private safeQuality!: Quality;
@@ -22,19 +23,21 @@ export class FireGame extends GameBase implements IGame {
         low: number;
         high: number;
     } = {
-        low: 0,
-        high: 0,
-    };
+            low: 0,
+            high: 0,
+        };
 
     paused = false;
     activated = false;
-    
-    constructor(scene: AppScreen) {
+
+    constructor(scene: AppScreen)
+    {
         super({});
         scene.addChild(this);
     }
 
-    async init() {
+    async init()
+    {
         await Assets.loadBundle('fire');
 
         this.addViews();
@@ -42,7 +45,8 @@ export class FireGame extends GameBase implements IGame {
         this.start();
     }
 
-    private addViews() { 
+    private addViews()
+    {
         this.tintTexture = Texture.from('fireGradient');
 
         this.tint = new TilingSprite(this.tintTexture, 1, window.innerHeight);
@@ -53,12 +57,14 @@ export class FireGame extends GameBase implements IGame {
         this.tint.visible = false;
 
         this.tint.tileScale.set(window.innerHeight / this.tintTexture.height);
-        
+
         this.addChildAt(this.tint, 0);
     }
 
-    private bern() { 
-        if (this.fireEmitter) {
+    private bern()
+    {
+        if (this.fireEmitter)
+        {
             this.fireEmitter.destroy();
             this.tint.visible = false;
 
@@ -80,17 +86,22 @@ export class FireGame extends GameBase implements IGame {
 
         game.bg.swing(2, 2, 2);
 
-        const interval = setInterval(() => {
-            if (velocity < 40) {
+        const interval = setInterval(() =>
+        {
+            if (velocity < 40)
+            {
                 velocity++;
-            } else {
+            }
+            else
+            {
                 clearInterval(interval);
             }
 
-            if (kernelSize < 15) {
+            if (kernelSize < 15)
+            {
                 kernelSize++;
             }
-            
+
             game.bg.filter.velocity.set(velocity);
             game.bg.filter.kernelSize = kernelSize;
         }, 100);
@@ -104,12 +115,18 @@ export class FireGame extends GameBase implements IGame {
         this.fireEmitter.emit = true;
     }
 
-    private qualityDown() {
-        if (this.quality === 'low') { 
+    private qualityDown()
+    {
+        if (this.quality === 'low')
+        {
             return;
-        } else if (this.quality === 'medium') {
+        }
+        else if (this.quality === 'medium')
+        {
             this.quality = 'low';
-        } else if (this.quality === 'high') {
+        }
+        else if (this.quality === 'high')
+        {
             this.quality = 'medium';
         }
 
@@ -122,12 +139,18 @@ export class FireGame extends GameBase implements IGame {
         this.updateQuality();
     }
 
-    private qualityUp() {
-        if (this.quality === 'high') { 
+    private qualityUp()
+    {
+        if (this.quality === 'high')
+        {
             return;
-        } else if (this.quality === 'low') {
+        }
+        else if (this.quality === 'low')
+        {
             this.quality = 'medium';
-        } else if (this.quality === 'medium') {
+        }
+        else if (this.quality === 'medium')
+        {
             this.quality = 'high';
         }
 
@@ -136,7 +159,8 @@ export class FireGame extends GameBase implements IGame {
         this.updateQuality();
     }
 
-    private updateQuality() {
+    private updateQuality()
+    {
         console.log('quality', this.quality);
 
         this.fireEmitter.frequency = getQualityData(this.quality).frequency;
@@ -144,53 +168,65 @@ export class FireGame extends GameBase implements IGame {
     }
 
     // TODO: improve quality adjust, use more frequency & maxParticles states
-    private adjustQuality() {
+    private adjustQuality()
+    {
         // console.log({
         //     fps: app.ticker.FPS,
         //     data: this.fps,
         //     quality: this.quality
         // });
-        
-        if (this.quality !== 'low' && app.ticker.FPS < 60) { 
+
+        if (this.quality !== 'low' && app.ticker.FPS < 60)
+        {
             this.fps.low++;
 
-            if (this.fps.low > 10) {
+            if (this.fps.low > 10)
+            {
                 this.qualityDown();
             }
         }
 
-        if (this.safeQuality) { 
+        if (this.safeQuality)
+        {
             return;
         }
 
-        if (this.quality !== 'high') {
-            if (app.ticker.FPS && app.ticker.FPS >= 60) {
+        if (this.quality !== 'high')
+        {
+            if (app.ticker.FPS && app.ticker.FPS >= 60)
+            {
                 this.fps.high++;
 
-                if (this.fps.high > 300) {
+                if (this.fps.high > 300)
+                {
                     this.qualityUp();
                 }
             }
         }
     }
 
-    start() {
+    start()
+    {
         this.bern();
     }
 
-    pause() {
+    pause()
+    {
         this.paused = true;
     }
 
-    resume() {
+    resume()
+    {
         this.paused = false;
         this.bern();
     }
-    
-    update() { 
+
+    update()
+    {
         const now = Date.now();
-        
-        if (this.fireEmitter) {
+
+        if (this.fireEmitter)
+        {
             this.fireEmitter?.update((now - this.elapsed) * 0.001);
 
             this.adjustQuality();
@@ -198,12 +234,14 @@ export class FireGame extends GameBase implements IGame {
             this.elapsed = now;
         }
     }
-    
-    resize(_width: number, height: number): void {
+
+    resize(_width: number, height: number): void
+    {
         this.x = 0;
         this.y = height;
 
-        if (this.tint) {
+        if (this.tint)
+        {
             this.tint.width = window.innerWidth;
             this.tint.height = window.innerHeight;
             this.tint.x = 0;
@@ -212,7 +250,8 @@ export class FireGame extends GameBase implements IGame {
             this.tint.tileScale.set(window.innerHeight / this.tintTexture.height);
         }
 
-        if (this.fireEmitter && this.widthCache < window.innerWidth) {
+        if (this.fireEmitter && this.widthCache < window.innerWidth)
+        {
             this.bern();
         }
     }

@@ -1,17 +1,17 @@
 import { Sprite } from '@pixi/sprite';
-import gsap, {Back} from 'gsap';
+import gsap, { Back } from 'gsap';
 import { colors } from '../../config/colors';
 import { Layout, Styles } from '@pixi/layout';
 
-/** Layout base component with the config for a base window class to be extended 
- * for creation of any window component.
- */
-export class Window extends Layout {
+/** Layout base component with the config for a base window class to be extended for creation of any window component. */
+export class Window extends Layout
+{
     constructor(options: {
         title: string, // text title of the window
         styles?: Styles, // styles of the window
         ribbonStyles?: Styles // styles of the ribbon
-    }) {        
+    })
+    {
         super({ // Layout constructor accepts an object with all the config
             id: `Window-${options.title}`, // id of the component, can be used to access it laterS
             content: { // Content of the component
@@ -56,32 +56,39 @@ export class Window extends Layout {
         this.createContent(); // add content to the component
     }
 
-    /** Method that is automatically called on after window creation.
+    /**
+     * Method that is automatically called on after window creation.
      * To be override by other windows, for the content to be added to the window.
      */
-    public createContent() {
+    public createContent()
+    {
         // override this method to add content to the window
     }
-    
-    /** Method is automatically called when Layout is shown. See Game.ts.
+
+    /**
+     * Method is automatically called when Layout is shown. See Game.ts.
      * It is used to animate the window when it is shown.
+     * @param force
      */
-    public async show(force = false) { // force parameter is used to show the window without animation
+    public async show(force = false)
+    { // force parameter is used to show the window without animation
         if (this.alpha === 1) return; // if window is already visible, return
 
         gsap.killTweensOf(this); // kill all tweens of the window
-        
-        if (force) { // if force is true, show the window without animation
+
+        if (force)
+        { // if force is true, show the window without animation
             this.alpha = 1; // set alpha to 1
             this.visible = true; // set visible to true
+
             return;
         }
-        
+
         // set initial animation state
         this.alpha = 0; // alpha to 0
         this.y += 100; // move 100px down
         this.visible = true; // set visible to true
-        
+
         await gsap.to(this, { // animate the window
             alpha: 1, // alpha to 1
             y: '-=100', // move 100px up
@@ -90,17 +97,22 @@ export class Window extends Layout {
         });
     }
 
-    /** Method is automatically called when Layout is shown. See Game.ts.
+    /**
+     * Method is automatically called when Layout is shown. See Game.ts.
      * It is used to animate the window when it is hided.
+     * @param force
      */
-    public async hide(force = false) { // force parameter is used to hide the window without animation
+    public async hide(force = false)
+    { // force parameter is used to hide the window without animation
         if (this.alpha === 0) return; // if window is already hidden, return
 
         gsap.killTweensOf(this); // kill all tweens of the window
-        
-        if (force) { // if force is true, hide the window without animation
+
+        if (force)
+        { // if force is true, hide the window without animation
             this.alpha = 0; // set alpha to 0
             this.visible = false; // set visible to false
+
             return;
         }
 

@@ -1,6 +1,7 @@
 import { Body } from 'matter-js';
 
-export interface IMatter {
+export interface IMatter
+{
     body: Body;
     beforeUnload(): void;
     update(): void;

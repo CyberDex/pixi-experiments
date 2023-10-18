@@ -2,25 +2,25 @@
 // To be replaced with a i18n controller to manage languages
 export default {
     loadingScreen: {
-        loading: "LOADING",
-        poweredBy: "POWERED BY",
+        loading: 'LOADING',
+        poweredBy: 'POWERED BY',
     },
     titleScreen: {
         info: {
-            title: "INFO",
-            accept: "OK",
+            title: 'INFO',
+            accept: 'OK',
         },
         menu: {
-            title: "MENU",
+            title: 'MENU',
             items: {
-                sprites: "SPRITES",
-                emoji: "TEXT & IMAGES",
-                fire: "PARTICLES FIRE",
-                repo: "Code on GitHub",
+                sprites: 'SPRITES',
+                emoji: 'TEXT & IMAGES',
+                fire: 'PARTICLES FIRE',
+                repo: 'Code on GitHub',
             }
         },
     },
     gameScreen: {
-        resume: "Resume",
+        resume: 'Resume',
     }
-}
+};

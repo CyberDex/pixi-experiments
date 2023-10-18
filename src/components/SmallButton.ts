@@ -1,23 +1,27 @@
-import { Sprite } from "@pixi/sprite";
-import { Text } from "@pixi/text";
-import { colors } from "../config/colors";
-import { FancyButton } from "@pixi/ui";
+import { Sprite } from '@pixi/sprite';
+import { Text } from '@pixi/text';
+import { colors } from '../config/colors';
+import { FancyButton } from '@pixi/ui';
 
-/** Layout based component for the small button.
- * It applies all the configs to the FancyButton component, 
+/**
+ * Layout based component for the small button.
+ * It applies all the configs to the FancyButton component,
  * so it can be used without setting the configs.
  */
-export class SmallButton extends FancyButton {
-    constructor(text: string, onclick: () => void, locked = false) {
+export class SmallButton extends FancyButton
+{
+    constructor(text: string, onclick: () => void, locked = false)
+    {
         let icon; // icon is a sprite that will be added to the button
 
-        if (locked) { // if button is locked, we gonna add a lock icon to the button
+        if (locked)
+        { // if button is locked, we gonna add a lock icon to the button
             icon = Sprite.from('LockIcon'); // create a sprite from the 'LockIcon' texture atlas
         }
 
-        const textElement = 
-            locked  // if button is locked, we gonna hide the text
-                ? undefined 
+        const textElement
+            = locked // if button is locked, we gonna hide the text
+                ? undefined
                 : new Text(text, { // create a text element
                     fill: colors.text, // set text color
                     fontSize: 75, // set text font size
@@ -58,7 +62,7 @@ export class SmallButton extends FancyButton {
         this.scale.set(0.9); // scale down the button
 
         this.anchor.set(0.5); // set button anchor to the center, this is needed for the button to scale correctly when animated
-        
+
         this.onPress.connect(onclick); // connect button press event to the provided callback
     }
-};
+}

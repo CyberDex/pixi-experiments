@@ -12,7 +12,8 @@ import { SquareMatterBody } from '../components/basic/SquareMatterBody';
 
 const combinations = ['000', '001', '010', '011', '100', '101', '110', '111'];
 
-export class EmojiGame extends GameBase implements IMatterGame {
+export class EmojiGame extends GameBase implements IMatterGame
+{
     private _widthCache = 0;
     private _heightCache = 0;
 
@@ -22,7 +23,8 @@ export class EmojiGame extends GameBase implements IMatterGame {
     paused = false;
     activated = false;
 
-    constructor(scene: AppScreen) {
+    constructor(scene: AppScreen)
+    {
         super({});
 
         scene.addChild(this);
@@ -30,7 +32,8 @@ export class EmojiGame extends GameBase implements IMatterGame {
         Runner.run(this.engine);
     }
 
-    async init() {
+    async init()
+    {
         await initEmojis();
 
         BitmapFont.from('DO', {
@@ -64,24 +67,32 @@ export class EmojiGame extends GameBase implements IMatterGame {
         this.start();
     }
 
-    private getWord(): string {
+    private getWord(): string
+    {
         return getRandomItem(config.words);
     }
 
-    private getEmoji(): string {
+    private getEmoji(): string
+    {
         const type = getRandomInRange(1, config.spritesAmount);
+
         return `emoji${type}`;
     }
 
-    private generateText(): FancyTextOptions {
+    private generateText(): FancyTextOptions
+    {
         const parts = getRandomItem(combinations).split('');
         let text = '';
-        let images: string[] = [];
+        const images: string[] = [];
 
-        parts.forEach((part: '0' | '1') => {
-            if (part === '0') {
+        parts.forEach((part: '0' | '1') =>
+        {
+            if (part === '0')
+            {
                 text += ` ${this.getWord()}`;
-            } else {
+            }
+            else
+            {
                 const emoji = this.getEmoji();
 
                 text += ` ${emoji}`;
@@ -95,7 +106,8 @@ export class EmojiGame extends GameBase implements IMatterGame {
         };
     }
 
-    private addText() {
+    private addText()
+    {
         if (this.paused) return;
 
         const texture = new FancyTextTexture({
@@ -117,24 +129,29 @@ export class EmojiGame extends GameBase implements IMatterGame {
         setTimeout(() => this.addText(), config.repeatDelay * 1000);
     }
 
-    start() {
+    start()
+    {
         this.addText();
     }
 
-    pause() {
+    pause()
+    {
         this.paused = true;
     }
 
-    resume() {
+    resume()
+    {
         this.paused = false;
         this.addText();
     }
 
-    resize(width: number, height: number): void {
+    resize(width: number, height: number): void
+    {
         this._widthCache = width;
         this._heightCache = height;
 
-        if (this.bottomLine) {
+        if (this.bottomLine)
+        {
             this.bottomLine.setPos(width / 2, height);
         }
     }

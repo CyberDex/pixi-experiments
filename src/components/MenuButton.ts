@@ -2,16 +2,16 @@ import { Layout } from '@pixi/layout';
 import { SmallIconButton } from './SmallIconButton';
 import { Hint } from './Hint';
 
-/** Layout based component for the buttons with hint and counters,
- * used in LevelsWindow. */
-export class MenuButton extends Layout {
+/** Layout based component for the buttons with hint and counters, used in LevelsWindow. */
+export class MenuButton extends Layout
+{
     constructor(
         icon: string, // icon texture name for the button
         text: string, // text for the button hint
         onclick: () => void, // callback for the button press
-        notifications: number = 0 // number of notifications to show on the button
-    ) { 
-        
+        notifications = 0 // number of notifications to show on the button
+    )
+    {
         const button = new SmallIconButton(icon, onclick, notifications); // create the SmallIconButton instance (see SmallIconButton.ts)
         const buttonHint = new Hint(text); // create the hint component (see Hint.ts)
 

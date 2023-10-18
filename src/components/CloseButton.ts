@@ -1,12 +1,14 @@
-import { FancyButton } from "@pixi/ui";
-import { Counter } from "./basic/Counter";
+/* eslint-disable accessor-pairs */
+import { FancyButton } from '@pixi/ui';
+import { Counter } from './basic/Counter';
 
-/** FancyButton config to be applied on FancyButton, 
- * so that component can be used without setting all the configs. */
-export class CloseButton extends FancyButton {
+/** FancyButton config to be applied on FancyButton, so that component can be used without setting all the configs. */
+export class CloseButton extends FancyButton
+{
     counter!: Counter; // counter component that will be added to the button. It will show the number of notifications
-    
-    constructor(onclick: () => void) {
+
+    constructor(onclick: () => void)
+    {
         super({
             defaultView: `SmallButton-pressed`, // this is a key to the texture atlas for default button state view
             hoverView: `SmallButton-hover`, // this is a key to the texture atlas for hover button state view
@@ -34,12 +36,13 @@ export class CloseButton extends FancyButton {
         });
 
         this.onPress.connect(onclick); // connect button press event to the provided callback
-        
+
         this.anchor.set(0.5); // set button anchor to the center, this is needed for the button to scale correctly when animated
         this.scale.set(0.8); // scale down the button
     }
 
-    set notifications(amount: number) { // set the number of notifications
+    set notifications(amount: number)
+    { // set the number of notifications
         this.counter.number.text = String(amount); // set the text of the counter
     }
-};
+}

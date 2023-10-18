@@ -10,24 +10,29 @@ export type FancyTextOptions = {
     style?: Partial<IBitmapTextStyle>;
 };
 
-export class FancyTextTexture {
+export class FancyTextTexture
+{
     private list: List;
 
     texture: RenderTexture;
 
-    constructor({ images, text, style }: FancyTextOptions) {
+    constructor({ images, text, style }: FancyTextOptions)
+    {
         const textData: {
             image?: string;
             text: string;
         }[] = [];
 
-        if (images) {
+        if (images)
+        {
             let pointer = 0;
 
-            images?.forEach((image) => {
+            images?.forEach((image) =>
+            {
                 const index = text.indexOf(image);
 
-                if (index !== -1) {
+                if (index !== -1)
+                {
                     textData.push({
                         image,
                         text: text.slice(pointer, index),
@@ -39,7 +44,8 @@ export class FancyTextTexture {
                 pointer = index;
             });
 
-            if (pointer < text.length) {
+            if (pointer < text.length)
+            {
                 textData.push({ text: text.slice(pointer) });
             }
         }
@@ -48,12 +54,16 @@ export class FancyTextTexture {
             type: 'horizontal',
         });
 
-        textData.forEach((data) => {
+        textData.forEach((data) =>
+        {
             const text = new BitmapText(data.text, style);
+
             this.list.addChild(text);
 
-            if (data.image) {
+            if (data.image)
+            {
                 const sprite = Sprite.from(data.image);
+
                 sprite.scale.set(text.height / sprite.height);
                 this.list.addChild(sprite);
             }

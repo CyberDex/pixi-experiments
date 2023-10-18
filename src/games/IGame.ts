@@ -1,7 +1,8 @@
 import { Signal } from 'typed-signals';
 import { Engine } from 'matter-js';
 
-export interface IGame {
+export interface IGame
+{
     x: number;
     y: number;
     items?: any[];
@@ -20,6 +21,7 @@ export interface IGame {
     resize?(width: number, height: number): void;
 }
 
-export interface IMatterGame extends IGame {
+export interface IMatterGame extends IGame
+{
     engine: Engine;
 }

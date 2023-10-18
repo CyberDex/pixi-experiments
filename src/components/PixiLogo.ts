@@ -1,10 +1,10 @@
-import { Sprite } from "@pixi/sprite"
-import i18n from "../config/i18n"
-import { LayoutOptions } from "@pixi/layout";
+import { Sprite } from '@pixi/sprite';
+import i18n from '../config/i18n';
+import { LayoutOptions } from '@pixi/layout';
 
-/* Layout based component for the pixi logo. 
+/* Layout based component for the pixi logo.
  * This is implemented as a function that returns Layout configuration object to show
- * that you can use functions to generate Layout configuration objects and the layout instance will be created 
+ * that you can use functions to generate Layout configuration objects and the layout instance will be created
  * inside the Layout system nad it is not necessary to create it manually.
  */
 

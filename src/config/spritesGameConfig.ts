@@ -9,4 +9,4 @@ export default {
     repeatDelay: 1,
     duration: 2,
     spritesAmount: 15,
-}
+};

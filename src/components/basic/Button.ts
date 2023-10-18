@@ -1,11 +1,13 @@
-import { Text } from "@pixi/text";
-import { FancyButton } from "@pixi/ui";
-import { Layout } from "@pixi/layout";
-import { colors } from "../../config/colors";
+import { Text } from '@pixi/text';
+import { FancyButton } from '@pixi/ui';
+import { Layout } from '@pixi/layout';
+import { colors } from '../../config/colors';
 
 /** Creates a Layout with button as content and apply styles. */
-export class Button extends Layout {
-    constructor(text: string, onclick: () => void, styles?: any) {
+export class Button extends Layout
+{
+    constructor(text: string, onclick: () => void, styles?: any)
+    {
         const button = new FancyButton({ // create a button
             defaultView: `Button`, // this is a key to the texture atlas for default button state view
             hoverView: `Button-hover`, // this is a key to the texture atlas for hover button state view
@@ -43,7 +45,8 @@ export class Button extends Layout {
 
         button.onPress.connect(onclick); // connect button press event to the provided callback
 
-        button.anchor.set(0.5); // set button anchor to the center, this is needed for the button to scale correctly when animated
+        // set button anchor to the center, this is needed for the button to scale correctly when animated
+        button.anchor.set(0.5);
 
         super({ // create layout with button as content
             content: button, // button is the content of the layout

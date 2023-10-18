@@ -1,15 +1,17 @@
-import { Sprite } from "@pixi/sprite";
-import i18n from "../../config/i18n";
-import { Button } from "../basic/Button";
-import { Window as BasicWindow } from "../basic/Window";
+import { Sprite } from '@pixi/sprite';
+import i18n from '../../config/i18n';
+import { Button } from '../basic/Button';
+import { Window as BasicWindow } from '../basic/Window';
 import { game } from '../../Game';
 import { GameScreen, GameTypes } from '../../screens/GameScreen';
-import { LayoutOptions } from "@pixi/layout";
-import { gitHubURL } from "../../config";
+import { LayoutOptions } from '@pixi/layout';
+import { gitHubURL } from '../../config';
 
 /** Game menu component. */
-export class PauseWindow extends BasicWindow {
-    constructor() { // pass the ViewController to the constructor to be able to control the views
+export class PauseWindow extends BasicWindow
+{
+    constructor()
+    { // pass the ViewController to the constructor to be able to control the views
         // give config differences to the Window base component
         super({ // Window constructor accepts an object with all the config
             title: i18n.titleScreen.menu.title, // menu title text
@@ -26,21 +28,23 @@ export class PauseWindow extends BasicWindow {
     }
 
     /** Create content of the component. Automatically called by extended class (see  Window.ts). */
-    override createContent() { 
+    override createContent()
+    {
         const menuButtons: {
             [name: string]: LayoutOptions;
         } = {}; // create an array to store menu buttons
 
         const items: { [name: string]: string } = i18n.titleScreen.menu.items;
 
-        for (const gameType in items) {
+        for (const gameType in items)
+        {
             const text = items[gameType]; // get the text for the button from the i18n file
-            
+
             menuButtons[gameType] = { // levels is the id of the button
                 content: new Button( // create a levels window navigational button
-                        text, // button text
-                        () => this.selectMenuItem(gameType as GameTypes), // button click callback
-                    ), // content is the button component
+                    text, // button text
+                    () => this.selectMenuItem(gameType as GameTypes), // button click callback
+                ), // content is the button component
                 styles: { // styles is an object with all the styles that will be applied to the button
                     marginTop: 10, // move the button 10px down from the neighbour buttons
                 }
@@ -59,16 +63,21 @@ export class PauseWindow extends BasicWindow {
         });
     }
 
-    /** Select menu item. */
-    private selectMenuItem(gameType: GameTypes | 'repo') {
-        switch (gameType) {
+    /**
+     * Select menu item.
+     * @param gameType
+     */
+    private selectMenuItem(gameType: GameTypes | 'repo')
+    {
+        switch (gameType)
+        {
             case 'repo':
                 (window as any).open(gitHubURL, '_blank').focus();
                 break;
             default:
-                game.showScreen(GameScreen, {  // show the game screen
+                game.showScreen(GameScreen, { // show the game screen
                     type: gameType, // pass the level type to the game screen
-                })
+                });
         }
     }
 }

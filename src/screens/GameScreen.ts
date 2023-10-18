@@ -20,7 +20,8 @@ import { getUrlParam } from '../utils/gtUrlParams';
 
 export type GameTypes = 'sprites' | 'emoji' | 'fire';
 
-export class GameScreen extends AppScreen {
+export class GameScreen extends AppScreen
+{
     // GameScreen extends AppScreen, which is a Layout with a few additional features
     public static assetBundles = ['game']; // asset bundles that will be loaded before the screen is shown
     private gameType: GameTypes = 'sprites'; // game type
@@ -28,17 +29,20 @@ export class GameScreen extends AppScreen {
     private resumeButton!: Button;
     private paused = false;
 
-    constructor(options?: SceneData) {
+    constructor(options?: SceneData)
+    {
         // constructor accepts an object with data that will be passed to the screen when it is shown
         super('GameScreen'); // Creates Layout with id 'GameScreen'
 
         game.addBG();
 
-        if (getUrlParam('game')) {
+        if (getUrlParam('game'))
+        {
             this.gameType = getUrlParam('game') as GameTypes;
         }
 
-        if (options?.type) {
+        if (options?.type)
+        {
             this.gameType = options?.type; // set game type
         }
 
@@ -53,15 +57,18 @@ export class GameScreen extends AppScreen {
         this.addEvents();
     }
 
-    /** Create windows.
-     * Windows are Layout based components that are shown on top of the screen.
+    /**
+     * Create windows. Windows are Layout based components that are shown on top of the screen.
+     * @param activeWindow
      */
     private createWindows(
         activeWindow?: Windows, // active window to show
-    ) {
+    )
+    {
         const task = challenges[this.gameType];
 
-        if (task) {
+        if (task)
+        {
             this.addWindow(Windows.info, new InfoWindow(this.views, task)); // create InfoWindow
 
             this.addInfoButton(); // add info button component to the screen
@@ -70,11 +77,14 @@ export class GameScreen extends AppScreen {
         }
     }
 
-    /** Add pause button component to the screen.
+    /**
+     * Add pause button component to the screen.
      * Pause button suits to pause the game and show the pause window and the title screen.
      */
-    private addBackButton() {
-        const button = new SmallIconButton('HomeIcon', () => {
+    private addBackButton()
+    {
+        const button = new SmallIconButton('HomeIcon', () =>
+        {
             // create a button with a custom icon
             game.showScreen(
                 // show TitleScreen with default window (pauseWindow) opened
@@ -107,14 +117,17 @@ export class GameScreen extends AppScreen {
         });
     }
 
-    private addResumeButton() {
+    private addResumeButton()
+    {
         this.resumeButton = new Button(
             i18n.gameScreen.resume,
-            () => {
+            () =>
+            {
                 gsap.to(this.resumeButton, {
                     alpha: 0,
                     duration: 0.5,
-                    onComplete: () => {
+                    onComplete: () =>
+                    {
                         this.resumeButton.visible = false;
                         this.resumeButton.scale.set(1);
                         this.resumeButton.alpha = 1;
@@ -147,8 +160,10 @@ export class GameScreen extends AppScreen {
         });
     }
 
-    private addInfoButton() {
-        const button = new SmallIconButton('InfoIcon', () => {
+    private addInfoButton()
+    {
+        const button = new SmallIconButton('InfoIcon', () =>
+        {
             // create a button with a custom icon
             this.views.show(Windows.info);
         });
@@ -173,15 +188,20 @@ export class GameScreen extends AppScreen {
     }
 
     /** Create game. */
-    private createGame() {
-        switch (this.gameType) {
+    private createGame()
+    {
+        switch (this.gameType)
+        {
             case 'sprites':
                 this.game = new SpritesGame(this);
                 this.game.init();
-                this.game.onStateChange.connect((prop: string, val: number) => {
-                    if (prop === 'activeItemID') {
+                this.game.onStateChange.connect((prop: string, val: number) =>
+                {
+                    if (prop === 'activeItemID')
+                    {
                         const total = this.game.items?.length ?? 0;
                         const progress = total - val - 1;
+
                         this.updateInfo('progress', `${progress} / ${total}`);
                     }
                 });
@@ -198,7 +218,8 @@ export class GameScreen extends AppScreen {
         }
     }
 
-    private addInfoPanel(id: string, position: Position, value?: string) {
+    private addInfoPanel(id: string, position: Position, value?: string)
+    {
         const bg = Sprite.from('ValueBG');
 
         this.addContent({
@@ -207,8 +228,8 @@ export class GameScreen extends AppScreen {
                 content: value ?? ' ',
                 styles: {
                     display: 'block',
-                    marginTop: 20,
                     color: 'white',
+                    marginTop: -8,
                     fontSize: 30,
                     fontFamily: 'Days One',
                     textAlign: 'center',
@@ -231,35 +252,43 @@ export class GameScreen extends AppScreen {
         });
     }
 
-    private updateInfo(panelID: string, value: string) {
+    private updateInfo(panelID: string, value: string)
+    {
         const panel = this.getChildByID(panelID)?.children[0] as Text;
 
-        if (panel) {
+        if (panel)
+        {
             panel.text = value;
         }
     }
 
     /** Method that is called one every game tick (see Game.ts) */
-    onUpdate() {
-        if (this.game?.update) {
+    onUpdate()
+    {
+        if (this.game?.update)
+        {
             this.game.update();
         }
     }
 
-    override resize(width: number, height: number) {
+    override resize(width: number, height: number)
+    {
         super.resize(width, height);
 
-        if (this.game?.resize) {
+        if (this.game?.resize)
+        {
             this.game.resize(width, height);
         }
     }
 
-    private addEvents() {
+    private addEvents()
+    {
         window.onfocus = () => this.pause();
         window.onblur = () => (this.paused = true);
     }
 
-    private pause() {
+    private pause()
+    {
         if (!this.paused) return;
 
         if (this.gameType === 'fire') return;

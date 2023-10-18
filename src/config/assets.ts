@@ -1,4 +1,4 @@
-import { ResolverManifest } from "@pixi/assets";
+import { ResolverManifest } from '@pixi/assets';
 
 export const assetsManifest: ResolverManifest = {
     bundles: [
@@ -47,79 +47,79 @@ export const assetsManifest: ResolverManifest = {
                     srcs: 'assets/Examples/BG.png',
                 },
                 {
-                    name:'SmallButton-disabled', 
+                    name: 'SmallButton-disabled',
                     srcs: 'assets/Buttons/SmallButton-disabled.png'
                 },
                 {
-                    name:'SmallButton-hover', 
+                    name: 'SmallButton-hover',
                     srcs: 'assets/Buttons/SmallButton-hover.png'
                 },
                 {
-                    name:'SmallButton', 
+                    name: 'SmallButton',
                     srcs: 'assets/Buttons/SmallButton.png'
                 },
                 {
-                    name:'Button-pressed', 
+                    name: 'Button-pressed',
                     srcs: 'assets/Buttons/Button-pressed.png'
                 },
                 {
-                    name:'SmallButton-pressed', 
+                    name: 'SmallButton-pressed',
                     srcs: 'assets/Buttons/SmallButton-pressed.png'
                 },
                 {
-                    name:'SmallButton-substrate', 
+                    name: 'SmallButton-substrate',
                     srcs: 'assets/Window/SmallButton-substrate.png'
                 },
                 {
-                    name:'Button-hover', 
+                    name: 'Button-hover',
                     srcs: 'assets/Buttons/Button-hover.png'
                 },
                 {
-                    name:'Button-disabled', 
+                    name: 'Button-disabled',
                     srcs: 'assets/Buttons/Button-disabled.png'
                 },
                 {
-                    name:'Button', 
+                    name: 'Button',
                     srcs: 'assets/Buttons/Button.png'
                 },
                 {
-                    name:'ValueBG', 
+                    name: 'ValueBG',
                     srcs: 'assets/Progress/ValueBG.png'
                 },
                 {
-                    name:'MediumSubstrate', 
+                    name: 'MediumSubstrate',
                     srcs: 'assets/Window/MediumSubstrate.png'
                 },
                 {
-                    name:'Substrate', 
+                    name: 'Substrate',
                     srcs: 'assets/Window/Substrate.png'
                 },
                 {
-                    name:'MenuWindow', 
+                    name: 'MenuWindow',
                     srcs: 'assets/Window/MenuWindow.png'
                 },
                 {
-                    name:'Ribbon', 
+                    name: 'Ribbon',
                     srcs: 'assets/Window/Ribbon.png'
                 },
                 {
-                    name:'Window', 
+                    name: 'Window',
                     srcs: 'assets/Window/Window.png'
                 },
                 {
-                    name:'HomeIcon', 
+                    name: 'HomeIcon',
                     srcs: 'assets/Icons/HomeIcon.png'
                 },
                 {
-                    name:'CloseIcon', 
+                    name: 'CloseIcon',
                     srcs: 'assets/Icons/CloseIcon.png'
                 },
                 {
-                    name:'InfoIcon', 
+                    name: 'InfoIcon',
                     srcs: 'assets/Icons/InfoIcon.png'
                 },
                 {
-                    name:'SmallSubstrate', 
+                    name: 'SmallSubstrate',
                     srcs: 'assets/Window/SmallSubstrate.png'
                 },
             ],

@@ -1,134 +1,134 @@
 export const fireWidthSmoke = (x: number, y: number, w: number, h: number) => ({
-    "lifetime": {
-        "min": 0.5,
-        "max": 0.7
+    lifetime: {
+        min: 0.5,
+        max: 0.7
     },
-    "frequency": 0.00008,
-    "emitterLifetime": 0,
-    "maxParticles": 10000,
-    "addAtBack": false,
-    "pos": {
-        "x": 0,
-        "y": 0
+    frequency: 0.00008,
+    emitterLifetime: 0,
+    maxParticles: 10000,
+    addAtBack: false,
+    pos: {
+        x: 0,
+        y: 0
     },
-    "behaviors": [
+    behaviors: [
         {
-            "type": "alpha",
-            "config": {
-                "alpha": {
-                    "list": [
+            type: 'alpha',
+            config: {
+                alpha: {
+                    list: [
                         {
-                            "value": 0.62,
-                            "time": 0
+                            value: 0.62,
+                            time: 0
                         },
                         {
-                            "value": 0,
-                            "time": 0.6
+                            value: 0,
+                            time: 0.6
                         },
                         {
-                            "value": 0,
-                            "time": 0.7
+                            value: 0,
+                            time: 0.7
                         },
                         {
-                            "value": 0.8,
-                            "time": 0.71
+                            value: 0.8,
+                            time: 0.71
                         },
                         {
-                            "value": 0,
-                            "time": 1
+                            value: 0,
+                            time: 1
                         }
                     ],
-                    "isStepped": false
+                    isStepped: false
                 }
             }
         },
         {
-            "type": "moveSpeed",
-            "config": {
-                "speed": {
-                    "list": [
+            type: 'moveSpeed',
+            config: {
+                speed: {
+                    list: [
                         {
-                            "value": 500,
-                            "time": 0
+                            value: 500,
+                            time: 0
                         },
                         {
-                            "value": 450,
-                            "time": 0.7
+                            value: 450,
+                            time: 0.7
                         },
                         {
-                            "value": 450,
-                            "time": 1
+                            value: 450,
+                            time: 1
                         }
                     ],
-                    "isStepped": true
+                    isStepped: true
                 },
-                "minMult": 1
+                minMult: 1
             }
         },
         {
-            "type": "scale",
-            "config": {
-                "scale": {
-                    "list": [
+            type: 'scale',
+            config: {
+                scale: {
+                    list: [
                         {
-                            "value": 0.25,
-                            "time": 0
+                            value: 0.25,
+                            time: 0
                         },
                         {
-                            "value": 0.75,
-                            "time": 1
+                            value: 0.75,
+                            time: 1
                         }
                     ],
-                    "isStepped": false
+                    isStepped: false
                 },
-                "minMult": 1
+                minMult: 1
             }
         },
         {
-            "type": "color",
-            "config": {
-                "color": {
-                    "list": [
+            type: 'color',
+            config: {
+                color: {
+                    list: [
                         {
-                            "value": "fff191",
-                            "time": 0
+                            value: 'fff191',
+                            time: 0
                         },
                         {
-                            "value": "ff622c",
-                            "time": 0.6
+                            value: 'ff622c',
+                            time: 0.6
                         },
                         {
-                            "value": "333232",
-                            "time": 0.7
+                            value: '333232',
+                            time: 0.7
                         },
                         {
-                            "value": "333333",
-                            "time": 1
+                            value: '333333',
+                            time: 1
                         }
                     ],
-                    "isStepped": false
+                    isStepped: false
                 }
             }
         },
         {
-            "type": "rotation",
-            "config": {
-                "accel": 0,
-                "minSpeed": 50,
-                "maxSpeed": 50,
-                "minStart": 265,
-                "maxStart": 275
+            type: 'rotation',
+            config: {
+                accel: 0,
+                minSpeed: 50,
+                maxSpeed: 50,
+                minStart: 265,
+                maxStart: 275
             }
         },
         {
-            "type": "textureRandom",
-            "config": {
-                "textures": fireTextures
+            type: 'textureRandom',
+            config: {
+                textures: fireTextures
             }
         },
         {
-            "type": "spawnShape",
-            "config": {
+            type: 'spawnShape',
+            config: {
                 type: 'rect',
                 data: {
                     x,
@@ -143,8 +143,10 @@ export const fireWidthSmoke = (x: number, y: number, w: number, h: number) => ({
 
 export type Quality = 'low' | 'medium' | 'high';
 
-export function getQualityData(quality: Quality): { frequency: number, maxParticles: number } {
-    switch (quality) {
+export function getQualityData(quality: Quality): { frequency: number, maxParticles: number }
+{
+    switch (quality)
+    {
         case 'low':
             return {
                 frequency: 0.0008,
@@ -166,104 +168,103 @@ export function getQualityData(quality: Quality): { frequency: number, maxPartic
 export const fireConfig = (
     width: number,
     quality: Quality
-) => {
-    return {
-        "lifetime": {
-            "min": 0.5,
-            "max": 0.7
+) =>
+    ({
+        lifetime: {
+            min: 0.5,
+            max: 0.7
         },
-        "frequency": getQualityData(quality).frequency,
-        "emitterLifetime": 0,
-        "maxParticles": getQualityData(quality).maxParticles,
-        "addAtBack": false,
-        "pos": {
-            "x": 0,
-            "y": 0
+        frequency: getQualityData(quality).frequency,
+        emitterLifetime: 0,
+        maxParticles: getQualityData(quality).maxParticles,
+        addAtBack: false,
+        pos: {
+            x: 0,
+            y: 0
         },
-        "behaviors": fireBehaviors(width)
-    }
-};
+        behaviors: fireBehaviors(width)
+    });
 
-export const fireBehaviors = (width: number) => {
-    return [
+export const fireBehaviors = (width: number) =>
+    [
         {
-            "type": "alpha",
-            "config": {
-                "alpha": {
-                    "list": [
+            type: 'alpha',
+            config: {
+                alpha: {
+                    list: [
                         {
-                            "time": 0,
-                            "value": 0.62
+                            time: 0,
+                            value: 0.62
                         },
                         {
-                            "time": 1,
-                            "value": 0
+                            time: 1,
+                            value: 0
                         }
                     ]
                 }
             }
         },
         {
-            "type": "moveSpeedStatic",
-            "config": {
-                "min": 500,
-                "max": 500
+            type: 'moveSpeedStatic',
+            config: {
+                min: 500,
+                max: 500
             }
         },
         {
-            "type": "scale",
-            "config": {
-                "scale": {
-                    "list": [
+            type: 'scale',
+            config: {
+                scale: {
+                    list: [
                         {
-                            "time": 0,
-                            "value": 0.25
+                            time: 0,
+                            value: 0.25
                         },
                         {
-                            "time": 1,
-                            "value": 0.75
+                            time: 1,
+                            value: 0.75
                         }
                     ]
                 },
-                "minMult": 1
+                minMult: 1
             }
         },
         {
-            "type": "color",
-            "config": {
-                "color": {
-                    "list": [
+            type: 'color',
+            config: {
+                color: {
+                    list: [
                         {
-                            "time": 0,
-                            "value": "fff191"
+                            time: 0,
+                            value: 'fff191'
                         },
                         {
-                            "time": 1,
-                            "value": "ff622c"
+                            time: 1,
+                            value: 'ff622c'
                         }
                     ]
                 }
             }
         },
         {
-            "type": "rotation",
-            "config": {
-                "accel": 0,
-                "minSpeed": 50,
-                "maxSpeed": 50,
-                "minStart": 265,
-                "maxStart": 275
+            type: 'rotation',
+            config: {
+                accel: 0,
+                minSpeed: 50,
+                maxSpeed: 50,
+                minStart: 265,
+                maxStart: 275
             }
         },
         {
-            "type": "textureRandom",
-            "config": {
-                "textures": fireTextures
+            type: 'textureRandom',
+            config: {
+                textures: fireTextures
             }
         },
         {
-            "type": "spawnShape",
-            "config": {
+            type: 'spawnShape',
+            config: {
                 type: 'rect',
                 data: {
                     x: 0,
@@ -274,66 +275,64 @@ export const fireBehaviors = (width: number) => {
             }
         }
     ];
-}
 
-export const explode = () => {
-    return {
-        "alpha": {
-            "start": 0.8,
-            "end": 0.1
+export const explode = () =>
+    ({
+        alpha: {
+            start: 0.8,
+            end: 0.1
         },
-        "scale": {
-            "start": 1,
-            "end": 0.3,
-            "minimumScaleMultiplier": 1
+        scale: {
+            start: 1,
+            end: 0.3,
+            minimumScaleMultiplier: 1
         },
-        "color": {
-            "start": "#fb1010",
-            "end": "#f5b830"
+        color: {
+            start: '#fb1010',
+            end: '#f5b830'
         },
-        "speed": {
-            "start": 200,
-            "end": 100,
-            "minimumSpeedMultiplier": 1
+        speed: {
+            start: 200,
+            end: 100,
+            minimumSpeedMultiplier: 1
         },
-        "acceleration": {
-            "x": 0,
-            "y": 0
+        acceleration: {
+            x: 0,
+            y: 0
         },
-        "maxSpeed": 0,
-        "startRotation": {
-            "min": 0,
-            "max": 360
+        maxSpeed: 0,
+        startRotation: {
+            min: 0,
+            max: 360
         },
-        "noRotation": false,
-        "rotationSpeed": {
-            "min": 0,
-            "max": 0
+        noRotation: false,
+        rotationSpeed: {
+            min: 0,
+            max: 0
         },
-        "lifetime": {
-            "min": 0.5,
-            "max": 0.5
+        lifetime: {
+            min: 0.5,
+            max: 0.5
         },
-        "blendMode": "normal",
-        "frequency": 0.008,
-        "emitterLifetime": 0.31,
-        "maxParticles": 1000,
-        "pos": {
-            "x": 0,
-            "y": 0
+        blendMode: 'normal',
+        frequency: 0.008,
+        emitterLifetime: 0.31,
+        maxParticles: 1000,
+        pos: {
+            x: 0,
+            y: 0
         },
-        "addAtBack": false,
-        "spawnType": "circle",
-        "spawnCircle": {
-            "x": 0,
-            "y": 0,
-            "r": 10
+        addAtBack: false,
+        spawnType: 'circle',
+        spawnCircle: {
+            x: 0,
+            y: 0,
+            r: 10
         }
-    }
-}
+    });
 
 export const fireTextures = [
-    "assets/particle.png",
-    "assets/fireParticle.png",
-    "assets/smoke.png",
+    'assets/particle.png',
+    'assets/fireParticle.png',
+    'assets/smoke.png',
 ];
