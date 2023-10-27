@@ -121,6 +121,7 @@ export class EmojiGame extends GameBase implements IMatterGame
         const text = new SpriteMatterBody(this.engine.world, {
             x: getRandomInRange(texture.width / 2, this._widthCache - texture.width / 2),
             y: 0,
+            angle: 0.1,
             texture,
         });
 
