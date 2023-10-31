@@ -10,8 +10,8 @@ import { TitleScreen } from './screens/TitleScreen';
 import { getUrlParam } from './utils/gtUrlParams';
 import { colors } from './config/colors';
 import { initAssets } from './utils/preload';
-import * as Stats from 'stats.js';
-import { utils } from '@pixi/core';
+import { UPDATE_PRIORITY, utils } from '@pixi/core';
+import { addStats } from 'pixi-stats';
 
 if (utils.isMobile.any)
 {
@@ -28,37 +28,9 @@ export const app = new Application<HTMLCanvasElement>({
 // so we can debug the pixi app layers
 (globalThis as any).__PIXI_APP__ = app;
 
-const stats = new (Stats as any)();
+const stats = addStats(document, app);
 
-stats.showPanel(0, 1, 2, 3); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild(stats.dom);
-
-// FPS stats
-// const stats = new GameStats();
-
-document.body.appendChild(stats.dom);
-stats.dom.id = 'gamestats';
-// (stats as any).enableExtension('pixi', [PIXI, app]);
-
-app.ticker.add(() =>
-{
-    stats.begin();
-    // game update goes here
-
-    stats.begin('physics');
-    // the graph will deterministically assign a color based on the label
-    // physics();
-    stats.end('physics');
-
-    stats.begin('render', '#6cc644');
-    // optional second color parameter
-    // render();
-    stats.end('render');
-
-    stats.end();
-
-    // requestAnimationFrame( animate );
-});
+app.ticker.add(stats.update, stats, UPDATE_PRIORITY.UTILITY);
 
 /** Set up a resize function for the app */
 function resize()
