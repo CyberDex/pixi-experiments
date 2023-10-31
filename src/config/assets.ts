@@ -1,6 +1,6 @@
-import { ResolverManifest } from '@pixi/assets';
+import { AssetsManifest } from '@pixi/assets';
 
-export const assetsManifest: ResolverManifest = {
+export const assetsManifest: AssetsManifest = {
     bundles: [
         {
             name: 'preload',

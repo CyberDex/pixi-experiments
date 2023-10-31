@@ -1,4 +1,4 @@
-import { Assets, ResolverAssetsArray } from '@pixi/assets';
+import { Assets } from '@pixi/assets';
 import { assetsManifest } from '../config/assets';
 import { Spritesheet } from '@pixi/spritesheet';
 import { BaseTexture } from '@pixi/core';
@@ -29,7 +29,9 @@ export function isBundleLoaded(bundle: string)
         return false;
     }
 
-    for (const asset of bundleManifest.assets as ResolverAssetsArray)
+    const assets: any = bundleManifest.assets;
+
+    for (const asset of assets)
     {
         if (!Assets.cache.has(asset.name as string))
         {
